@@ -1,33 +1,42 @@
 #pragma once
 #include<iostream>
 
-#include"Func.h"
+#include"Array.h"
 
 using namespace std;
 
 class Student
 {
-	char* name;
-	int age;
-	int mCount = 0;
-	int* marks;
+	char* name = nullptr;
+	int age = 0;
+	Array marks;
 
-	//int id;
+	const int id;
+
+	static int count;
 
 public:
 	// constructors
-	Student()
+	Student(int id) : id{ id }
 	{
 		setName("Unknown");
-		setAge(0);
 		cout << "Default constructor called" << endl;
 	}
 
-	Student(const char* n, int a)
+	Student(int id, const char* n, int a) : id{ id }
 	{
 		cout << "Parameterized constructor called" << endl;
 		setName(n);
 		setAge(a);
+	}
+
+	// destructor
+
+	~Student()
+	{
+		cout << "Destructor called" << endl;
+		delete[] name;
+		//delete[] marks;
 	}
 
 	// setters
@@ -48,7 +57,7 @@ public:
 	{
 		if (a < 0 || a > 100)
 		{
-			age = 0;
+			return;
 		}
 		else
 		{
@@ -65,13 +74,13 @@ public:
 
 	void setMark(int m)
 	{
-		if (m < 0 || m > 12)
+		if (!isdigit(m) || m < 0 || m > 12)
 		{
-			addValueArray(marks, mCount, 0);
+			return;
 		}
 		else
 		{
-			addValueArray(marks, mCount, m);
+			marks.add(m);
 		}
 	}
 
@@ -87,9 +96,14 @@ public:
 		return name;
 	}
 
+	static int getCount()
+	{
+		return count;
+	}
+
 	void displayInfo()
 	{
-		cout << "Name: " << name << "\nAge: " << age << "\nMarks: ";
-		printArray(marks, mCount);
+		cout << "ID: " << id << "\nName: " << name << ", Age: " << age << "\nMarks: ";
+		marks.show();
 	}
 };
