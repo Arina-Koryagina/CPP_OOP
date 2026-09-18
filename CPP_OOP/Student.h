@@ -2,6 +2,7 @@
 #include<iostream>
 
 #include"Array.h"
+#include"Func.h"
 
 using namespace std;
 
@@ -9,7 +10,8 @@ class Student
 {
 	char* name = nullptr;
 	int age = 0;
-	Array marks;
+	int mCount = 0;
+	int* marks = nullptr;
 
 	const int id;
 
@@ -36,7 +38,7 @@ public:
 	{
 		cout << "Destructor called" << endl;
 		delete[] name;
-		//delete[] marks;
+		delete[] marks;
 	}
 
 	// setters
@@ -80,7 +82,8 @@ public:
 		}
 		else
 		{
-			marks.add(m);
+			addValueArray(marks, mCount, m);
+			//marks.add(m);
 		}
 	}
 
@@ -104,6 +107,9 @@ public:
 	void displayInfo()
 	{
 		cout << "ID: " << id << "\nName: " << name << ", Age: " << age << "\nMarks: ";
-		marks.show();
+		//marks.show();
+		printArray(marks, mCount);
 	}
 };
+
+int Student::count = 0;

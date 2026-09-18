@@ -3,14 +3,45 @@
 
 #include"Student.h"
 #include"Array.h"
+#include"Time.h"
+#include"String.h"
 
 using namespace std;
 
+void printArray(const Array& a)
+{
+	a.show();
+}
 
 int main()
 {
-	//Array arr(10);
-	//
+	String st;
+	st.input("  Hello ,      World!  C++");
+	st.print();
+	cout << st.getLen() << endl;
+	cout << st.countWords() << endl;
+	st.clear();
+	st.input();
+	st.print();
+
+	//Time t(1, 1);
+	/*Time* t1 = new Time(1, 1, 1);
+	Array* arr = new Array(5);
+	arr->setRand();
+
+	Student s1(1, "Vasya", 30);
+	Array a(10);
+	a.setRand();
+	a.show();
+
+	printArray(a);*/
+
+	/*const Array arr(10);
+	
+	arr.setRand();
+	arr.show();*/
+
+
 	//arr.setRand();
 	//arr.show();
 	//arr.add(10);

@@ -11,15 +11,18 @@ class Array
 	int size = 0;
 
 public:
-	Array(int s);
+
+	Array();
+
+	explicit Array(int s);
 
 	~Array();
 
 	void create(int s);
 
-	void setRand(int minValue = 0, int maxValue = 9);
+	void setRand(int minValue = 0, int maxValue = 9) const;
 
-	void show();
+	void show() const;
 
 	void add(int value);
 
@@ -27,36 +30,38 @@ public:
 
 	void insert(int value, int index);
 
-	void sort();
+	void sort() const;
 
-	void reverse();
+	void reverse() const;
 
 	void clear();
 
 	void resize(int newSize);
 
-	void fill(int value);
+	void fill(int value) const;
 
-	int getSize();
+	int getSize() const;
 
-	int countValue(const int& value);
+	int countValue(const int& value) const;
 
-	int findValue(const int& value);
+	int findValue(const int& value) const;
 
-	int get(int index);
+	int get(int index) const;
 
-	void set(int index, int value);
+	void set(int index, int value) const;
 
-	int getMax();
+	int getMax() const;
 
-	int getMin();
+	int getMin() const;
 
-	int getSum();
+	int getSum() const;
 
-	double getAverage();
+	double getAverage() const;
 
-	bool contains(int value);
+	bool contains(int value) const;
 };
+
+Array::Array() : arr(nullptr), size(0) { }
 
 Array::Array(int s)
 {
@@ -75,10 +80,10 @@ void Array::create(int s)
 		return;
 	}
 	size = s;
-	arr = new int[size];
+	arr = new int[size] { 0 } ;
 }
 
-void Array::setRand(int minValue, int maxValue)
+void Array::setRand(int minValue, int maxValue) const
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -86,7 +91,7 @@ void Array::setRand(int minValue, int maxValue)
 	}
 }
 
-void Array::show()
+void Array::show() const
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -149,7 +154,7 @@ void Array::insert(int value, int index)
 	arr = temp;
 }
 
-void Array::sort()
+void Array::sort() const
 {
 	for (int j = 0; j < size - 1; j++)
 	{
@@ -163,7 +168,7 @@ void Array::sort()
 	}
 }
 
-void Array::reverse()
+void Array::reverse() const
 {
 	for (int i = 0; i < size / 2; i++)
 	{
@@ -195,7 +200,7 @@ void Array::resize(int newSize)
 	arr = temp;
 }
 
-void Array::fill(int value)
+void Array::fill(int value) const
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -203,12 +208,12 @@ void Array::fill(int value)
 	}
 }
 
-int Array::getSize()
+int Array::getSize() const
 {
 	return size;
 }
 
-int Array::countValue(const int& value)
+int Array::countValue(const int& value) const
 {
 	int countValue = 0;
 	for (size_t i = 0; i < size; i++)
@@ -222,7 +227,7 @@ int Array::countValue(const int& value)
 	return countValue;
 }
 
-int Array::findValue(const int& value)
+int Array::findValue(const int& value) const
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -235,7 +240,7 @@ int Array::findValue(const int& value)
 	return -1;
 }
 
-int Array::get(int index)
+int Array::get(int index) const
 {
 	if (index < 0 || index >= size)
 	{
@@ -244,7 +249,7 @@ int Array::get(int index)
 	return arr[index];
 }
 
-void Array::set(int index, int value)
+void Array::set(int index, int value) const
 {
 	if (index < 0 || index >= size)
 	{
@@ -253,7 +258,7 @@ void Array::set(int index, int value)
 	arr[index] = value;
 }
 
-int Array::getMax()
+int Array::getMax() const
 {
 	if (size == 0)
 	{
@@ -270,7 +275,7 @@ int Array::getMax()
 	return maxVal;
 }
 
-int Array::getMin()
+int Array::getMin() const
 {
 	if (size == 0)
 	{
@@ -287,7 +292,7 @@ int Array::getMin()
 	return minVal;
 }
 
-int Array::getSum()
+int Array::getSum() const
 {
 	int sum = 0;
 	for (int i = 0; i < size; i++)
@@ -297,7 +302,7 @@ int Array::getSum()
 	return sum;
 }
 
-double Array::getAverage()
+double Array::getAverage() const
 {
 	if (size == 0)
 	{
@@ -306,7 +311,7 @@ double Array::getAverage()
 	return (double)getSum() / size;
 }
 
-bool Array::contains(int value)
+bool Array::contains(int value) const
 {
 	for (int i = 0; i < size; i++)
 	{
