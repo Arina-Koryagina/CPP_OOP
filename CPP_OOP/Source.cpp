@@ -5,18 +5,65 @@
 #include"Array.h"
 #include"Time.h"
 #include"String.h"
+#include"Worker.h"
 
 using namespace std;
 
-void printArray(const Array& a)
+void printArray(Array a)
 {
 	a.show();
 }
 
 int main()
 {
+	srand(time(0));
+	
+	Worker a;
+	a.displayInfo();
+	a.setName("Gerard Arthur Way");
+	a.setJob(Occupation::TeamLead);
+	a.setYear(1996);
+	a.setMoney(20000);
+	cout << endl;
+	a.displayInfo();
+
+	cout << endl;
+	a.getName().print();
+	cout << endl;
+	a.getJob().print();
+	cout << endl;
+	cout << a.getYear() << endl;
+	cout << a.getMoney() << endl;
+
+	//Student a(1);
+	////Array m(10);
+	////m.setRand();
+
+	//a.setName("Brian");
+	//a.setAge(15);
+	//a.setMark(5);
+	//a.setMark(10);
+	///*for (int i = 0; i < 10; i++)
+	//{
+	//	a.setMark(m[i]);
+	//}*/
+	//a.displayInfo();
+	//Student b(a);
+	//b.displayInfo();
 
 
+
+	/*String s("mama");
+	s.print();
+	String st(s);
+	st.print();
+	s.print();*/
+	
+	/*Array a(10);
+	a.setRand();
+	a.show();
+	printArray(a);
+	a.show();*/
 
 	//String st;
 	//st.input("  Hello ,      World!  C++");

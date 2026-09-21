@@ -2,16 +2,15 @@
 #include<iostream>
 
 #include"Array.h"
-#include"Func.h"
+#include"String.h"
 
 using namespace std;
 
 class Student
 {
-	char* name = nullptr;
+	String name;
 	int age = 0;
-	int mCount = 0;
-	int* marks = nullptr;
+	Array marks;
 
 	const int id;
 
@@ -22,37 +21,46 @@ public:
 	Student(int id) : id{ id }
 	{
 		setName("Unknown");
-		cout << "Default constructor called" << endl;
+		//cout << "Default constructor called" << endl;
 	}
 
 	Student(int id, const char* n, int a) : id{ id }
 	{
-		cout << "Parameterized constructor called" << endl;
+		//cout << "Parameterized constructor called" << endl;
 		setName(n);
 		setAge(a);
+	}
+
+	// copy constructor
+	Student(const Student& obj) : id(obj.id)
+	{
+		name = obj.name;
+		/*int len = strlen(obj.name);
+		name = new char[len + 1];
+		strcpy(name, obj.name);*/
+
+		age = obj.age;
+
+		marks.create(obj.marks.getSize());
+		marks = obj.marks;
+				
+		count++;
+
+		//cout << "Copy constructor called\n";
 	}
 
 	// destructor
 
 	~Student()
 	{
-		cout << "Destructor called" << endl;
-		delete[] name;
-		delete[] marks;
+		//cout << "Destructor called" << endl;
+		//delete[] name;
 	}
 
 	// setters
-	void setName(const char* n)
+	void setName(String n)
 	{
-		if (n != nullptr)
-		{
-			name = new char[strlen(n) + 1];
-			strcpy(name, n);
-		}
-		else
-		{
-			name = nullptr;
-		}
+		name = n;
 	}
 
 	void setAge(int a)
@@ -76,14 +84,13 @@ public:
 
 	void setMark(int m)
 	{
-		if (!isdigit(m) || m < 0 || m > 12)
+		if (isdigit(m) || m < 0 || m > 12)
 		{
 			return;
 		}
 		else
 		{
-			addValueArray(marks, mCount, m);
-			//marks.add(m);
+			marks.add(m);
 		}
 	}
 
@@ -94,7 +101,7 @@ public:
 		return age;
 	}
 
-	char* getName()
+	String getName()
 	{
 		return name;
 	}
@@ -106,9 +113,10 @@ public:
 
 	void displayInfo()
 	{
-		cout << "ID: " << id << "\nName: " << name << ", Age: " << age << "\nMarks: ";
-		//marks.show();
-		printArray(marks, mCount);
+		cout << "ID: " << id << "\nName: ";
+		name.print();
+		cout << "Age: " << age << "\nMarks: ";
+		marks.show();
 	}
 };
 

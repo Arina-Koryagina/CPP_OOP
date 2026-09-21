@@ -1,8 +1,6 @@
 #pragma once
 #include<iostream>
 
-#include"Func.h"
-
 using namespace std;
 
 class Array
@@ -15,6 +13,10 @@ public:
 	Array();
 
 	explicit Array(int s);
+
+	Array(const Array& obj);
+
+	Array& operator=(const Array& obj);
 
 	~Array();
 
@@ -66,16 +68,48 @@ Array::Array() : arr(nullptr), size(0) { }
 Array::Array(int s)
 {
 	create(s);
+	//cout << "Constr " << arr << endl;
+}
+
+Array::Array(const Array& obj)
+{
+	size = obj.size;
+	arr = new int[size];
+	for (int i = 0; i < size; i++)
+	{
+		arr[i] = obj.arr[i];
+	}
+	//cout << "CopyConstr " << arr << endl;
+}
+
+Array& Array::operator=(const Array& obj)
+{
+	if (this == &obj)
+	{
+		return *this;
+	}
+
+	delete[] arr;
+
+	size = obj.size;
+	arr = new int[size];
+	for (int i = 0; i < size; i++)
+	{
+		arr[i] = obj.arr[i];
+	}
+
+	return *this;
 }
 
 Array::~Array()
 {
+	//cout << "Destr " << arr << endl;
 	delete[] arr;
 }
 
 void Array::create(int s)
 {
-	if (s < 0)
+	if (s <= 0)
 	{
 		return;
 	}
@@ -93,10 +127,14 @@ void Array::setRand(int minValue, int maxValue) const
 
 void Array::show() const
 {
-	for (int i = 0; i < size; i++)
+	if (arr != nullptr)
 	{
-		cout << arr[i] << " ";
+		for (int i = 0; i < size; i++)
+		{
+			cout << arr[i] << " ";
+		}
 	}
+
 	cout << endl;
 }
 

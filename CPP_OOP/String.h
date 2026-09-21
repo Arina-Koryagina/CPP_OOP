@@ -1,6 +1,8 @@
 #pragma once
 #include<iostream>
 
+#include"Array.h"
+
 using namespace std;
 
 class String
@@ -8,10 +10,31 @@ class String
 	char* str = nullptr;
 	int size = 0;
 
+	int lenStr(const char* str)
+	{
+		int i = 0;
+		while (str[i] != '\0')
+		{
+			i++;
+		}
+
+		return i;
+	}
+
+	void myStrcpy(char* str, const String& obj)
+	{
+		for (int i = 0; i <= size; i++)
+		{
+			str[i] = obj.str[i];
+		}
+	}
+
 public:
 	String();
 	String(int l);
 	String(const char* line);
+	String(const String& obj);
+	String& operator=(const String& obj);
 
 	~String();
 
@@ -40,10 +63,41 @@ String::String(int l)
 String::String(const char* line)
 {
 	input(line);
+	//cout << "Constr\n";
+}
+
+String::String(const String& obj)
+{
+	size = obj.size;
+	str = new char[size + 1];
+	strcpy(str, obj.str);
+	//cout << "Copy\n";
+}
+
+String& String::operator=(const String& obj)
+{
+	if (this == &obj)
+	{
+		return *this;
+	}
+
+	delete[] str;
+
+	size = obj.size;
+	str = new char[size + 1];
+	strcpy(str, obj.str);
+	/*for (int i = 0; i <= size; i++)
+	{
+		str[i] = obj.str[i];
+	}*/
+	//str[size] = '\0';
+
+	return *this;
 }
 
 String::~String()
 {
+	//cout << " Destr\n";
 	delete[] str;
 }
 
@@ -65,7 +119,7 @@ void String::input()
 	char buffer[256];
 
 	cin.getline(buffer, 256);
-	if (strlen(buffer) > size)
+	if (lenStr(buffer) > size)
 	{
 		input(buffer);
 	}
@@ -76,7 +130,7 @@ void String::input()
 }
 void String::input(const char* line)
 {
-	size = strlen(line);
+	size = lenStr(line);
 	delete[] str;
 	str = new char[size + 1];
 	strcpy(str, line);
