@@ -15,14 +15,17 @@ void printArray(const Array& a)
 
 int main()
 {
-	String st;
-	st.input("  Hello ,      World!  C++");
-	st.print();
-	cout << st.getLen() << endl;
-	cout << st.countWords() << endl;
-	st.clear();
-	st.input();
-	st.print();
+
+
+
+	//String st;
+	//st.input("  Hello ,      World!  C++");
+	//st.print();
+	//cout << st.getLen() << endl;
+	//cout << st.countWords() << endl;
+	//st.clear();
+	//st.input();
+	//st.print();
 
 	//Time t(1, 1);
 	/*Time* t1 = new Time(1, 1, 1);
