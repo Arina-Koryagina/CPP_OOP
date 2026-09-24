@@ -18,6 +18,7 @@ public:
 	// кількість підрахунків площі і повертати це значення за
 	// допомогою статичної функції - члена.
 
+	static double triangle(double a);
 	static double triangle(double a, double hA);
 	static double triangle(double a, double b, double deg);
 	static double semiperimeter(double a, double b, double c);
@@ -34,6 +35,12 @@ public:
 
 int AreaCalc::count = 0;
 
+// Сторона (для правильного трикутника)
+double AreaCalc::triangle(double a)
+{
+	count++;
+	return (a * a * sqrt(3))/4;
+}
 // Сторона і висота, проведену до неї
 double AreaCalc::triangle(double a, double hA)
 {

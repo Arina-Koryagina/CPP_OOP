@@ -1,8 +1,6 @@
 #pragma once
 #include<iostream>
 
-#include"Array.h"
-
 using namespace std;
 
 class String
@@ -115,7 +113,7 @@ void String::clear()
 
 void String::input()
 {
-	cout << "Input line: ";
+	//cout << "Input line: ";
 	char buffer[256];
 
 	cin.getline(buffer, 256);

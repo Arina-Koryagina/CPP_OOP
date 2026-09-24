@@ -6,6 +6,7 @@
 #include"Time.h"
 #include"String.h"
 #include"Worker.h"
+#include"Reservoir.h"
 
 using namespace std;
 
@@ -18,22 +19,33 @@ int main()
 {
 	srand(time(0));
 	
-	Worker a;
-	a.displayInfo();
-	a.setName("Gerard Arthur Way");
-	a.setJob(Occupation::TeamLead);
-	a.setYear(1996);
-	a.setMoney(20000);
-	cout << endl;
-	a.displayInfo();
+	Reservoir::menu();
 
-	cout << endl;
-	a.getName().print();
-	cout << endl;
-	a.getJob().print();
-	cout << endl;
-	cout << a.getYear() << endl;
-	cout << a.getMoney() << endl;
+	//Reservoir a;
+
+	//a.displayInfo();
+	//a.setName("Black Sea");
+	//a.setType(ReservoirType::Sea);
+	//a.displayInfo();
+	//a.getName().print();
+	//cout << ReturnEnum(a.getType()) << endl;
+
+	//Worker a;
+	//a.displayInfo();
+	//a.setName("Gerard Arthur Way");
+	//a.setJob(Occupation::TeamLead);
+	//a.setYear(1996);
+	//a.setMoney(20000);
+	//cout << endl;
+	//a.displayInfo();
+
+	//cout << endl;
+	//a.getName().print();
+	//cout << endl;
+	//a.getJob().print();
+	//cout << endl;
+	//cout << a.getYear() << endl;
+	//cout << a.getMoney() << endl;
 
 	//Student a(1);
 	////Array m(10);
