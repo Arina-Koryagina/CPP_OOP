@@ -7,6 +7,7 @@
 #include"String.h"
 #include"Worker.h"
 #include"Reservoir.h"
+#include"Fraction.h"
 
 using namespace std;
 
@@ -19,7 +20,47 @@ int main()
 {
 	srand(time(0));
 	
-	Reservoir::menu();
+	// + - ++ --
+	// + - * / += -= /= % %=
+	// !
+	// > < >= <= == != && ||
+	// () [] << >>
+
+
+	Fraction f1(3, 5);
+	//f1.show();
+	Fraction f2(0, 3);
+	//f2.show();
+
+	//if (f1 && f2)
+	//{
+	//	cout << "<<<" << endl;
+	//}
+	//else
+	//{
+	//	cout << ">>>" << endl;
+	//}
+	//f2(2, 5);
+	//cout << f1["num"] << endl;
+	cout << f1 << endl;
+
+	cin >> f2;
+	cout << f2 << endl;
+	
+	/*f1 = f2 + 5;
+	f1 = 5 + f2;
+	f1.show();*/
+
+	////Fraction f4 = f1 + f2;
+	////f4.show();
+	//Fraction f3 = -f1;
+	//f3.show();
+
+	//(f2++).show();
+	//f2.show();
+	//(++f2).show();
+
+	//Reservoir::menu();
 
 	//Reservoir a;
 

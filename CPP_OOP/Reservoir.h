@@ -65,8 +65,6 @@ public:
 	explicit Reservoir(const char* name, ReservoirType t);
 	Reservoir(const char* n, ReservoirType t, double w, double l, double h);
 
-	Reservoir(const Reservoir& obj);
-
 	String getName() const;
 
 	ReservoirType getType() const;
@@ -246,22 +244,22 @@ int chooseReservoir(int start, int end)
 	int ind;
 	do
 	{
-		cout << "Choose number: "; cin >> ind; ind--;
-		if (ind < start || ind >= end)
+		cout << "Choose number: "; cin >> ind;
+		if (ind < start || ind > end)
 		{
 			cout << "Number must be within the " << start << "-" << end << " range.\n";
 		}
-	} while (ind < start || ind >= end);
+	} while (ind < start || ind > end);
 	return ind;
 }
 
 void chooseReservoirs(int size, int& first, int& second)
 {
-	first = chooseReservoir(0, size);
+	first = chooseReservoir(1, size) - 1;
 
 	do
 	{
-		second = chooseReservoir(0, size);
+		second = chooseReservoir(1, size) - 1;
 
 		if (second == first)
 			cout << "You cannot choose the same reservoir twice.\n";
@@ -281,7 +279,7 @@ void deleteReservoir(Reservoir*& arr, int& size)
 	if (size > 1)
 	{
 		printArray(arr, size);
-		int ind = chooseReservoir(0, size);
+		int ind = chooseReservoir(1, size) - 1;
 		
 		Reservoir* temp = new Reservoir[size - 1];
 		for (int i = 0; i < ind; i++)
@@ -324,7 +322,7 @@ void ReservoirInfo(Reservoir* arr, int size)
 	}
 
 	printArray(arr, size);
-	int ind = chooseReservoir(0, size);
+	int ind = chooseReservoir(1, size) - 1;
 
 	system("cls");
 	cout << "=====   RESERVOIR INFO   =====\n";
@@ -338,7 +336,7 @@ void ReservoirVolume(Reservoir*& arr, int& size)
 	cout << "=====  RESERVOIR VOLUME  =====\n";
 	cout << "0. Custom size\n";
 	printArray(arr, size);
-	int ind = chooseReservoir(-1, size - 1);
+	int ind = chooseReservoir(0, size) - 1;
 
 	system("cls");
 	cout << "=====  RESERVOIR VOLUME  =====\n";
@@ -366,7 +364,7 @@ void ReservoirArea(Reservoir*& arr, int& size)
 	cout << "=====   RESERVOIR AREA   =====\n";
 	cout << "0. Custom size\n";
 	printArray(arr, size);
-	int ind = chooseReservoir(-1, size - 1);
+	int ind = chooseReservoir(0, size) - 1;
 
 	system("cls");
 	cout << "=====   RESERVOIR AREA   =====\n";
@@ -445,7 +443,7 @@ void ReservoirAreaCheck(Reservoir*& arr, int& size)
 		}
 		else
 		{
-			cout << "Their surface areas are equal.";
+			cout << "Their surface areas are equal.\n";
 		}
 	}
 	system("pause");
@@ -506,8 +504,11 @@ void Reservoir::menu()
 		case 3:
 			system("cls");
 			cout << "===== LIST OF RESERVOIRS =====\n";
-			printArray(list, size);
-			system("pause");
+			if (!isEmpty(size))
+			{
+				printArray(list, size);
+				system("pause");
+			}
 			break;
 		case 4:
 			ReservoirInfo(list, size);
@@ -528,6 +529,7 @@ void Reservoir::menu()
 			SetColor(LightRed, Black);
 			cout << "Exit\n";
 			SetColor(White, Black);
+			delete[] list;
 			exit(0);
 		default:
 			cout << "Invalid input.\n";
@@ -535,5 +537,4 @@ void Reservoir::menu()
 			break;
 		}
 	}
-	delete[] list;
 }
