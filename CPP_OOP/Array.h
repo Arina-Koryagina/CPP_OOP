@@ -1,11 +1,15 @@
 #pragma once
 #include<iostream>
+#include<cassert>
 
 using namespace std;
 
+#include"Fraction.h"
+
+template<class T>
 class Array
 {
-	int* arr = nullptr;
+	T* arr = nullptr;
 	int size = 0;
 
 public:
@@ -22,7 +26,9 @@ public:
 
 	void create(int s);
 
-	void setRand(int minValue = 0, int maxValue = 9) const;
+	bool IsEmpty() const;
+
+	void setRand() const;
 
 	void show() const;
 
@@ -30,7 +36,7 @@ public:
 
 	void remove(int index);
 
-	void insert(int value, int index);
+	void insert(const T& value, int index);
 
 	void sort() const;
 
@@ -40,43 +46,40 @@ public:
 
 	void resize(int newSize);
 
-	void fill(int value) const;
+	void setSize(int s, int grow);
+
+	void fill(const T& value) const;
 
 	int getSize() const;
 
-	int countValue(const int& value) const;
+	int countValue(const T& value) const;
 
-	int findValue(const int& value) const;
+	int findValue(const T& value) const;
 
-	int get(int index) const;
+	T get(int index) const;
 
-	void set(int index, int value) const;
+	void set(int index, const T& value) const;
 
-	int getMax() const;
+	bool contains(const T& value) const;
 
-	int getMin() const;
-
-	int getSum() const;
-
-	double getAverage() const;
-
-	bool contains(int value) const;
-
-	int& operator[](int index);
+	T& operator[](int index);
 };
 
-Array::Array() : arr(nullptr), size(0) { }
+template<class T>
+Array<T>::Array() : arr(nullptr), size(0) { }
 
-Array::Array(int s)
+template<class T>
+Array<T>::Array(int s)
 {
 	create(s);
 	//cout << "Constr " << arr << endl;
 }
 
-Array::Array(const Array& obj)
+template<class T>
+Array<T>::Array(const Array& obj)
 {
 	size = obj.size;
-	arr = new int[size];
+	arr = new T[size];
 	for (int i = 0; i < size; i++)
 	{
 		arr[i] = obj.arr[i];
@@ -84,7 +87,8 @@ Array::Array(const Array& obj)
 	//cout << "CopyConstr " << arr << endl;
 }
 
-Array& Array::operator=(const Array& obj)
+template<class T>
+Array<T>& Array<T>::operator=(const Array& obj)
 {
 	if (this == &obj)
 	{
@@ -94,7 +98,7 @@ Array& Array::operator=(const Array& obj)
 	delete[] arr;
 
 	size = obj.size;
-	arr = new int[size];
+	arr = new T[size];
 	for (int i = 0; i < size; i++)
 	{
 		arr[i] = obj.arr[i];
@@ -103,31 +107,59 @@ Array& Array::operator=(const Array& obj)
 	return *this;
 }
 
-Array::~Array()
+template<class T>
+Array<T>::~Array()
 {
 	//cout << "Destr " << arr << endl;
 	delete[] arr;
 }
 
-void Array::create(int s)
+template<class T>
+void Array<T>::create(int s)
 {
 	if (s <= 0)
 	{
 		return;
 	}
 	size = s;
-	arr = new int[size] { 0 } ;
+	arr = new T[size];
 }
 
-void Array::setRand(int minValue, int maxValue) const
+template<class T>
+bool Array<T>::IsEmpty() const
 {
+	return arr == nullptr;
+}
+
+template<class T>
+void Array<T>::setRand() const
+{
+	cout << "no implemention for " << typeid(T).name() << endl;
+}
+
+template<>
+void Array<int>::setRand() const
+{
+	cout << "int realisation\n";
+	int minValue = 0, maxValue = 9;
 	for (int i = 0; i < size; i++)
 	{
 		arr[i] = rand() % (maxValue - minValue + 1) + minValue;
 	}
 }
+//template<>
+//void Array<Fraction>::setRand() const
+//{
+//	cout << "Fraction realisation\n";
+//	int minValue = 0, maxValue = 9;
+//	for (int i = 0; i < size; i++)
+//	{
+//		arr[i] = rand() % (maxValue - minValue + 1) + minValue;
+//	}
+//}
 
-void Array::show() const
+template<class T>
+void Array<T>::show() const
 {
 	if (arr != nullptr)
 	{
@@ -140,9 +172,10 @@ void Array::show() const
 	cout << endl;
 }
 
-void Array::add(int value)
+template<class T>
+void Array<T>::add(int value)
 {
-	int* temp = new int[size + 1];
+	T* temp = new T[size + 1];
 	for (int i = 0; i < size; i++)
 	{
 		temp[i] = arr[i];
@@ -153,13 +186,14 @@ void Array::add(int value)
 	arr = temp;
 }
 
-void Array::remove(int index)
+template<class T>
+void Array<T>::remove(int index)
 {
 	if (index < 0 || index >= size)
 	{
 		return;
 	}
-	int* temp = new int[size - 1];
+	T* temp = new T[size - 1];
 	for (int i = 0; i < index; i++)
 	{
 		temp[i] = arr[i];
@@ -173,13 +207,14 @@ void Array::remove(int index)
 	arr = temp;
 }
 
-void Array::insert(int value, int index)
+template<class T>
+void Array<T>::insert(const T& value, int index)
 {
 	if (index < 0 || index > size)
 	{
 		return;
 	}
-	int* temp = new int[size + 1];
+	T* temp = new T[size + 1];
 	for (int i = 0; i < index; i++)
 	{
 		temp[i] = arr[i];
@@ -194,7 +229,8 @@ void Array::insert(int value, int index)
 	arr = temp;
 }
 
-void Array::sort() const
+template<class T>
+void Array<T>::sort() const
 {
 	for (int j = 0; j < size - 1; j++)
 	{
@@ -208,7 +244,8 @@ void Array::sort() const
 	}
 }
 
-void Array::reverse() const
+template<class T>
+void Array<T>::reverse() const
 {
 	for (int i = 0; i < size / 2; i++)
 	{
@@ -216,14 +253,16 @@ void Array::reverse() const
 	}
 }
 
-void Array::clear()
+template<class T>
+void Array<T>::clear()
 {
 	delete[] arr;
 	arr = nullptr;
 	size = 0;
 }
 
-void Array::resize(int newSize)
+template<class T>
+void Array<T>::resize(int newSize)
 {
 	if (newSize < 0)
 	{
@@ -240,7 +279,8 @@ void Array::resize(int newSize)
 	arr = temp;
 }
 
-void Array::fill(int value) const
+template<class T>
+void Array<T>::fill(const T& value) const
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -248,12 +288,14 @@ void Array::fill(int value) const
 	}
 }
 
-int Array::getSize() const
+template<class T>
+int Array<T>::getSize() const
 {
 	return size;
 }
 
-int Array::countValue(const int& value) const
+template<class T>
+int Array<T>::countValue(const T& value) const
 {
 	int countValue = 0;
 	for (size_t i = 0; i < size; i++)
@@ -267,7 +309,8 @@ int Array::countValue(const int& value) const
 	return countValue;
 }
 
-int Array::findValue(const int& value) const
+template<class T>
+int Array<T>::findValue(const T& value) const
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -280,7 +323,8 @@ int Array::findValue(const int& value) const
 	return -1;
 }
 
-int Array::get(int index) const
+template<class T>
+T Array<T>::get(int index) const
 {
 	if (index < 0 || index >= size)
 	{
@@ -289,7 +333,8 @@ int Array::get(int index) const
 	return arr[index];
 }
 
-void Array::set(int index, int value) const
+template<class T>
+void Array<T>::set(int index, const T& value) const
 {
 	if (index < 0 || index >= size)
 	{
@@ -298,60 +343,61 @@ void Array::set(int index, int value) const
 	arr[index] = value;
 }
 
-int Array::getMax() const
-{
-	if (size == 0)
-	{
-		return 0;
-	}
-	int maxVal = arr[0];
-	for (int i = 1; i < size; i++)
-	{
-		if (maxVal < arr[i])
-		{
-			maxVal = arr[i];
-		}
-	}
-	return maxVal;
-}
+//int Array::getMax() const
+//{
+//	if (size == 0)
+//	{
+//		return 0;
+//	}
+//	int maxVal = arr[0];
+//	for (int i = 1; i < size; i++)
+//	{
+//		if (maxVal < arr[i])
+//		{
+//			maxVal = arr[i];
+//		}
+//	}
+//	return maxVal;
+//}
+//
+//int Array::getMin() const
+//{
+//	if (size == 0)
+//	{
+//		return 0;
+//	}
+//	int minVal = arr[0];
+//	for (int i = 1; i < size; i++)
+//	{
+//		if (minVal > arr[i])
+//		{
+//			minVal = arr[i];
+//		}
+//	}
+//	return minVal;
+//}
+//
+//int Array::getSum() const
+//{
+//	int sum = 0;
+//	for (int i = 0; i < size; i++)
+//	{
+//		sum += arr[i];
+//	}
+//	return sum;
+//}
+//
+//double Array::getAverage() const
+//{
+//	if (size == 0)
+//	{
+//		return 0;
+//	}
+//	return (double)getSum() / size;
+//}
 
-int Array::getMin() const
-{
-	if (size == 0)
-	{
-		return 0;
-	}
-	int minVal = arr[0];
-	for (int i = 1; i < size; i++)
-	{
-		if (minVal > arr[i])
-		{
-			minVal = arr[i];
-		}
-	}
-	return minVal;
-}
-
-int Array::getSum() const
-{
-	int sum = 0;
-	for (int i = 0; i < size; i++)
-	{
-		sum += arr[i];
-	}
-	return sum;
-}
-
-double Array::getAverage() const
-{
-	if (size == 0)
-	{
-		return 0;
-	}
-	return (double)getSum() / size;
-}
-
-bool Array::contains(int value) const
+template<class T>
+bool Array<T>::contains(const T& value) const
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -364,8 +410,9 @@ bool Array::contains(int value) const
 }
 
 
-int& Array::operator[](int index)
+template<class T>
+T& Array<T>::operator[](int index)
 {
-
+	assert(index >= 0 && index < size);
 	return arr[index];
 }

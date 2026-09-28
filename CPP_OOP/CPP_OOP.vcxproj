@@ -145,6 +145,7 @@
     <ClInclude Include="AreaCalc.h" />
     <ClInclude Include="Array.h" />
     <ClInclude Include="Fraction.h" />
+    <ClInclude Include="var.h" />
     <ClInclude Include="Worker.h" />
     <ClInclude Include="Reservoir.h" />
     <ClInclude Include="String.h" />

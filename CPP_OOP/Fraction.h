@@ -127,7 +127,7 @@ Fraction operator+(int n, Fraction f)
 
 ostream& operator<<(ostream& out, const Fraction& f)
 {
-	out << f.numerator << "/" << f.denominator << endl;
+	out << f.numerator << "/" << f.denominator;
 	return out;
 }
 istream& operator>>(istream& in, Fraction& f)

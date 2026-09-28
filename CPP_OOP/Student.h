@@ -10,7 +10,7 @@ class Student
 {
 	String name;
 	int age = 0;
-	Array marks;
+	Array<int> marks;
 
 	const int id;
 
@@ -18,6 +18,8 @@ class Student
 
 public:
 	// constructors
+	Student() : Student(0) {}
+
 	Student(int id) : id{ id }
 	{
 		setName("Unknown");

@@ -163,7 +163,7 @@ void Reservoir::displayInfo() const
 	cout << "Parameters (w x l x h): " << width << " x " << length << " x " << height << endl;
 }
 
-void printArray(Reservoir* arr, int size)
+void printArray(const Reservoir* arr, int size)
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -183,18 +183,46 @@ bool isEmpty(int size)
 	return false;
 }
 
+int chooseNumber(int start, int end)
+{
+	int ind;
+	do
+	{
+		cout << "Choose number: "; cin >> ind;
+		if (ind < start || ind > end)
+		{
+			cout << "Number must be within the " << start << "-" << end << " range.\n";
+		}
+	} while (ind < start || ind > end);
+	return --ind;
+}
+
+void chooseReservoirs(int size, int& first, int& second)
+{
+	first = chooseNumber(1, size);
+
+	do
+	{
+		second = chooseNumber(1, size);
+
+		if (second == first)
+			cout << "You cannot choose the same reservoir twice.\n";
+
+	} while (second == first);
+}
+
 void addReservoir(Reservoir*& arr, int& size)
 {
 	system("cls");
 	cout << "=====   ADD  RESERVOIR   =====\n";
-	String n;
-	int T; ReservoirType t;
-	double w, l, h;
 	Reservoir r;
 
+	String n;
 	cout << "Enter the name: "; n.input();
 	r.setName(n);
 
+	int T; ReservoirType t;
+	cout << "Types:\n";
 	cout << "0 - Unknown\n";
 	cout << "1 - Ocean\n";
 	cout << "2 - Sea\n";
@@ -202,7 +230,7 @@ void addReservoir(Reservoir*& arr, int& size)
 	cout << "4 - River\n";
 	cout << "5 - Pond\n";
 	cout << "6 - Lagoon\n";
-	cout << "Enter the type: "; cin >> T;
+	T = chooseNumber(0, 6);
 	switch (T)
 	{
 	case 0: t = ReservoirType::Unknown; break;
@@ -212,12 +240,10 @@ void addReservoir(Reservoir*& arr, int& size)
 	case 4: t = ReservoirType::River; break;
 	case 5: t = ReservoirType::Pond; break;
 	case 6: t = ReservoirType::Lagoon; break;
-	default:
-		t = ReservoirType::Unknown;
-		break;
 	}
 	r.setType(t);
 
+	double w, l, h;
 	cout << "Enter the width  (m): "; cin >> w;
 	cout << "Enter the length (m): "; cin >> l;
 	cout << "Enter the height (m): "; cin >> h;
@@ -239,34 +265,6 @@ void addReservoir(Reservoir*& arr, int& size)
 	system("pause");
 }
 
-int chooseReservoir(int start, int end)
-{
-	int ind;
-	do
-	{
-		cout << "Choose number: "; cin >> ind;
-		if (ind < start || ind > end)
-		{
-			cout << "Number must be within the " << start << "-" << end << " range.\n";
-		}
-	} while (ind < start || ind > end);
-	return ind;
-}
-
-void chooseReservoirs(int size, int& first, int& second)
-{
-	first = chooseReservoir(1, size) - 1;
-
-	do
-	{
-		second = chooseReservoir(1, size) - 1;
-
-		if (second == first)
-			cout << "You cannot choose the same reservoir twice.\n";
-
-	} while (second == first);
-}
-
 void deleteReservoir(Reservoir*& arr, int& size)
 {
 	system("cls");
@@ -279,7 +277,7 @@ void deleteReservoir(Reservoir*& arr, int& size)
 	if (size > 1)
 	{
 		printArray(arr, size);
-		int ind = chooseReservoir(1, size) - 1;
+		int ind = chooseNumber(1, size);
 		
 		Reservoir* temp = new Reservoir[size - 1];
 		for (int i = 0; i < ind; i++)
@@ -300,19 +298,24 @@ void deleteReservoir(Reservoir*& arr, int& size)
 	}
 	else
 	{
-		//cout << "List should include at least one reservoir!" << endl;
-		size = 0;
-		delete[] arr;
-		arr = nullptr;
+		int choice;
+		cout << "Your list includes only one reservoir!\nDo you want to clear it? (0 - Yes, 1 - No): ";
+		cin >> choice;
+		if (choice == 0)
+		{
+			size = 0;
+			delete[] arr;
+			arr = nullptr;
 
-		SetColor(LightGreen, Black);
-		cout << "Done!\n";
-		SetColor(White, Black);
+			SetColor(LightGreen, Black);
+			cout << "Done!\n";
+			SetColor(White, Black);
+		}
 	}
 	system("pause");
 }
 
-void ReservoirInfo(Reservoir* arr, int size)
+void ReservoirInfo(const Reservoir* arr, int size)
 {
 	system("cls");
 	cout << "=====   RESERVOIR INFO   =====\n";
@@ -322,7 +325,7 @@ void ReservoirInfo(Reservoir* arr, int size)
 	}
 
 	printArray(arr, size);
-	int ind = chooseReservoir(1, size) - 1;
+	int ind = chooseNumber(1, size);
 
 	system("cls");
 	cout << "=====   RESERVOIR INFO   =====\n";
@@ -330,13 +333,13 @@ void ReservoirInfo(Reservoir* arr, int size)
 	system("pause");
 }
 
-void ReservoirVolume(Reservoir*& arr, int& size)
+void ReservoirVolume(const Reservoir* arr, int size)
 {
 	system("cls");
 	cout << "=====  RESERVOIR VOLUME  =====\n";
 	cout << "0. Custom size\n";
 	printArray(arr, size);
-	int ind = chooseReservoir(0, size) - 1;
+	int ind = chooseNumber(0, size);
 
 	system("cls");
 	cout << "=====  RESERVOIR VOLUME  =====\n";
@@ -347,24 +350,25 @@ void ReservoirVolume(Reservoir*& arr, int& size)
 		cout << "Enter the width  (m): "; cin >> w;
 		cout << "Enter the length (m): "; cin >> l;
 		cout << "Enter the height (m): "; cin >> h;
-		
+
 		cout << "The volume is " << r.Volume(w, l, h) << " m^3\n";
 	}
 	else
 	{
-		cout << "Volume of the "; arr[ind].getName().print();
+		cout << "Volume of the ";
+		arr[ind].getName().print();
 		cout << arr[ind].Volume() << " m^3\n";
 	}
 	system("pause");
 }
 
-void ReservoirArea(Reservoir*& arr, int& size)
+void ReservoirArea(const Reservoir* arr, int size)
 {
 	system("cls");
 	cout << "=====   RESERVOIR AREA   =====\n";
 	cout << "0. Custom size\n";
 	printArray(arr, size);
-	int ind = chooseReservoir(0, size) - 1;
+	int ind = chooseNumber(0, size);
 
 	system("cls");
 	cout << "=====   RESERVOIR AREA   =====\n";
@@ -375,17 +379,18 @@ void ReservoirArea(Reservoir*& arr, int& size)
 		cout << "Enter the width  (m): "; cin >> w;
 		cout << "Enter the length (m): "; cin >> l;
 
-		cout << "The surcafe area is " << r.Area(w, l) << " m^2\n";
+		cout << "The surface area is " << r.Area(w, l) << " m^2\n";
 	}
 	else
 	{
-		cout << "Surface area of the "; arr[ind].getName().print();
+		cout << "Surface area of the ";
+		arr[ind].getName().print();
 		cout << arr[ind].Area() << " m^2\n";
 	}
 	system("pause");
 }
 
-void ReservoirTypeCheck(Reservoir*& arr, int& size)
+void ReservoirTypeCheck(const Reservoir* arr, int size)
 {
 	system("cls");
 	cout << "=====   COMPARE   TYPE   =====\n";
@@ -410,7 +415,7 @@ void ReservoirTypeCheck(Reservoir*& arr, int& size)
 	system("pause");
 }
 
-void ReservoirAreaCheck(Reservoir*& arr, int& size)
+void ReservoirAreaCheck(const Reservoir* arr, int size)
 {
 	system("cls");
 	cout << "=====   COMPARE   AREA   =====\n";
@@ -424,26 +429,31 @@ void ReservoirAreaCheck(Reservoir*& arr, int& size)
 	printArray(arr, size);
 	int first, second;
 	chooseReservoirs(size, first, second);
-	if (!Reservoir::typeCheck(arr[first], arr[second]))
+	Reservoir a = arr[first];
+	Reservoir b = arr[second];
+	if (!Reservoir::typeCheck(a, b))
 	{
 		cout << "Reservoirs must be of the same type!\n";
 	}
 	else
 	{
-		double firstArea = arr[first].Area();
-		double secondArea = arr[second].Area();
-
-		if (firstArea > secondArea)
+		if (a.Area() == b.Area())
 		{
-			arr[first].getName().print();
-		}
-		else if (secondArea > firstArea)
-		{
-			arr[second].getName().print();
+			cout << "Both of their surface areas are equal " << a.Area() << endl;
 		}
 		else
 		{
-			cout << "Their surface areas are equal.\n";
+			cout << "The bigger surface area has ";
+			if (Reservoir::AreaCompare(a, b))
+			{
+				a.getName().print();
+				cout << "And it equals " << a.Area() << "m^2.\n";
+			}
+			else
+			{
+				b.getName().print();
+				cout << "And it equals " << b.Area() << "m^2.\n";
+			}
 		}
 	}
 	system("pause");

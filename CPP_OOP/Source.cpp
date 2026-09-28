@@ -8,10 +8,12 @@
 #include"Worker.h"
 #include"Reservoir.h"
 #include"Fraction.h"
+#include"var.h"
 
 using namespace std;
 
-void printArray(Array a)
+template<class T>
+void printArray(Array<T> a)
 {
 	a.show();
 }
@@ -20,6 +22,20 @@ int main()
 {
 	srand(time(0));
 	
+	Array<int> arr(10);
+	arr.setRand();
+	arr.show();
+	cout << arr[2] << endl;
+
+	//Array<Fraction> f(10);
+	//f.show();
+
+	//Array<Student> s(5);
+	//s.setRand();
+
+	//var n(10.5);
+	//n.Show();
+
 	// + - ++ --
 	// + - * / += -= /= % %=
 	// !
@@ -27,9 +43,9 @@ int main()
 	// () [] << >>
 
 
-	Fraction f1(3, 5);
+	//Fraction f1(3, 5);
 	//f1.show();
-	Fraction f2(0, 3);
+	//Fraction f2(0, 3);
 	//f2.show();
 
 	//if (f1 && f2)
@@ -42,10 +58,10 @@ int main()
 	//}
 	//f2(2, 5);
 	//cout << f1["num"] << endl;
-	cout << f1 << endl;
+	//cout << f1 << endl;
 
-	cin >> f2;
-	cout << f2 << endl;
+	//cin >> f2;
+	//cout << f2 << endl;
 	
 	/*f1 = f2 + 5;
 	f1 = 5 + f2;
