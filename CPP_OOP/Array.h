@@ -32,7 +32,7 @@ public:
 
 	void show() const;
 
-	void add(int value);
+	void add(T value);
 
 	void remove(int index);
 
@@ -173,7 +173,7 @@ void Array<T>::show() const
 }
 
 template<class T>
-void Array<T>::add(int value)
+void Array<T>::add(T value)
 {
 	T* temp = new T[size + 1];
 	for (int i = 0; i < size; i++)

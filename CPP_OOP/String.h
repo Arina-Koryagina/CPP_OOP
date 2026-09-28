@@ -33,6 +33,7 @@ public:
 	String(const char* line);
 	String(const String& obj);
 	String& operator=(const String& obj);
+	String operator+(const String& obj);
 
 	~String();
 
@@ -91,6 +92,14 @@ String& String::operator=(const String& obj)
 	//str[size] = '\0';
 
 	return *this;
+}
+
+String String::operator+(const String& obj)
+{
+	char* temp = new char[size + obj.size + 1];
+	strcpy(temp, str);
+	strcpy(temp + size, obj.str);
+	return temp;
 }
 
 String::~String()

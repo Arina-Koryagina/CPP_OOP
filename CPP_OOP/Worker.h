@@ -1,36 +1,36 @@
 #pragma once
 #include<iostream>
 
-#include"Array.h"
 #include"String.h"
 
 #define JOB 4
 
 enum class Occupation
 {
-	Unknown, CEO, TeamLead, Engineer
+	Unknown, CEO, TeamLead, ProjectManager, SoftwareEngineer, QAEngineer, UIUXDesigner, HRManager, Accountant, SalesManager, MarketingManager
 };
-
 const char* ReturnEnum(Occupation name)
 {
 	switch (name)
 	{
-	case Occupation::Unknown:  return "Unknown";
-	case Occupation::CEO:      return "CEO";
-	case Occupation::TeamLead: return "TeamLead";
-	case Occupation::Engineer: return "Engineer";
+	case Occupation::Unknown:          return "Unknown"; break;
+	case Occupation::CEO:              return "CEO"; break;
+	case Occupation::TeamLead:         return "Team Lead"; break;
+	case Occupation::ProjectManager:   return "Project Manager"; break;
+	case Occupation::SoftwareEngineer: return "Software Engineer"; break;
+	case Occupation::QAEngineer:       return "QA Engineer"; break;
+	case Occupation::UIUXDesigner:     return "UI/UX Designer"; break;
+	case Occupation::HRManager:        return "HR Manager"; break;
+	case Occupation::Accountant:       return "Accountant"; break;
+	case Occupation::SalesManager:     return "Sales Manager"; break;
+	case Occupation::MarketingManager: return "Marketing Manager"; break;
+	default:                           return "Unknown"; break;
 	}
 }
 
-// Створіть клас Worker. Необхідно зберігати дані: ПІБ, посада, рік вступу на роботу, зарплата.
-// Створити масив об’єктів. Вивести:
-// - список працівників, стаж роботи яких на цьому підприємстві перевершує задане число років;
-// - список працівників, зарплата яких перевищує задану;
-// - список працівників, які займають задану посаду.
-// Використовуйте explicit - конструктор і константні функції - члени.
-
 class Worker
 {
+	int id;
 	String name;
 	Occupation job;
 	int year;
@@ -40,9 +40,12 @@ class Worker
 
 public:
 	Worker();
-	Worker(String name, Occupation job, int year, double money);
+	explicit Worker(int id);
+	Worker(int id, String name, Occupation job, int year, double money);
 
-	void displayInfo();
+	Worker& operator=(const Worker& obj);
+
+	void displayInfo() const;
 
 	void setName(const char* FullName);
 
@@ -52,18 +55,22 @@ public:
 
 	void setMoney(double Salary);
 
-	String getName();
+	int getID() const;
 
-	String getJob();
-	//Occupation getJob();
+	const String& getName() const;
 
-	int getYear();
+	Occupation getJob() const;
 
-	double getMoney();
+	int getYear() const;
+
+	double getMoney() const;
+
+	void setRand();
 };
 
-Worker::Worker() : Worker("Unknown", Occupation::Unknown, 0, 0.) { }
-Worker::Worker(String FullName, Occupation JobTitle, int YearStarted, double Salary)
+Worker::Worker() : Worker(0, "Unknown", Occupation::Unknown, 0, 0.) { }
+Worker::Worker(int id) : Worker(id, "Unknown", Occupation::Unknown, 0, 0.) { }
+Worker::Worker(int id, String FullName, Occupation JobTitle, int YearStarted, double Salary) : id{id}
 {
 	name = FullName;
 	job = JobTitle;
@@ -71,12 +78,29 @@ Worker::Worker(String FullName, Occupation JobTitle, int YearStarted, double Sal
 	money = Salary;
 }
 
-void Worker::displayInfo()
+Worker& Worker::operator=(const Worker& obj)
 {
+	if (this == &obj)
+	{
+		return *this;
+	}
+
+	id = obj.id;
+	name = obj.name;
+	job = obj.job;
+	year = obj.year;
+	money = obj.money;
+
+	return *this;
+}
+
+void Worker::displayInfo() const
+{
+	cout << "ID: " << id << endl;
 	cout << "Full name: "; name.print();
 	cout << "Job title: " << ReturnEnum(job) << endl;
 	cout << "Year started: " << year << endl;
-	cout << "Salary: " << money << endl;
+	cout << "Salary: " << money << " USD a month.\n\n";
 }
 
 void Worker::setName(const char* FullName)
@@ -84,7 +108,6 @@ void Worker::setName(const char* FullName)
 	name = FullName;
 }
 
-// 1 - CEO, 2 - Team Lead, 3 - Engineer; 0 - Unknown
 void Worker::setJob(Occupation j)
 {
 	job = j;
@@ -100,26 +123,42 @@ void Worker::setMoney(double Salary)
 	money = Salary;
 }
 
-String Worker::getName()
+int Worker::getID() const
+{
+	return id;
+}
+
+const String& Worker::getName() const
 {
 	return name;
 }
 
-String Worker::getJob()
+Occupation Worker::getJob() const
 {
-	return ReturnEnum(job);
+	return job;
 }
-//Occupation Worker::getJob()
-//{
-//	return job;
-//}
 
-int Worker::getYear()
+int Worker::getYear() const
 {
 	return year;
 }
 
-double Worker::getMoney()
+double Worker::getMoney() const
 {
 	return money;
+}
+
+int Random(int minValue, int maxValue)
+{
+	return rand() % (maxValue - minValue + 1) + minValue;
+}
+
+void Worker::setRand()
+{
+	String names[] {"John", "Mary", "Brian", "Stefan", "Kate", "Cody", "Helen"};
+	String surnames[] {"Smith", "Jane", "Molko", "Olsdal", "Bush", "Armstrong", "Berg"};
+	name = names[Random(0, 6)] + " " + surnames[Random(0, 6)];
+	setJob(Occupation(Random(1, 10)));
+	year = Random(1965, 2025);
+	money = Random(35, 130) * 100;
 }
