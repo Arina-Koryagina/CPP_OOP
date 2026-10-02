@@ -46,7 +46,7 @@ public:
 
 	void resize(int newSize);
 
-	void setSize(int s, int grow);
+	//void setSize(int s, int grow);
 
 	void fill(const T& value) const;
 
@@ -72,7 +72,6 @@ template<class T>
 Array<T>::Array(int s)
 {
 	create(s);
-	//cout << "Constr " << arr << endl;
 }
 
 template<class T>
@@ -84,7 +83,6 @@ Array<T>::Array(const Array& obj)
 	{
 		arr[i] = obj.arr[i];
 	}
-	//cout << "CopyConstr " << arr << endl;
 }
 
 template<class T>
@@ -110,7 +108,6 @@ Array<T>& Array<T>::operator=(const Array& obj)
 template<class T>
 Array<T>::~Array()
 {
-	//cout << "Destr " << arr << endl;
 	delete[] arr;
 }
 
@@ -147,16 +144,16 @@ void Array<int>::setRand() const
 		arr[i] = rand() % (maxValue - minValue + 1) + minValue;
 	}
 }
-//template<>
-//void Array<Fraction>::setRand() const
-//{
-//	cout << "Fraction realisation\n";
-//	int minValue = 0, maxValue = 9;
-//	for (int i = 0; i < size; i++)
-//	{
-//		arr[i] = rand() % (maxValue - minValue + 1) + minValue;
-//	}
-//}
+template<>
+void Array<Fraction>::setRand() const
+{
+	cout << "Fraction realization" << endl;
+	int minValue = 0, maxValue = 9;
+	for (int i = 0; i < size; i++)
+	{
+		arr[i] = Fraction(rand() % (maxValue - minValue + 1) + minValue, rand() % (maxValue - minValue + 1) + minValue + 1);
+	}
+}
 
 template<class T>
 void Array<T>::show() const
@@ -343,6 +340,27 @@ void Array<T>::set(int index, const T& value) const
 	arr[index] = value;
 }
 
+template<class T>
+bool Array<T>::contains(const T& value) const
+{
+	for (int i = 0; i < size; i++)
+	{
+		if (arr[i] == value)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+
+template<class T>
+T& Array<T>::operator[](int index)
+{
+	assert(index >= 0 && index < size);
+	return arr[index];
+}
+
 //int Array::getMax() const
 //{
 //	if (size == 0)
@@ -395,24 +413,3 @@ void Array<T>::set(int index, const T& value) const
 //	}
 //	return (double)getSum() / size;
 //}
-
-template<class T>
-bool Array<T>::contains(const T& value) const
-{
-	for (int i = 0; i < size; i++)
-	{
-		if (arr[i] == value)
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-
-template<class T>
-T& Array<T>::operator[](int index)
-{
-	assert(index >= 0 && index < size);
-	return arr[index];
-}

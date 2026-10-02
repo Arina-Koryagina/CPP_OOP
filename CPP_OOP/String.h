@@ -19,7 +19,7 @@ class String
 		return i;
 	}
 
-	void myStrcpy(char* str, const String& obj)
+	void myStrcpy(char* str, const String& obj) const
 	{
 		for (int i = 0; i <= size; i++)
 		{
@@ -34,6 +34,8 @@ public:
 	String(const String& obj);
 	String& operator=(const String& obj);
 	String operator+(const String& obj);
+	char operator[](int index);
+	bool operator==(const String& other) const;
 
 	~String();
 
@@ -45,6 +47,7 @@ public:
 
 	String reSize();
 
+	const char* getStr() const;
 	int getLen() const;
 
 	void print() const;
@@ -99,7 +102,24 @@ String String::operator+(const String& obj)
 	char* temp = new char[size + obj.size + 1];
 	strcpy(temp, str);
 	strcpy(temp + size, obj.str);
-	return temp;
+
+	String st(temp);
+	delete[] temp;
+	return st;
+}
+
+char String::operator[](int index)
+{
+	//assert(index >= 0 && index < size);
+	return str[index];
+}
+bool String::operator==(const String& other) const
+{
+	if (strcmp(str, other.str))
+	{
+		return true;
+	}
+	return false;
 }
 
 String::~String()
@@ -153,6 +173,11 @@ String String::reSize()
 int String::getLen() const
 {
 	return size;
+}
+
+const char* String::getStr() const
+{
+	return str;
 }
 
 void String::print() const
