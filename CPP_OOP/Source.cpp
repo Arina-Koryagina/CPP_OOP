@@ -8,6 +8,8 @@
 //#include"Reservoir.h"
 //#include"Fraction.h"
 #include"var.h"
+#include"Stack.h"
+#include"Calc.h"
 
 using namespace std;
 
@@ -19,6 +21,30 @@ void printArray(Array<T> a)
 
 int main()
 {
+	/*Calc c("6*2+2^2+2-6*1");
+	cout << c.getResult() << endl;*/
+
+	/*Stack<int, 5> s;
+	s.push(10);
+	s.push(5);
+	s.push(20);
+	s.push(15);
+	s.push(25);
+	s.push(35);
+	s.print();
+	Stack<int, 5> a(s);
+	a.print();
+	Stack<int, 5> b;
+	b = a;
+	b.print();*/
+	/*cout << s.peek() << endl;
+	s.pop();
+	s.pop();
+	s.print();
+	s.clear();
+	s.print();*/
+
+
 	//srand(time(0));
 
 	//var a = 15;
