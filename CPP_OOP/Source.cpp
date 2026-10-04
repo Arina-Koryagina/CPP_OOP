@@ -21,20 +21,22 @@ int main()
 {
 	//srand(time(0));
 
-	//var a = 15;
-	//var b = "Hello";
-	//var c = 7.8;
-	//var d = "50";
-	//b = a + d;
-	//b.Show();
-	//if (a == b)
-	//{
-	//	cout << "Equal\n";
-	//}
-	//else
-	//{
-	//	cout << "Not Equal\n";
-	//}
+
+
+	var a = 15;
+	var b = "Hello";
+	var c = 7.8;
+	var d = "50";
+	b = a + d;
+	b.Show();
+	if (a == b)
+	{
+		cout << "Equal\n";
+	}
+	else
+	{
+		cout << "Not Equal\n";
+	}
 	//var a = 10, b = "120", c;
 	//c = a + b;
 	//c.Show();
@@ -49,6 +51,7 @@ int main()
 
 	//var n("Hello, World!");
 	//n.Show();
+	//cout << n << endl;
 
 	//Array<int> arr(10);
 	//arr.setRand();

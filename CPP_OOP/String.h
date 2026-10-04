@@ -34,8 +34,11 @@ public:
 	String(const String& obj);
 	String& operator=(const String& obj);
 	String operator+(const String& obj);
+	String operator-(const String& obj);
 	char operator[](int index);
 	bool operator==(const String& other) const;
+	bool operator<(const String& other) const;
+	operator char* () const;
 
 	~String();
 
@@ -108,6 +111,17 @@ String String::operator+(const String& obj)
 	return st;
 }
 
+String String::operator-(const String& obj) //
+{
+	char* temp = new char[size + obj.size + 1];
+	strcpy(temp, str);
+	strcpy(temp + size, obj.str);
+
+	String st(temp);
+	delete[] temp;
+	return st;
+}
+
 char String::operator[](int index)
 {
 	//assert(index >= 0 && index < size);
@@ -120,6 +134,19 @@ bool String::operator==(const String& other) const
 		return true;
 	}
 	return false;
+}
+bool String::operator<(const String& other) const
+{
+	if (strcmp(str, other.str) < 0)
+	{
+		return true;
+	}
+	return false;
+}
+
+String::operator char* () const
+{
+	return str;
 }
 
 String::~String()

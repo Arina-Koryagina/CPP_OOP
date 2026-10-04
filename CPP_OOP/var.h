@@ -25,14 +25,32 @@ public:
 	var(const var& obj);
 	~var();
 
+	operator int() const;
+	operator double() const;
+	operator String() const; //char*
+
 	var& operator=(const var& obj);
+
 	var operator+(const var& obj) const;
-
-	bool operator==(const var& v) const;
-
+	var operator-(const var& obj) const;
 	var operator*(const var& obj) const;
 	var operator/(const var& obj) const;
 
+	var& operator+=(const var& obj);
+	var& operator-=(const var& obj);
+	var& operator*=(const var& obj);
+	var& operator/=(const var& obj);
+
+	bool operator<(const var& obj) const;
+	bool operator>(const var& obj) const;
+
+	bool operator==(const var& obj) const;
+	bool operator!=(const var& obj) const;
+
+	bool operator<=(const var& obj) const;
+	bool operator>=(const var& obj) const;
+
+	friend ostream& operator<<(ostream& out, const var& obj);
 	void Show() const;
 };
 
@@ -58,17 +76,9 @@ var::var(const var& obj) : t(obj.t), value(nullptr)
 {
 	switch (t)
 	{
-	case TYPE::INT:
-		value = new int(*(const int*)obj.value);
-		break;
-
-	case TYPE::DOUBLE:
-		value = new double(*(const double*)obj.value);
-		break;
-
-	case TYPE::STR:
-		value = new String(*(const String*)obj.value);
-		break;
+	case TYPE::INT:    value = new int(*(const int*)obj.value); break;
+	case TYPE::DOUBLE: value = new double(*(const double*)obj.value); break;
+	case TYPE::STR:    value = new String(*(const String*)obj.value);
 	}
 }
 
@@ -78,7 +88,40 @@ var::~var()
 	{
 	case TYPE::INT:    delete ((int*)value); break;
 	case TYPE::DOUBLE: delete ((double*)value); break;
-	case TYPE::STR:    delete ((String*)value); break;
+	case TYPE::STR:    delete ((String*)value);
+	}
+}
+
+var::operator int() const // https://stackoverflow.com/questions/3814865/what-is-an-operator-int-function
+{
+	switch (t)
+	{
+	case TYPE::INT:    return *(int*)(value);
+	case TYPE::DOUBLE: return int(*(double*)value);
+	case TYPE::STR:    return atoi((*((String*)value)).getStr());
+	}
+}
+var::operator double() const
+{
+	switch (t)
+	{
+	case TYPE::INT:    return double(*(int*)(value));
+	case TYPE::DOUBLE: return *(double*)value;
+	case TYPE::STR:    return atof((*((String*)value)).getStr());
+	}
+}
+var::operator String() const
+{
+	char buffer[64];
+	switch (t)
+	{
+	case TYPE::INT:
+		_itoa(*(int*)value, buffer, 10);
+		return String(buffer);
+	case TYPE::DOUBLE: // https://stackoverflow.com/questions/7228438/convert-double-float-to-string
+		snprintf(buffer, sizeof(buffer), "%g", *(double*)value); // https://en.cppreference.com/cpp/io/c/fprintf
+		return String(buffer);
+	case TYPE::STR: return *(String*)value;
 	}
 }
 
@@ -93,16 +136,15 @@ var& var::operator=(const var& obj)
 	{
 	case TYPE::INT:    delete ((int*)value); break;
 	case TYPE::DOUBLE: delete ((double*)value); break;
-	case TYPE::STR:    delete ((String*)value); break;
+	case TYPE::STR:    delete ((String*)value);
 	}
 
 	t = obj.t;
-
 	switch (t)
 	{
 	case TYPE::INT:    value = new int(*( const int*)obj.value); break;
 	case TYPE::DOUBLE: value = new double(*(const double*)obj.value); break;
-	case TYPE::STR:    value = new String(*(const String*)obj.value); break;
+	case TYPE::STR:    value = new String(*(const String*)obj.value);
 	}
 
 	return *this;
@@ -112,172 +154,29 @@ var var::operator+(const var& obj) const
 {
 	switch (t)
 	{
-	case TYPE::INT:
-	{
-		int a = *(int*)(value), b = 0;
-		switch (obj.t)
-		{
-		case TYPE::INT:    b = *(int*)(obj.value); break;
-		case TYPE::DOUBLE: b = int(*(double*)obj.value); break;
-		case TYPE::STR:    b = atoi((*((String*)obj.value)).getStr()); break;
-		}
-
-		return var(a + b);
+	case TYPE::INT:    return var(int(*this) + int(obj));
+	case TYPE::DOUBLE: return var(double(*this) + double(obj));
+	case TYPE::STR:    return var(String(*this) + String(obj));
 	}
-	case TYPE::DOUBLE:
-	{
-		double a = *(double*)(value), b = 0.;
-		switch (obj.t)
-		{
-		case TYPE::INT:    b = double(*(int*)(obj.value)); break;
-		case TYPE::DOUBLE: b = *(double*)obj.value; break;
-		case TYPE::STR:    b = atof((*((String*)obj.value)).getStr()); break;
-		}
-
-		return var(a + b);
-	}
-	case TYPE::STR:
-	{
-		String a = *(String*)value;
-		String b;
-
-		switch (obj.t)
-		{
-		case TYPE::INT:
-		{
-			char buffer[20];
-			_itoa(*(int*)obj.value, buffer, 10);
-			b = String(buffer);
-			break;
-		}
-		case TYPE::DOUBLE: // https://stackoverflow.com/questions/7228438/convert-double-float-to-string
-		{
-			char buffer[64];
-			snprintf(buffer, sizeof(buffer), "%g", *(double*)obj.value); // https://en.cppreference.com/cpp/io/c/fprintf
-			b = String(buffer);
-			break;
-		}
-		case TYPE::STR:
-			b = *(String*)obj.value;
-			break;
-		}
-
-		return var(a + b);
-	}
-	}
-
-	return 0; //error
 }
-
-bool var::operator==(const var& v) const
+var var::operator-(const var& obj) const
 {
 	switch (t)
 	{
-	case TYPE::INT:
-	{
-		int a = *(int*)(value), b = 0;
-		switch (v.t)
-		{
-		case TYPE::INT:    b = *(int*)(v.value); break;
-		case TYPE::DOUBLE: b = int(*(double*)v.value); break;
-		case TYPE::STR:    b = atoi((*((String*)v.value)).getStr()); break;
-		}
-
-		return a == b;
+	case TYPE::INT:    return var(int(*this) - int(obj));
+	case TYPE::DOUBLE: return var(double(*this) - double(obj));
+	case TYPE::STR:    return var(String(*this) - String(obj));
 	}
-	case TYPE::DOUBLE:
-	{
-		double a = *(double*)(value), b = 0.;
-		switch (v.t)
-		{
-		case TYPE::INT:    b = double(*(int*)(v.value)); break;
-		case TYPE::DOUBLE: b = *(double*)v.value; break;
-		case TYPE::STR:    b = atof((*((String*)v.value)).getStr()); break;
-		}
-
-		return a == b;
-	}
-	case TYPE::STR:
-	{
-		String a = *(String*)value;
-		String b;
-
-		switch (v.t)
-		{
-		case TYPE::INT:
-		{
-			char buffer[20];
-			_itoa(*(int*)v.value, buffer, 10);
-			b = String(buffer);
-			break;
-		}
-		case TYPE::DOUBLE: // https://stackoverflow.com/questions/7228438/convert-double-float-to-string
-		{
-			char buffer[64];
-			snprintf(buffer, sizeof(buffer), "%g", *(double*)v.value); // https://en.cppreference.com/cpp/io/c/fprintf
-			b = String(buffer);
-			break;
-		}
-		case TYPE::STR:
-			b = *(String*)v.value;
-			break;
-		}
-
-		return a == b;
-	}
-	}
-	
-	return false; //error
 }
-
 var var::operator*(const var& obj) const
 {
 	switch (t)
 	{
-	case TYPE::INT:
-	{
-		int a = *(int*)(value), b = 0;
-		switch (obj.t)
-		{
-		case TYPE::INT:    b = *(int*)(obj.value); break;
-		case TYPE::DOUBLE: b = int(*(double*)obj.value); break;
-		case TYPE::STR:    b = atoi((*((String*)obj.value)).getStr()); break;
-		}
-
-		return var(a * b);
-	}
-	case TYPE::DOUBLE:
-	{
-		double a = *(double*)(value), b = 0.;
-		switch (obj.t)
-		{
-		case TYPE::INT:    b = double(*(int*)(obj.value)); break;
-		case TYPE::DOUBLE: b = *(double*)obj.value; break;
-		case TYPE::STR:    b = atof((*((String*)obj.value)).getStr()); break;
-		}
-
-		return var(a * b);
-	}
+	case TYPE::INT: return var(int(*this) * int(obj));
+	case TYPE::DOUBLE: return var(double(*this) * double(obj));
 	case TYPE::STR:
 	{
-		String a = *(String*)value, b;
-		char number[64];
-
-		switch (obj.t)
-		{
-		case TYPE::INT:
-			_itoa(*(int*)obj.value, number, 10);
-			b = String(number);
-			break;
-		case TYPE::DOUBLE:
-			snprintf(number, sizeof(number), "%g", *(double*)obj.value);
-			b = String(number);
-			break;
-		case TYPE::STR:
-			b = *(String*)obj.value;
-			break;
-		}
-
+		String a = String(*this), b = String(obj);
 		int lenA = a.getLen(), lenB = b.getLen(), size = 0;
 		char* c = new char[lenA + 1];
 		for (int i = 0; i < lenA; i++)
@@ -297,57 +196,24 @@ var var::operator*(const var& obj) const
 		return result;
 	}
 	}
-
-	return 0; //error
 }
-
 var var::operator/(const var& obj) const
 {
 	switch (t)
 	{
 	case TYPE::INT:
 	{
-		int a = *(int*)(value), b = 0;
-		switch (obj.t)
-		{
-		case TYPE::INT:    b = *(int*)(obj.value); break;
-		case TYPE::DOUBLE: b = int(*(double*)obj.value); break;
-		case TYPE::STR:    b = atoi((*((String*)obj.value)).getStr()); break;
-		}
-
-		return (b != 0) ? var(a / b) : a;
+		int a = int(*this), b = int(obj);
+		return (b != 0) ? var(a / b) : var(a);
 	}
 	case TYPE::DOUBLE:
 	{
-		double a = *(double*)(value), b = 0.;
-		switch (obj.t)
-		{
-		case TYPE::INT:    b = double(*(int*)(obj.value)); break;
-		case TYPE::DOUBLE: b = *(double*)obj.value; break;
-		case TYPE::STR:    b = atof((*((String*)obj.value)).getStr()); break;
-		}
-
-		return (b != 0) ? var(a / b) : a;
+		double a = double(*this), b = double(obj);
+		return (b != 0) ? var(a / b) : var(a);
 	}
 	case TYPE::STR:
 	{
-		String a = *(String*)value, b;
-		char number[64];
-
-		switch (obj.t)
-		{
-		case TYPE::INT:
-			_itoa(*(int*)obj.value, number, 10);
-			b = String(number);
-			break;
-		case TYPE::DOUBLE:
-			snprintf(number, sizeof(number), "%g", *(double*)obj.value);
-			b = String(number);
-			break;
-		case TYPE::STR:
-			b = *(String*)obj.value;
-			break;
-		}
+		String a = String(*this), b = String(obj);
 		String temp = *(String*)((var)a * (var)b).value;
 		int lenA = a.getLen(), lenT = temp.getLen(), size = 0;
 		char* c = new char[lenA - lenT + 2];
@@ -373,8 +239,75 @@ var var::operator/(const var& obj) const
 		return result;
 	}
 	}
+}
 
-	return 0; // error
+var& var::operator+=(const var& obj)
+{
+	*this = *this + obj;
+	return *this;
+}
+var& var::operator-=(const var& obj)
+{
+	*this = *this - obj;
+	return *this;
+}
+var& var::operator*= (const var & obj)
+{
+	*this = *this * obj;
+	return *this;
+}
+var& var::operator/=(const var& obj)
+{
+	*this = *this / obj;
+	return *this;
+}
+
+bool var::operator==(const var& obj) const
+{
+	switch (t)
+	{
+	case TYPE::INT:    return int(*this) == int(obj);
+	case TYPE::DOUBLE: return double(*this) == double(obj);
+	case TYPE::STR:    return String(*this) == String(obj);
+	}
+}
+bool var::operator!=(const var& obj) const
+{
+	return !(*this == obj);
+}
+
+bool var::operator<(const var& obj) const
+{
+	switch (t)
+	{
+	case TYPE::INT:    return int(*this) < int(obj);
+	case TYPE::DOUBLE: return double(*this) < double(obj);
+	case TYPE::STR:    return String(*this) < String(obj);
+	}
+}
+bool var::operator>(const var& obj) const
+{
+	return !(*this < obj || *this == obj);
+}
+
+bool var::operator<=(const var& obj) const
+{
+	return (*this < obj || *this == obj);
+}
+bool var::operator>=(const var& obj) const
+{
+	return (*this > obj || *this == obj);
+}
+
+ostream& operator<<(ostream& out, const var& obj)
+{
+	switch (obj.t)
+	{
+	case TYPE::INT: out << *((int*)obj.value); break;
+	case TYPE::DOUBLE: out << *((double*)obj.value); break;
+	case TYPE::STR: out << ((String*)obj.value)->getStr();
+	}
+	return out;
 }
 
 void var::Show() const
