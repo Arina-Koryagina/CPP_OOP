@@ -145,7 +145,10 @@
   <ItemGroup>
     <ClInclude Include="AreaCalc.h" />
     <ClInclude Include="Array.h" />
+    <ClInclude Include="Calc.h" />
     <ClInclude Include="Fraction.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Stack.h" />
     <ClInclude Include="var.h" />
     <ClInclude Include="Worker.h" />
     <ClInclude Include="Reservoir.h" />
