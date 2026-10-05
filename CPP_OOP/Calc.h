@@ -74,7 +74,7 @@ int Calc::getResult()
 		exp = expression[i];
 	}
 
-	while (numbers.getSize() > 1)
+	while (!operators.IsEmpty())
 	{
 		int a = numbers.peek(); numbers.pop();
 		int b = numbers.peek(); numbers.pop();
