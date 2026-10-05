@@ -13,6 +13,8 @@ class Array
 	int size = 0;
 	int filled = 0;
 
+	int growth = 1;
+
 public:
 
 	Array();
@@ -33,7 +35,7 @@ public:
 	void freeExtra();
 	void clear(); // RemoveAll
 	T get(int index) const;
-	void set(int index, const T& value) const;
+	void set(int index, const T& value);
 	void append(const Array& obj);
 	T* getData() const;
 	void add(T value);
@@ -41,9 +43,9 @@ public:
 	void remove(int index);
 
 	void show() const;
-	void sort() const;
-	void reverse() const;
-	void resize(int newSize);
+	void sort();
+	void reverse();
+	//void resize(int newSize);
 	bool contains(const T& value) const;
 
 	void fill(const T& value) const;
@@ -65,8 +67,10 @@ template<class T>
 Array<T>::Array(const Array& obj)
 {
 	size = obj.size;
+	filled = obj.filled;
+	growth = obj.growth;
 	arr = new T[size];
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < filled; i++)
 	{
 		arr[i] = obj.arr[i];
 	}
@@ -91,6 +95,7 @@ Array<T>& Array<T>::operator=(const Array& obj)
 
 	size = obj.size;
 	filled = obj.filled;
+	growth = obj.growth;
 	arr = new T[size];
 	for (int i = 0; i < filled; i++)
 	{
@@ -118,7 +123,7 @@ Array<T>& Array<T>::operator+=(const Array& obj)
 template<class T>
 T& Array<T>::operator[](int index)
 {
-	assert(index >= 0 && index < size);
+	assert(index >= 0 && index < filled);
 	return arr[index];
 }
 
@@ -147,44 +152,39 @@ void Array<T>::setSize(int s, int grow)
 	{
 		return;
 	}
-	filled = (s < size) ? s : size;
+
+	int newFilled = (filled < s) ? filled : s;
 	size = s + grow;
 	T* temp = new T[size];
-	for (int i = 0; i < filled; i++)
+	for (int i = 0; i < newFilled; i++)
 	{
 		temp[i] = arr[i];
 	}
 	delete[] arr;
 	arr = temp;
+	filled = newFilled;
+	growth = grow;
 }
 
 template<class T>
 int Array<T>::getUpperBound() const
 {
-	return filled;
+	return filled - 1;
 }
 
 template<class T>
 bool Array<T>::IsEmpty() const
 {
-	return arr == nullptr;
+	return filled == 0;
 }
 
 template<class T>
 void Array<T>::freeExtra()
 {
-	if (filled == size)
+	if (filled < size)
 	{
-		return;
+		setSize(filled, 0);
 	}
-	T* temp = new T[filled];
-	for (int i = 0; i < filled; i++)
-	{
-		temp[i] = arr[i];
-	}
-	delete[] arr;
-	arr = temp;
-	size = filled;
 }
 
 template<class T>
@@ -193,12 +193,13 @@ void Array<T>::clear()
 	delete[] arr;
 	arr = nullptr;
 	size = 0;
+	filled = 0;
 }
 
 template<class T>
 T Array<T>::get(int index) const
 {
-	if (index < 0 || index >= size)
+	if (index < 0 || index >= filled)
 	{
 		return 0;
 	}
@@ -206,9 +207,9 @@ T Array<T>::get(int index) const
 }
 
 template<class T>
-void Array<T>::set(int index, const T& value) const
+void Array<T>::set(int index, const T& value)
 {
-	if (index < 0 || index >= size)
+	if (index < 0 || index >= filled)
 	{
 		return;
 	}
@@ -221,15 +222,19 @@ void Array<T>::append(const Array& obj)
 	int newSize = size + obj.size;
 	T* temp = new T[newSize];
 
-	for (int i = 0; i < size; ++i)
+	for (int i = 0; i < filled; ++i)
+	{
 		temp[i] = arr[i];
-
-	for (int i = 0; i < obj.size; ++i)
-		temp[size + i] = obj.arr[i];
+	}
+	for (int i = 0; i < obj.filled; ++i)
+	{
+		temp[filled + i] = obj.arr[i];
+	}
 
 	delete[] arr;
 	arr = temp;
 	size = newSize;
+	filled += obj.filled;
 }
 
 template<class T>
@@ -243,55 +248,52 @@ void Array<T>::add(T value)
 {
 	if (filled == size)
 	{
-		setSize(size);
+		setSize(size, growth);
 	}
-	arr[filled] = value;
-	filled++;
+	arr[filled++] = value;
 }
 
 template<class T>
 void Array<T>::insert(const T& value, int index)
 {
-	if (index < 0 || index > size)
+	if (index < 0 || index > filled)
 	{
 		return;
 	}
-	T* temp = new T[size + 1];
-	for (int i = 0; i < index; i++)
+
+	T temp = value;
+	if (filled == size)
 	{
-		temp[i] = arr[i];
+		setSize(size);
 	}
-	temp[index] = value;
-	for (int i = index + 1; i <= size; i++)
+	for (int i = filled; i > index; i--)
 	{
-		temp[i] = arr[i - 1];
+		arr[i] = arr[i - 1];
 	}
-	delete[] arr;
-	size++;
-	arr = temp;
+	arr[index] = temp;
+	filled++;
 }
 
 template<class T>
 void Array<T>::remove(int index)
 {
-	if (index < 0 || index >= size)
+	if (index < 0 || index >= filled)
 	{
 		return;
 	}
-	T* temp = new T[size - 1];
+	T* temp = new T[size];
 	for (int i = 0; i < index; i++)
 	{
 		temp[i] = arr[i];
 	}
-	for (int i = index; i < size - 1; i++)
+	for (int i = index; i < filled - 1; i++)
 	{
 		temp[i] = arr[i + 1];
 	}
 	delete[] arr;
-	size--;
+	filled--;
 	arr = temp;
 }
-
 
 template<class T>
 void Array<T>::show() const
@@ -303,16 +305,15 @@ void Array<T>::show() const
 			cout << arr[i] << " ";
 		}
 	}
-
 	cout << endl;
 }
 
 template<class T>
-void Array<T>::sort() const
+void Array<T>::sort()
 {
-	for (int j = 0; j < size - 1; j++)
+	for (int j = 0; j < filled - 1; j++)
 	{
-		for (int i = 0; i < size - 1 - j; i++)
+		for (int i = 0; i < filled - 1 - j; i++)
 		{
 			if (arr[i] > arr[i + 1])
 			{
@@ -323,36 +324,36 @@ void Array<T>::sort() const
 }
 
 template<class T>
-void Array<T>::reverse() const
+void Array<T>::reverse()
 {
-	for (int i = 0; i < size / 2; i++)
+	for (int i = 0; i < filled / 2; i++)
 	{
-		swap(arr[i], arr[size - 1 - i]);
+		swap(arr[i], arr[filled - 1 - i]);
 	}
 }
 
-template<class T>
-void Array<T>::resize(int newSize)
-{
-	if (newSize < 0)
-	{
-		return;
-	}
-	int limit = (newSize < size) ? newSize : size;
-	int* temp = new int[newSize];
-	for (int i = 0; i < limit; i++)
-	{
-		temp[i] = arr[i];
-	}
-	delete[] arr;
-	size = newSize;
-	arr = temp;
-}
+//template<class T>
+//void Array<T>::resize(int newSize)
+//{
+//	if (newSize < 0)
+//	{
+//		return;
+//	}
+//	int limit = (newSize < size) ? newSize : size;
+//	int* temp = new int[newSize];
+//	for (int i = 0; i < limit; i++)
+//	{
+//		temp[i] = arr[i];
+//	}
+//	delete[] arr;
+//	size = newSize;
+//	arr = temp;
+//}
 
 template<class T>
 bool Array<T>::contains(const T& value) const
 {
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < filled; i++)
 	{
 		if (arr[i] == value)
 		{
@@ -362,6 +363,7 @@ bool Array<T>::contains(const T& value) const
 	return false;
 }
 
+// ---
 
 template<class T>
 void Array<T>::fill(const T& value) const
