@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="AreaCalc.h" />
     <ClInclude Include="Array.h" />
+    <ClInclude Include="Brackets.h" />
     <ClInclude Include="Calc.h" />
     <ClInclude Include="Fraction.h" />
     <ClInclude Include="Node.h" />
@@ -154,7 +155,6 @@
     <ClInclude Include="Reservoir.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="Time.h" />
-    <ClInclude Include="Func.h" />
     <ClInclude Include="Student.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

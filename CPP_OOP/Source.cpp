@@ -23,13 +23,31 @@ using namespace std;
 
 int main()
 {
-	//srand(time(0));
+	srand(time(0));
+
+	Array<int> arr(5);
+	arr.setRand();
+	arr.show();
+	Array<int> arr2(5);
+	arr2.setRand();
+	arr2.show();
+
+	Array<int> arr3;
+	arr3 = arr + arr2;
+	arr3.show();
+	cout << arr3.getSize() << endl;
+	arr += arr2;
+	arr.show();
+
+	//arr.append(arr2);
+	//arr.show();
+	//cout << arr.getData() << endl;
 
 	//Brackets a("({x-y-z}*[x+2y]+(z+4x));");
-	Brackets b("({x - y - z} * [x + 2y] + (z + 4x));");
-	b.check();
-	Brackets c("([x - y - z} * [x + 2y) + {z + 4x)];");
-	c.check();
+	//Brackets b("({x - y - z} * [x + 2y] + (z + 4x));");
+	//b.check();
+	//Brackets c("([x - y - z} * [x + 2y) + {z + 4x)];");
+	//c.check();
 
 	/*Calc c("6*2+2^2+2-6*1");
 	cout << c.getResult() << endl;*/
