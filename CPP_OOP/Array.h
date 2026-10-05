@@ -11,6 +11,7 @@ class Array
 {
 	T* arr = nullptr;
 	int size = 0;
+	int filled = 0;
 
 public:
 
@@ -26,8 +27,10 @@ public:
 	void create(int s);
 
 	int getSize() const;
-	//void setSize(int s, int grow);
+	void setSize(int s, int grow = 1);
+	int getUpperBound() const;
 	bool IsEmpty() const;
+	void freeExtra();
 	void clear(); // RemoveAll
 	T get(int index) const;
 	void set(int index, const T& value) const;
@@ -44,7 +47,7 @@ public:
 	bool contains(const T& value) const;
 
 	void fill(const T& value) const;
-	void setRand() const;
+	void setRand();
 	int countValue(const T& value) const;
 	int findValue(const T& value) const;
 };
@@ -87,8 +90,9 @@ Array<T>& Array<T>::operator=(const Array& obj)
 	delete[] arr;
 
 	size = obj.size;
+	filled = obj.filled;
 	arr = new T[size];
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < filled; i++)
 	{
 		arr[i] = obj.arr[i];
 	}
@@ -137,9 +141,50 @@ int Array<T>::getSize() const
 }
 
 template<class T>
+void Array<T>::setSize(int s, int grow)
+{
+	if (s < 0)
+	{
+		return;
+	}
+	filled = (s < size) ? s : size;
+	size = s + grow;
+	T* temp = new T[size];
+	for (int i = 0; i < filled; i++)
+	{
+		temp[i] = arr[i];
+	}
+	delete[] arr;
+	arr = temp;
+}
+
+template<class T>
+int Array<T>::getUpperBound() const
+{
+	return filled;
+}
+
+template<class T>
 bool Array<T>::IsEmpty() const
 {
 	return arr == nullptr;
+}
+
+template<class T>
+void Array<T>::freeExtra()
+{
+	if (filled == size)
+	{
+		return;
+	}
+	T* temp = new T[filled];
+	for (int i = 0; i < filled; i++)
+	{
+		temp[i] = arr[i];
+	}
+	delete[] arr;
+	arr = temp;
+	size = filled;
 }
 
 template<class T>
@@ -196,15 +241,12 @@ T* Array<T>::getData() const
 template<class T>
 void Array<T>::add(T value)
 {
-	T* temp = new T[size + 1];
-	for (int i = 0; i < size; i++)
+	if (filled == size)
 	{
-		temp[i] = arr[i];
+		setSize(size);
 	}
-	temp[size] = value;
-	delete[] arr;
-	size++;
-	arr = temp;
+	arr[filled] = value;
+	filled++;
 }
 
 template<class T>
@@ -256,7 +298,7 @@ void Array<T>::show() const
 {
 	if (arr != nullptr)
 	{
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < filled; i++)
 		{
 			cout << arr[i] << " ";
 		}
@@ -331,12 +373,12 @@ void Array<T>::fill(const T& value) const
 }
 
 template<class T>
-void Array<T>::setRand() const
+void Array<T>::setRand()
 {
 	cout << "no implemention for " << typeid(T).name() << endl;
 }
 template<>
-void Array<int>::setRand() const
+void Array<int>::setRand()
 {
 	//cout << "int realisation\n";
 	int minValue = 0, maxValue = 9;
@@ -344,9 +386,10 @@ void Array<int>::setRand() const
 	{
 		arr[i] = rand() % (maxValue - minValue + 1) + minValue;
 	}
+	filled = size;
 }
 template<>
-void Array<Fraction>::setRand() const
+void Array<Fraction>::setRand()
 {
 	//cout << "Fraction realization" << endl;
 	int minValue = 0, maxValue = 9;

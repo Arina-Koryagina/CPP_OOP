@@ -146,9 +146,12 @@
     <ClInclude Include="AreaCalc.h" />
     <ClInclude Include="Array.h" />
     <ClInclude Include="Brackets.h" />
+    <ClInclude Include="Bus.h" />
     <ClInclude Include="Calc.h" />
     <ClInclude Include="Fraction.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="PriorityQueue.h" />
+    <ClInclude Include="Queue.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="var.h" />
     <ClInclude Include="Worker.h" />

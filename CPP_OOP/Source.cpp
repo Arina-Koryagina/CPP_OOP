@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include<Windows.h>
 
 #include"Array.h"
 #include"String.h"
@@ -10,7 +11,10 @@
 //#include"Fraction.h"
 //#include"var.h"
 //#include"Calc.h"
-#include"Brackets.h"
+//#include"Brackets.h"
+#include"Queue.h"
+#include"PriorityQueue.h"
+#include"Bus.h"
 
 
 using namespace std;
@@ -25,19 +29,82 @@ int main()
 {
 	srand(time(0));
 
-	Array<int> arr(5);
+	Queue<Bus> bus = {};
+	Queue<People> p;
+
+	int i = 0;
+	while (true)
+	{
+		if (i % 2 == 0)
+		{
+			cout << "Add pass\n";
+			p.enqueue(People());
+		}
+		if (i % 10 == 0)
+		{
+			cout << "Bus arrived\n";
+			p.dequeue();
+		}
+		Sleep(1000);
+		i++;
+	}
+
+	//PriorityQueue<int> pq;
+	//pq.enqueue(10, 1);
+	//pq.enqueue(20, 2);
+	//pq.enqueue(10, 1);
+	//pq.enqueue(30, 3);
+	//pq.enqueue(20, 2);
+	//pq.print();
+
+	//PriorityQueue<Fraction, float> p;
+	//p.enqueue(Fraction(2, 3), (float)Fraction(2, 3));
+	//p.enqueue(Fraction(1, 3), (float)Fraction(1, 3));
+	//p.enqueue(Fraction(3, 3), (float)Fraction(3, 3));
+	//p.enqueue(Fraction(5, 3), (float)Fraction(5, 3));
+	//p.enqueue(Fraction(1, 3), (float)Fraction(1, 3));
+	//p.print();
+
+	//Queue<int> q = { 1, 2, 3 };
+	//q.enqueue(10);
+	//q.print();
+	//cout << q.peek() << endl;
+	////q.clear();
+	//q.dequeue();
+	//q.print();
+	//q.ring();
+	//q.print();
+
+	//Array<int> arr(10);
+	//arr.add(1);
+	//arr.add(2);
+	//arr.add(3);
+	//arr.add(4);
+	//cout << arr.getUpperBound();
+
+	/*Array<int> arr(5);
 	arr.setRand();
 	arr.show();
-	Array<int> arr2(5);
-	arr2.setRand();
-	arr2.show();
-
-	Array<int> arr3;
-	arr3 = arr + arr2;
-	arr3.show();
-	cout << arr3.getSize() << endl;
-	arr += arr2;
+	cout << arr.getSize() << endl;
+	arr.setSize(5);
 	arr.show();
+	cout << arr.getSize() << endl;
+	arr.add(12);
+	arr.show();
+	cout << arr.getSize() << endl;
+	arr.add(15);
+	arr.show();
+	cout << arr.getSize() << endl;*/
+	//Array<int> arr2(5);
+	//arr2.setRand();
+	//arr2.show();
+
+	//Array<int> arr3;
+	//arr3 = arr + arr2;
+	//arr3.show();
+	//cout << arr3.getSize() << endl;
+	//arr += arr2;
+	//arr.show();
 
 	//arr.append(arr2);
 	//arr.show();
