@@ -6,18 +6,35 @@ class Time
 {
 	int hour;
 	int minute;
-	int second;
+	double second;
 
 public:
-	Time() : Time(0) {/* cout << "Constr\n"; */}
+	Time() : Time(0) {}
+	Time(double s) : Time(0, s) {}
+	Time(int m, double s) : Time(0, m, s) {}
+	Time(int h, int m, double s) : hour(h), minute(m), second(s) {}
 
-	Time(int s) : Time(0, s) {/* cout << "Constr 1\n"; */}
+	double getSeconds() const;
 
-	Time(int m, int s) : Time(0, m, s) {/* cout << "Constr 2\n"; */}
-
-	Time(int h, int m, int s) : hour(h), minute(m), second(s) {/* cout << "Constr 3\n"; */}
-
-
+	friend ostream& operator<<(ostream& out, const Time& obj);
 
 };
 
+double Time::getSeconds() const
+{
+	return second;
+}
+
+ostream& operator<<(ostream& out, const Time& obj)
+{
+	if (obj.minute)
+	{
+		if (obj.hour)
+		{
+			cout << obj.hour << "h ";
+		}
+		cout << obj.minute << "m ";
+	}
+	cout << obj.second << "s";
+	return out;
+}

@@ -1,10 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
+#include<iostream>
 #include<Windows.h>
 
-#include"Array.h"
-#include"String.h"
-#include"Stack.h"
 //#include"Student.h"
 //#include"Time.h"
 //#include"Reservoir.h"
@@ -12,42 +9,24 @@
 //#include"var.h"
 //#include"Calc.h"
 //#include"Brackets.h"
+#include"Array.h"
+#include"String.h"
+#include"Stack.h"
 #include"Queue.h"
 #include"PriorityQueue.h"
-#include"Bus.h"
+#include"Traffic.h"
 
 
 using namespace std;
 
-//template<class T>
-//void printArray(Array<T> a)
-//{
-//	a.show();
-//}
-
 int main()
 {
 	srand(time(0));
+	system("cls");
 
-	Queue<Bus> bus = {};
-	Queue<People> p;
-
-	int i = 0;
-	while (true)
-	{
-		if (i % 2 == 0)
-		{
-			cout << "Add pass\n";
-			p.enqueue(People());
-		}
-		if (i % 10 == 0)
-		{
-			cout << "Bus arrived\n";
-			p.dequeue();
-		}
-		Sleep(1000);
-		i++;
-	}
+	Station station;
+	station.simulate();
+	//station.simulate(2, 10, 10);
 
 	//PriorityQueue<int> pq;
 	//pq.enqueue(10, 1);

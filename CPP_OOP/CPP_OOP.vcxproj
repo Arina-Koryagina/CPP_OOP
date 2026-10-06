@@ -146,7 +146,7 @@
     <ClInclude Include="AreaCalc.h" />
     <ClInclude Include="Array.h" />
     <ClInclude Include="Brackets.h" />
-    <ClInclude Include="Bus.h" />
+    <ClInclude Include="Traffic.h" />
     <ClInclude Include="Calc.h" />
     <ClInclude Include="Fraction.h" />
     <ClInclude Include="Node.h" />
