@@ -24,14 +24,14 @@ int main()
 	srand(time(0));
 	system("cls");
 
+	Station station;
+	//station.simulate();
+	station.simulate(2, 10);
+
 	//Time t(1, 2, 3.3);
 	//cout << t << endl;
 	//Time t1(3600);
 	//cout << t1 << endl;
-
-	Station station;
-	//station.simulate();
-	station.simulate(1, 5);
 
 	//PriorityQueue<int> pq;
 	//pq.enqueue(10, 1);

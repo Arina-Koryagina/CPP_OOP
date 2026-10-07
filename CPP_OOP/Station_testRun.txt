@@ -1,0 +1,1150 @@
+Press Space to stop the simulation from running.
+Total buses on the route: 5
+Maximum passenger queue size: 10
+
+Time: 0s
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Time: 10s
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 10s
+Number: 31, free seats: 10
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Time: 20s
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 20s
+Number: 59, free seats: 3
+Left at the station: 2
+
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+28s: New bus added on the route. Total: 6
+
+Bus arrived at 28s
+Number: 37, free seats: 1
+Left at the station: 5
+
+
+Time: 30s
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+Passenger arrived
+Passengers waiting: 8
+Passenger arrived
+Passengers waiting: 9
+36s: New bus added on the route. Total: 7
+
+Bus arrived at 36s
+Number: 68, free seats: 3
+Left at the station: 6
+
+Passenger arrived
+Passengers waiting: 7
+
+Time: 40s
+Passenger arrived
+Passengers waiting: 8
+Passenger arrived
+Passengers waiting: 9
+
+Bus arrived at 43s
+Number: 29, free seats: 9
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Time: 50s
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 50s
+Number: 31, free seats: 4
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Bus arrived at 57s
+Number: 59, free seats: 4
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+58s: A bus taken off the route. Total: 6
+
+Time: 1m
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 1m 5s
+Number: 37, free seats: 8
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+
+Time: 1m 10s
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 1m 13s
+Number: 64, free seats: 8
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Time: 1m 20s
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 1m 21s
+Number: 68, free seats: 10
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 1m 29s
+Number: 29, free seats: 7
+Left at the station: 0
+
+
+Time: 1m 30s
+Passenger arrived
+Passengers waiting: 1
+1m 30s: A bus taken off the route. Total: 5
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 1m 39s
+Number: 59, free seats: 10
+Left at the station: 0
+
+
+Time: 1m 40s
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 1m 49s
+Number: 37, free seats: 3
+Left at the station: 2
+
+
+Time: 1m 50s
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+
+Bus arrived at 1m 59s
+Number: 64, free seats: 3
+Left at the station: 4
+
+
+Time: 2m
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+Passenger arrived
+Passengers waiting: 8
+Passenger arrived
+Passengers waiting: 9
+
+Bus arrived at 2m 9s
+Number: 68, free seats: 9
+Left at the station: 0
+
+
+Time: 2m 10s
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 2m 19s
+Number: 29, free seats: 8
+Left at the station: 0
+
+
+Time: 2m 20s
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 2m 29s
+Number: 59, free seats: 9
+Left at the station: 0
+
+
+Time: 2m 30s
+Passenger arrived
+Passengers waiting: 1
+2m 30s: A bus taken off the route. Total: 4
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Time: 2m 40s
+Passenger arrived
+Passengers waiting: 6
+
+Bus arrived at 2m 41s
+Number: 64, free seats: 5
+Left at the station: 1
+
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Time: 2m 50s
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+2m 52s: New bus added on the route. Total: 5
+
+Bus arrived at 2m 52s
+Number: 68, free seats: 3
+Left at the station: 4
+
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+
+Time: 3m
+Passenger arrived
+Passengers waiting: 8
+3m : New bus added on the route. Total: 6
+
+Bus arrived at 3m
+Number: 29, free seats: 3
+Left at the station: 5
+
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+3m 4s: New bus added on the route. Total: 7
+
+Bus arrived at 3m 4s
+Number: 59, free seats: 1
+Left at the station: 6
+
+Passenger arrived
+Passengers waiting: 7
+Passenger arrived
+Passengers waiting: 8
+
+Time: 3m 10s
+Passenger arrived
+Passengers waiting: 9
+
+Bus arrived at 3m 11s
+Number: 64, free seats: 9
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 3m 18s
+Number: 33, free seats: 4
+Left at the station: 0
+
+
+Time: 3m 20s
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Bus arrived at 3m 25s
+Number: 68, free seats: 2
+Left at the station: 1
+
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Time: 3m 30s
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 3m 32s
+Number: 53, free seats: 10
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Bus arrived at 3m 39s
+Number: 29, free seats: 9
+Left at the station: 0
+
+
+Time: 3m 40s
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 3m 46s
+Number: 75, free seats: 1
+Left at the station: 3
+
+Passenger arrived
+Passengers waiting: 4
+
+Time: 3m 50s
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+
+Bus arrived at 3m 53s
+Number: 59, free seats: 2
+Left at the station: 4
+
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+
+Time: 4m
+Passenger arrived
+Passengers waiting: 8
+
+Bus arrived at 4m
+Number: 64, free seats: 6
+Left at the station: 2
+
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 4m 7s
+Number: 33, free seats: 2
+Left at the station: 3
+
+Passenger arrived
+Passengers waiting: 4
+
+Time: 4m 10s
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+
+Bus arrived at 4m 14s
+Number: 68, free seats: 8
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+
+Time: 4m 20s
+Passenger arrived
+Passengers waiting: 3
+
+Bus arrived at 4m 21s
+Number: 53, free seats: 2
+Left at the station: 1
+
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 4m 28s
+Number: 29, free seats: 10
+Left at the station: 0
+
+
+Time: 4m 30s
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Bus arrived at 4m 35s
+Number: 75, free seats: 5
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+
+Time: 4m 40s
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 4m 42s
+Number: 59, free seats: 3
+Left at the station: 1
+
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 4m 49s
+Number: 64, free seats: 8
+Left at the station: 0
+
+
+Time: 4m 50s
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 4m 56s
+Number: 33, free seats: 3
+Left at the station: 1
+
+Passenger arrived
+Passengers waiting: 2
+
+Time: 5m
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 5m 3s
+Number: 68, free seats: 8
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Time: 5m 10s
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 5m 10s
+Number: 53, free seats: 0
+Left at the station: 4
+
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+
+Bus arrived at 5m 17s
+Number: 29, free seats: 1
+Left at the station: 6
+
+Passenger arrived
+Passengers waiting: 7
+
+Time: 5m 20s
+Passenger arrived
+Passengers waiting: 8
+Passenger arrived
+Passengers waiting: 9
+5m 22s: New bus added on the route. Total: 8
+
+Bus arrived at 5m 22s
+Number: 75, free seats: 2
+Left at the station: 7
+
+Passenger arrived
+Passengers waiting: 8
+Passenger arrived
+Passengers waiting: 9
+Passenger arrived
+Passengers waiting: 10
+
+Bus arrived at 5m 28s
+Number: 59, free seats: 6
+Left at the station: 4
+
+
+Time: 5m 30s
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+
+Bus arrived at 5m 34s
+Number: 64, free seats: 3
+Left at the station: 4
+
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+
+Time: 5m 40s
+Passenger arrived
+Passengers waiting: 7
+
+Bus arrived at 5m 40s
+Number: 33, free seats: 5
+Left at the station: 2
+
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 5m 46s
+Number: 68, free seats: 4
+Left at the station: 1
+
+Passenger arrived
+Passengers waiting: 2
+
+Time: 5m 50s
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 5m 52s
+Number: 53, free seats: 8
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Bus arrived at 5m 58s
+Number: 29, free seats: 7
+Left at the station: 0
+
+
+Time: 6m
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Bus arrived at 6m 4s
+Number: 25, free seats: 6
+Left at the station: 0
+
+6m 5s: A bus taken off the route. Total: 7
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+
+Time: 6m 10s
+Passenger arrived
+Passengers waiting: 3
+
+Bus arrived at 6m 11s
+Number: 59, free seats: 2
+Left at the station: 1
+
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 6m 18s
+Number: 64, free seats: 7
+Left at the station: 0
+
+
+Time: 6m 20s
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Bus arrived at 6m 25s
+Number: 33, free seats: 8
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+
+Time: 6m 30s
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 6m 32s
+Number: 68, free seats: 7
+Left at the station: 0
+
+6m 33s: A bus taken off the route. Total: 6
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Time: 6m 40s
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 6m 40s
+Number: 29, free seats: 2
+Left at the station: 2
+
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+
+Bus arrived at 6m 48s
+Number: 25, free seats: 6
+Left at the station: 0
+
+
+Time: 6m 50s
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 6m 56s
+Number: 59, free seats: 7
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+
+Time: 7m
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 7m 4s
+Number: 64, free seats: 6
+Left at the station: 0
+
+7m 5s: A bus taken off the route. Total: 5
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+
+Time: 7m 10s
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+7m 14s: New bus added on the route. Total: 6
+
+Bus arrived at 7m 14s
+Number: 68, free seats: 0
+Left at the station: 5
+
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+7m 18s: New bus added on the route. Total: 7
+
+Bus arrived at 7m 18s
+Number: 29, free seats: 1
+Left at the station: 6
+
+
+Time: 7m 20s
+Passenger arrived
+Passengers waiting: 7
+Passenger arrived
+Passengers waiting: 8
+Passenger arrived
+Passengers waiting: 9
+
+Bus arrived at 7m 25s
+Number: 25, free seats: 5
+Left at the station: 4
+
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+
+Time: 7m 30s
+Passenger arrived
+Passengers waiting: 7
+Passenger arrived
+Passengers waiting: 8
+
+Bus arrived at 7m 32s
+Number: 59, free seats: 3
+Left at the station: 5
+
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+Passenger arrived
+Passengers waiting: 8
+
+Bus arrived at 7m 39s
+Number: 64, free seats: 10
+Left at the station: 0
+
+
+Time: 7m 40s
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 7m 46s
+Number: 79, free seats: 1
+Left at the station: 3
+
+Passenger arrived
+Passengers waiting: 4
+
+Time: 7m 50s
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+
+Bus arrived at 7m 53s
+Number: 68, free seats: 5
+Left at the station: 1
+
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Time: 8m
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 8m
+Number: 47, free seats: 9
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Bus arrived at 8m 7s
+Number: 29, free seats: 1
+Left at the station: 2
+
+Passenger arrived
+Passengers waiting: 3
+
+Time: 8m 10s
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+
+Bus arrived at 8m 14s
+Number: 25, free seats: 3
+Left at the station: 3
+
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Time: 8m 20s
+Passenger arrived
+Passengers waiting: 6
+
+Bus arrived at 8m 21s
+Number: 59, free seats: 8
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 8m 28s
+Number: 64, free seats: 6
+Left at the station: 0
+
+
+Time: 8m 30s
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+
+Bus arrived at 8m 35s
+Number: 79, free seats: 7
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+8m 36s: A bus taken off the route. Total: 6
+Passenger arrived
+Passengers waiting: 2
+
+Time: 8m 40s
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 8m 43s
+Number: 47, free seats: 3
+Left at the station: 1
+
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Time: 8m 50s
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 8m 51s
+Number: 29, free seats: 7
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 8m 59s
+Number: 25, free seats: 10
+Left at the station: 0
+
+
+Time: 9m
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 9m 7s
+Number: 59, free seats: 0
+Left at the station: 4
+
+Passenger arrived
+Passengers waiting: 5
+
+Time: 9m 10s
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+Passenger arrived
+Passengers waiting: 8
+
+Bus arrived at 9m 15s
+Number: 64, free seats: 10
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+Passenger arrived
+Passengers waiting: 2
+
+Time: 9m 20s
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 9m 23s
+Number: 79, free seats: 1
+Left at the station: 3
+
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+Passenger arrived
+Passengers waiting: 6
+
+Time: 9m 30s
+Passenger arrived
+Passengers waiting: 7
+
+Bus arrived at 9m 31s
+Number: 47, free seats: 6
+Left at the station: 1
+
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+Passenger arrived
+Passengers waiting: 5
+
+Bus arrived at 9m 39s
+Number: 29, free seats: 0
+Left at the station: 5
+
+
+Time: 9m 40s
+Passenger arrived
+Passengers waiting: 6
+Passenger arrived
+Passengers waiting: 7
+9m 42s: New bus added on the route. Total: 7
+
+Bus arrived at 9m 42s
+Number: 25, free seats: 1
+Left at the station: 6
+
+Passenger arrived
+Passengers waiting: 7
+9m 44s: New bus added on the route. Total: 8
+
+Bus arrived at 9m 44s
+Number: 59, free seats: 0
+Left at the station: 7
+
+Passenger arrived
+Passengers waiting: 8
+Passenger arrived
+Passengers waiting: 9
+
+Time: 9m 50s
+Passenger arrived
+Passengers waiting: 10
+
+Bus arrived at 9m 50s
+Number: 64, free seats: 9
+Left at the station: 1
+
+Passenger arrived
+Passengers waiting: 2
+Passenger arrived
+Passengers waiting: 3
+Passenger arrived
+Passengers waiting: 4
+
+Bus arrived at 9m 56s
+Number: 79, free seats: 10
+Left at the station: 0
+
+Passenger arrived
+Passengers waiting: 1
+
+Time: 10m
+Passenger arrived
+Passengers waiting: 2
+Total time simulated             : 10m 1s
+Average waiting time (passenger) : 6.35s
+Bus arrival span (at the moment) : 6s

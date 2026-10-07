@@ -14,8 +14,6 @@ public:
 	Time(int m, double s);
 	Time(int h, int m, double s);
 
-	double getSeconds() const;
-
 	friend ostream& operator<<(ostream& out, const Time& obj);
 
 };
@@ -38,11 +36,6 @@ Time::Time(int h, int m, double s)
 	hour = h;
 	minute = m;
 	second = s;
-}
-
-double Time::getSeconds() const
-{
-	return second;
 }
 
 ostream& operator<<(ostream& out, const Time& obj)
