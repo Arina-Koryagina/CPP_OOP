@@ -24,9 +24,11 @@ void SetColor(int text, int background)
 // достатній інтервал часу між приїздом маршруток, щоб на зупинці перебувало не більше N людей одночасно.
 // Кількість вільних місць в маршрутці є випадковою величиною.
 
+#define N 10
+#define BUS 5
 #define maxNum 89
 #define minNum 13
-#define maxSeat 10
+#define maxSeat 7
 #define minSeat 0
 
 class Bus
@@ -109,7 +111,7 @@ public:
 	double getAvgWaitT() const;
 
 	void simulate();
-	void simulate(int tPass, int tBus, int N);
+	void simulate(int tPass, int tBus);
 };
 
 Station::Station() : Station(0, 0, 0) {}
@@ -127,19 +129,18 @@ double Station::getAvgWaitT() const
 
 void Station::simulate()
 {
-	int tPass, tBus, N;
+	int tPass, tBus;
 	SetColor(LightBlue, Black);
 	cout << "Enter next values to start simulation\n";
 	SetColor(White, Black);
 	cout << "Average time for a new passenger to arrive: "; cin >> tPass;
 	cout << "Average time for a new bus to arrive: "; cin >> tBus;
-	cout << "Maximum amount of passengers waiting: "; cin >> N;
-	simulate(tPass, tBus, N);
+	simulate(tPass, tBus);
 }
 
-void Station::simulate(int tPass, int tBus, int N)
+void Station::simulate(int tPass, int tBus)
 {
-	int buses = 5;
+	int buses = BUS;
 	Queue<Bus> bus;
 	for (int i = 0; i < buses; i++)
 	{
@@ -158,7 +159,7 @@ void Station::simulate(int tPass, int tBus, int N)
 
 	int circle = buses * tBus;
 
-	int i = 0, nextBus = tBus;
+	int i = 0, nextBus = tBus, queuePrediction;
 	bool newBus = false;
 	while (true)
 	{
@@ -168,14 +169,26 @@ void Station::simulate(int tPass, int tBus, int N)
 			{
 				double t = int(round(100 * getAvgWaitT())) / 100.; // rounding to the nearest hundredth
 				Time avgWaitT = Time(t);
-				cout << "Total passengers departed: " << departed << endl;
-				cout << "Total passengers: " << departed + waiting << endl;
 				cout << "Total time simulated: " << Time(i) << endl;
-				cout << "Total waiting time: " << Time(waitingTime) << endl;
 				cout << "Average waiting time: " << avgWaitT << endl;
-				cout << "Bus arrival span: " << nextBus << "s\n";
+				cout << "Bus arrival span: " << tBus << "s\n";
 				break;
 			}
+		}
+
+		queuePrediction = waiting + tBus / tPass;
+		if (queuePrediction - bus.peek().getSeats() >= N && !newBus)
+		{
+			newBus = true;
+			bus.enqueue(Bus::newBus());
+			buses++;
+			nextBus -= tBus;
+			tBus = circle / buses; //reschedule
+			nextBus += tBus;
+			SetColor(LightGreen, Black);
+			cout << Time(i) << ": New bus added on the route. Total: ";
+			SetColor(White, Black);
+			cout << buses << endl;
 		}
 
 		if (i > 0)
@@ -201,11 +214,12 @@ void Station::simulate(int tPass, int tBus, int N)
 				cout << waiting << endl;
 			}
 
-			if (i % nextBus == 0)
+			if (i >= nextBus)
 			{
 				SetColor(LightGreen, Black);
 				cout << "\nBus arrived at " << Time(i) << endl;
 				newBus = false;
+				nextBus += tBus;
 				SetColor(White, Black);
 
 				Bus& b = bus.peek();
@@ -223,23 +237,11 @@ void Station::simulate(int tPass, int tBus, int N)
 				departed += taken;
 
 				SetColor(LightRed, Black);
-				cout << "Left on the station: ";
+				cout << "Left at the station: ";
 				SetColor(White, Black);
 				cout << waiting << endl;
 				cout << endl;
 			}
-		}
-
-		if (waiting >= N && newBus == false)
-		{
-			newBus = true;
-			bus.enqueue(Bus::newBus());
-			buses++;
-			nextBus = circle / buses;
-			SetColor(LightGreen, Black);
-			cout << "New bus added on the route. Total: ";
-			SetColor(White, Black);
-			cout << buses << endl;
 		}
 
 		waitingTime += waiting;

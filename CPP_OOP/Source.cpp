@@ -31,7 +31,7 @@ int main()
 
 	Station station;
 	//station.simulate();
-	station.simulate(2, 10, 10);
+	station.simulate(1, 5);
 
 	//PriorityQueue<int> pq;
 	//pq.enqueue(10, 1);
