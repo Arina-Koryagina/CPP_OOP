@@ -88,12 +88,19 @@ class People
 public:
 	People();
 	People(int pri);
+
+	void addTime();
 };
 
 People::People() : People(0) {}
 People::People(int pri)
 {
 	priority = pri;
+}
+
+void People::addTime()
+{
+
 }
 
 

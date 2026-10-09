@@ -9,24 +9,46 @@
 //#include"var.h"
 //#include"Calc.h"
 //#include"Brackets.h"
+//#include"Traffic.h"
 #include"Array.h"
 #include"String.h"
 #include"Stack.h"
 #include"Queue.h"
 #include"PriorityQueue.h"
-#include"Traffic.h"
+#include"ForwardList.h"
 
 
 using namespace std;
 
 int main()
 {
-	srand(time(0));
-	system("cls");
 
-	Station station;
+	ForwardList<int> l = {1, 21, 3, 7, 5, 7};
+	ForwardList<int> l2 = {8, 9, 10};
+	ForwardList<int> l3;
+
+	//l3 = l2;
+	//l3.print();
+	//cout << l.getSize() << endl;
+	//cout << l2.getSize() << endl;
+	//l3 = l + l2;
+	//cout << l3.getSize() << endl;
+	//l3.print();
+	l += l2;
+	l.print();
+
+	//cout << l[1] << endl;
+	//cout << l.at(1) << endl;
+	//cout << l.firstIndex(7) << endl;
+	//cout << l.lastIndex(7) << endl;
+
+
+	//srand(time(0));
+	//system("cls");
+
+	//Station station;
 	//station.simulate();
-	station.simulate(2, 10);
+	//station.simulate(2, 10);
 
 	//Time t(1, 2, 3.3);
 	//cout << t << endl;
