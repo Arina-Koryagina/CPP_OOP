@@ -1,5 +1,6 @@
 #pragma once
 #include<iostream>
+#include<cassert>
 
 using namespace std;
 
@@ -8,12 +9,15 @@ class String
 	char* str = nullptr;
 	int size = 0;
 
-	int lenStr(const char* str)
+	int lenStr(const char* str) const
 	{
 		int i = 0;
-		while (str[i] != '\0')
+		if (str != nullptr)
 		{
-			i++;
+			while (str[i] != '\0')
+			{
+				i++;
+			}
 		}
 
 		return i;
@@ -32,12 +36,28 @@ public:
 	String(int l);
 	String(const char* line);
 	String(const String& obj);
+
 	String& operator=(const String& obj);
-	String operator+(const String& obj);
-	String operator-(const String& obj);
-	char operator[](int index);
-	bool operator==(const String& other) const;
-	bool operator<(const String& other) const;
+
+	String operator+(const String& obj) const;
+	String operator*(int times) const;
+	String& operator+=(const String& obj);
+	String& operator*=(int times);
+
+	char operator[](int index) const;
+	void operator()(const char* line);
+	void operator()(const String& obj);
+
+	bool operator==(const String& obj) const;
+	bool operator!=(const String& obj) const;
+	bool operator<(const String& obj) const;
+	bool operator>(const String& obj) const;
+	bool operator<=(const String& obj) const;
+	bool operator>=(const String& obj) const;
+
+	friend ostream& operator<<(ostream& out, const String& s);
+	friend istream& operator>>(istream& in, String& s);
+
 	operator char* () const;
 
 	~String();
@@ -48,29 +68,25 @@ public:
 	void input();
 	void input(const char* line);
 
-	String reSize();
-
 	const char* getStr() const;
 	int getLen() const;
 
 	void print() const;
 
-	int countWords() const;
+	//String reSize();
+	//int countWords() const;
 };
 
 String::String() : String(80) { }
-
 String::String(int l)
 {
 	clear(l);
 }
-
 String::String(const char* line)
 {
 	input(line);
 	//cout << "Constr\n";
 }
-
 String::String(const String& obj)
 {
 	size = obj.size;
@@ -100,7 +116,7 @@ String& String::operator=(const String& obj)
 	return *this;
 }
 
-String String::operator+(const String& obj)
+String String::operator+(const String& obj) const
 {
 	char* temp = new char[size + obj.size + 1];
 	strcpy(temp, str);
@@ -110,38 +126,99 @@ String String::operator+(const String& obj)
 	delete[] temp;
 	return st;
 }
-
-String String::operator-(const String& obj) //
+String String::operator*(int times) const
 {
-	char* temp = new char[size + obj.size + 1];
-	strcpy(temp, str);
-	strcpy(temp + size, obj.str);
+	if (times > 0)
+	{
+		char* temp = new char[size * times + 1];
 
-	String st(temp);
-	delete[] temp;
-	return st;
+		for (int i = 0; i < times; i++)
+		{
+			strcpy(temp + size * i, str);
+		}
+
+		String st(temp);
+		delete[] temp;
+		return st;
+	}
+	return "";
+}
+String& String::operator+=(const String& obj)
+{
+	*this = *this + obj;
+	return *this;
+}
+String& String::operator*=(int times)
+{
+	*this = *this * times;
+	return *this;
 }
 
-char String::operator[](int index)
+char String::operator[](int index) const
 {
-	//assert(index >= 0 && index < size);
+	assert(index >= 0 && index < size);
 	return str[index];
 }
-bool String::operator==(const String& other) const
+//char& String::operator[](int index)
+//{
+//	assert(index >= 0 && index < size);
+//	return str[index];
+//}
+void String::operator()(const char* line)
 {
-	if (strcmp(str, other.str))
+	input(line);
+}
+void String::operator()(const String& obj)
+{
+	size = obj.size;
+	delete[] str;
+	str = new char[size + 1];
+	strcpy(str, obj.str);
+}
+
+bool String::operator==(const String& obj) const
+{
+	return strcmp(str, obj.str) == 0;
+}
+bool String::operator!=(const String& obj) const
+{
+	return !(*this == obj);
+}
+bool String::operator<(const String& obj) const
+{
+	if (strcmp(str, obj.str) < 0)
 	{
 		return true;
 	}
 	return false;
 }
-bool String::operator<(const String& other) const
+bool String::operator>(const String& obj) const
 {
-	if (strcmp(str, other.str) < 0)
+	return !(*this < obj || *this == obj);
+}
+bool String::operator<=(const String& obj) const
+{
+	return (*this < obj || *this == obj);
+}
+bool String::operator>=(const String& obj) const
+{
+	return (*this > obj || *this == obj);
+}
+
+ostream& operator<<(ostream& out, const String& s)
+{
+	out << s.str;
+	return out;
+}
+istream& operator>>(istream& in, String& s)
+{
+	char word[80];
+	in >> word;
+	if (in)
 	{
-		return true;
+		s.input(word);
 	}
-	return false;
+	return in;
 }
 
 String::operator char* () const
@@ -190,13 +267,6 @@ void String::input(const char* line)
 	strcpy(str, line);
 }
 
-String String::reSize()
-{
-	size = 50;
-	str = new char[size];
-	return *this;
-}
-
 int String::getLen() const
 {
 	return size;
@@ -212,16 +282,22 @@ void String::print() const
 	cout << str << endl;
 }
 
-int String::countWords() const
-{
-	int count = 0;
-	for (int i = 0; i < size; i++)
-	{
-		if (isalnum(str[i]) && (str[i + 1] == ' ' || str[i + 1] == '\0' || ispunct(str[i + 1])))
-		{
-			count += 1;
-		}
-	}
-
-	return count;
-}
+//String String::reSize()
+//{
+//	size = 50;
+//	str = new char[size];
+//	return *this;
+//}
+//int String::countWords() const
+//{
+//	int count = 0;
+//	for (int i = 0; i < size; i++)
+//	{
+//		if (isalnum(str[i]) && (str[i + 1] == ' ' || str[i + 1] == '\0' || ispunct(str[i + 1])))
+//		{
+//			count += 1;
+//		}
+//	}
+//
+//	return count;
+//}
