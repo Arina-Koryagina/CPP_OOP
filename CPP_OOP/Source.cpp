@@ -10,25 +10,50 @@
 //#include"Calc.h"
 //#include"Brackets.h"
 //#include"Traffic.h"
+//#include"ForwardList.h"
+//#include"Stack.h"
+//#include"Queue.h"
+//#include"PriorityQueue.h"
 #include"Array.h"
 #include"String.h"
-#include"Stack.h"
-#include"Queue.h"
-#include"PriorityQueue.h"
-#include"ForwardList.h"
+#include"List.h"
 
 
 using namespace std;
 
-template<class T>
-bool largerThanFive(const T& value)
-{
-	return value > 5;
-}
+//template<class T>
+//bool largerThanFive(const T& value)
+//{
+//	return value > 5;
+//}
 
 int main()
 {
+	List<int> l = {1, 2, 3, 4, 5, 3, 4};
+	//List<int> l2 = { 1 };
+	l.print();
+	cout << l[-7] << endl;
+	//cout << l.lastIndex(3) << endl; // 2
+	//cout << l.firstIndex(3) << endl; // 5
+	//List<int> l2 = l.splice(1, 3);
+	//l2.print();
 
+	//l.erase(3);
+	//l.print();
+	//l.remove(1);
+	//l.print();
+	
+	//l.push_back(10);
+	//l.push_front(20);
+	//l.print();
+	//l.print_reverse();
+	//l.insert(99, 0);
+	//l.print();
+	//l.pop_front();
+	//l.print();
+	//l2.print();
+	//l2.pop_front();
+	//l2.print();
 
 	//ForwardList<int> l = {1, 21, 3, 7, 5, 7, 6};
 	//ForwardList<int> l2 = {8, 9, 10};

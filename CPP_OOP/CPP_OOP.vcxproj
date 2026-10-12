@@ -147,6 +147,7 @@
     <ClInclude Include="Array.h" />
     <ClInclude Include="Brackets.h" />
     <ClInclude Include="ForwardList.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="Traffic.h" />
     <ClInclude Include="Calc.h" />
     <ClInclude Include="Fraction.h" />
