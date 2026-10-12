@@ -20,27 +20,39 @@
 
 using namespace std;
 
+template<class T>
+bool largerThanFive(const T& value)
+{
+	return value > 5;
+}
+
 int main()
 {
 
-	ForwardList<int> l = {1, 21, 3, 7, 5, 7};
-	ForwardList<int> l2 = {8, 9, 10};
-	ForwardList<int> l3;
 
-	//l3 = l2;
+	//ForwardList<int> l = {1, 21, 3, 7, 5, 7, 6};
+	//ForwardList<int> l2 = {8, 9, 10};
+	//ForwardList<int> l3(l2);
+
+	//cout << l3[-2] << endl;
+	//cout << l.count_if(largerThanFive) << endl;
+
+	//l3.print();
+	//l3 = l;
 	//l3.print();
 	//cout << l.getSize() << endl;
 	//cout << l2.getSize() << endl;
 	//l3 = l + l2;
 	//cout << l3.getSize() << endl;
 	//l3.print();
-	l += l2;
-	l.print();
+	//l += l2;
+	//l.print();
 
 	//cout << l[1] << endl;
 	//cout << l.at(1) << endl;
 	//cout << l.firstIndex(7) << endl;
 	//cout << l.lastIndex(7) << endl;
+	//cout << l.count(8) << endl;
 
 
 	//srand(time(0));
