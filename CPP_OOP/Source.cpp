@@ -9,14 +9,15 @@
 //#include"var.h"
 //#include"Calc.h"
 //#include"Brackets.h"
-//#include"Traffic.h"
-//#include"ForwardList.h"
 //#include"Stack.h"
 //#include"Queue.h"
 //#include"PriorityQueue.h"
+//#include"Traffic.h"
+//#include"ForwardList.h"
+//#include"List.h"
 #include"Array.h"
 #include"String.h"
-#include"List.h"
+#include"BTree.h"
 
 
 using namespace std;
@@ -29,10 +30,22 @@ using namespace std;
 
 int main()
 {
-	List<int> l = {1, 2, 3, 4, 5, 3, 4};
+
+	//BTree<int, int> b;
+	//b.push_r(10, 10);
+	//b.push_r(5, 5);
+	//b.push_r(15, 15);
+	//b.push_r(0, 0);
+	//b.push_r(1, 1);
+	//b.print();
+	//b.clear();
+
+
+
+	//List<int> l = {1, 2, 3, 4, 5, 3, 4};
 	//List<int> l2 = { 1 };
-	l.print();
-	cout << l[-7] << endl;
+	//l.print();
+	//cout << l[-7] << endl;
 	//cout << l.lastIndex(3) << endl; // 2
 	//cout << l.firstIndex(3) << endl; // 5
 	//List<int> l2 = l.splice(1, 3);
