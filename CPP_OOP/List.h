@@ -307,13 +307,13 @@ void List<T>::erase_if(bool(*predicate)(const T&))
 template<class T>
 T& List<T>::front() const
 {
-	return first;
+	return first->value;
 }
 
 template<class T>
 T& List<T>::back() const
 {
-	return last;
+	return last->value;
 }
 
 template<class T>
