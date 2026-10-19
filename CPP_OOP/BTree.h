@@ -1,5 +1,7 @@
 #pragma once
 
+#include"List.h"
+#include"String.h"
 
 template<class TKey, class TVal>
 struct BTreeNode
@@ -17,6 +19,29 @@ struct BTreeNode
 		cout << value << " ";
 		if (right != nullptr) right->print();
 	}
+
+	void key_print(String k)
+	{
+		if (left != nullptr) left->key_print(k);
+		cout << k << " " << key << endl;
+		cout << value;
+		if (right != nullptr) right->key_print(k);
+	}
+
+	void formKeys(List<TKey>& list)
+	{
+		if (left != nullptr) left->formKeys(list);
+		list.push_back(key);
+		if (right != nullptr) right->formKeys(list);
+	}
+
+	//BTreeNode* copy()
+	//{
+	//	if (left != nullptr) left->copy();
+	//	if (right != nullptr) right->copy();
+	//	BTreeNode* newNode(*this);
+	//	return newNode;
+	//}
 
 	void del()
 	{
@@ -46,7 +71,9 @@ public:
 	~BTree();
 
 	void clear();
+	void formKeys(List<TKey>&);
 	void print();
+	void key_print(String k);
 	bool push(const TKey& key, const TVal& val);
 	bool push_r(const TKey& key, const TVal& val);
 	TVal* getValue(const TKey& key);
@@ -91,11 +118,30 @@ void BTree<TKey, TVal>::clear()
 }
 
 template<class TKey, class TVal>
+void BTree<TKey, TVal>::formKeys(List<TKey>& list)
+{
+	if (root)
+	{
+		root->formKeys(list);
+	}
+}
+
+template<class TKey, class TVal>
 void BTree<TKey, TVal>::print()
 {
 	if (root)
 	{
 		root->print();
+	}
+	cout << endl;
+}
+
+template<class TKey, class TVal>
+void BTree<TKey, TVal>::key_print(String k)
+{
+	if (root)
+	{
+		root->key_print(k);
 	}
 	cout << endl;
 }
@@ -153,4 +199,6 @@ TVal* BTree<TKey, TVal>::getValue(const TKey& key)
 {
 	if (root)
 		return root->getValue(key);
+	else
+		return nullptr;
 }

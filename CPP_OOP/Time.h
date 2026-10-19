@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 
+#include"String.h"
+
 using namespace std;
 class Time
 {
@@ -13,6 +15,9 @@ public:
 	Time(double s);
 	Time(int m, double s);
 	Time(int h, int m, double s);
+	Time(String s);
+
+	String formTime() const;
 
 	friend ostream& operator<<(ostream& out, const Time& obj);
 
@@ -38,10 +43,30 @@ Time::Time(int h, int m, double s)
 	second = s;
 }
 
+Time::Time(String s) //s = "hh:mm:ss"
+{
+	hour   = int(s[0] - '0') * 10 + int(s[1] - '0');
+	minute = int(s[3] - '0') * 10 + int(s[4] - '0');
+	second = int(s[6] - '0') * 10 + int(s[7] - '0');
+}
+
+String Time::formTime() const
+{
+	String time(8);  time = "";
+	if (hour < 10)   time += "0";
+	time += hour;    time += ":";
+	if (minute < 10) time += "0";
+	time += minute;  time += ":";
+	if (second < 10) time += "0";
+	time += int(second);
+
+	return time;
+}
+
 ostream& operator<<(ostream& out, const Time& obj)
 {
-	if (obj.hour) { cout << obj.hour << "h "; }
-	if (obj.minute) { cout << obj.minute << "m "; }
-	if (obj.second) { cout << obj.second << "s"; }
+	if (obj.hour) { out << obj.hour << "h "; }
+	if (obj.minute) { out << obj.minute << "m "; }
+	if (obj.second) { out << obj.second << "s"; }
 	return out;
 }

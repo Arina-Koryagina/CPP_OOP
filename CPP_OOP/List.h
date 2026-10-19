@@ -49,6 +49,9 @@ public:
 
 	List<T> operator+(const List<T>& list) const;
 	void operator+=(const List<T>& list);
+
+	template<class U>
+	friend ostream& operator<<(ostream& out, const List<U>& l);
 };
 
 template<class T>
@@ -453,4 +456,16 @@ void List<T>::operator+=(const List<T>& list)
 		push_back(temp->value);
 		temp = temp->next;
 	}
+}
+
+template<class T>
+ostream& operator<<(ostream& out, const List<T>& l)
+{
+	Node<T>* temp = l.first;
+	while (temp)
+	{
+		out << *temp->value;
+		temp = temp->next;
+	}
+	return out;
 }

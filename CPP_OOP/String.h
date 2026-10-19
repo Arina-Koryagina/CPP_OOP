@@ -55,10 +55,16 @@ public:
 	bool operator<=(const String& obj) const;
 	bool operator>=(const String& obj) const;
 
+	String operator+(int value) const;
+	String& operator+=(int value);
+
+	friend String operator+(int value, const String& s);
+
 	friend ostream& operator<<(ostream& out, const String& s);
 	friend istream& operator>>(istream& in, String& s);
 
 	operator char* () const;
+	operator int () const;
 
 	~String();
 
@@ -205,6 +211,36 @@ bool String::operator>=(const String& obj) const
 	return (*this > obj || *this == obj);
 }
 
+String String::operator+(int value) const
+{
+	char digits[12];
+	int count = 0;
+
+	do
+	{
+		digits[count++] = '0' + value % 10;
+		value /= 10;
+	} while (value > 0);
+
+	char text[12];
+	for (int i = 0; i < count; ++i)
+		text[i] = digits[count - 1 - i];
+	text[count] = '\0';
+
+	return *this + String(text);
+}
+
+String& String::operator+=(int value)
+{
+	*this = *this + value;
+	return *this;
+}
+
+String operator+(int value, const String& s)
+{
+	return ' ';
+}
+
 ostream& operator<<(ostream& out, const String& s)
 {
 	out << s.str;
@@ -224,6 +260,10 @@ istream& operator>>(istream& in, String& s)
 String::operator char* () const
 {
 	return str;
+}
+String::operator int () const
+{
+	return atoi(str);
 }
 
 String::~String()
