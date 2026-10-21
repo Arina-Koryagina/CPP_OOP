@@ -150,7 +150,6 @@
     <ClInclude Include="ForwardList.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Pet.h" />
-    <ClInclude Include="PoliceBase.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="Queue.h" />

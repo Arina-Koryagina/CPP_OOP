@@ -1,36 +1,35 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 
-#include"Composition.h"
-//#include"Inherit.h"
+#include"Pet.h"
+#include"String.h"
 
 using namespace std;
 
 int main()
 {
-	Player p("Messi", 40, 980);
-	p.info();
-	//p.method();
+	BinString b("10");
+	b.print();
+	BinString s("11");
+	s.print();
+	BinString bn;
 
+	bn = b;
+	bn.print();
+	bn = b + s;
+	bn.print();
+	bn += b;
+	bn.print();
 
-	//A a;
-	//a.aaa = 10;
+	if (b == s)
+	{
+		cout << "equal" << endl;
+	}
+	else
+	{
+		cout << "not equal" << endl;
+	}
 
-	//B b;
-	//b.aaa = 10;
-
-	//Human h(20);
-
-
-	//Engine* en = new Engine;
-	//{
-	//	Car c(en);
-
-	//	STO sto;
-	//	sto.setEngine(c.getEngine());
-	//	sto.upgrade();
-	//}
-	//en->start();
 
 	return 0;
 }

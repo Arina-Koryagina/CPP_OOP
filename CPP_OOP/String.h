@@ -23,13 +23,13 @@ class String
 		return i;
 	}
 
-	void myStrcpy(char* str, const String& obj) const
-	{
-		for (int i = 0; i <= size; i++)
-		{
-			str[i] = obj.str[i];
-		}
-	}
+	//void myStrcpy(char* str, const String& obj) const
+	//{
+	//	for (int i = 0; i <= size; i++)
+	//	{
+	//		str[i] = obj.str[i];
+	//	}
+	//}
 
 public:
 	String();
@@ -44,7 +44,8 @@ public:
 	String& operator+=(const String& obj);
 	String& operator*=(int times);
 
-	char operator[](int index) const;
+	//char operator[](int index) const;
+	char& operator[](int index);
 	void operator()(const char* line);
 	void operator()(const String& obj);
 
@@ -78,6 +79,8 @@ public:
 	int getLen() const;
 
 	void print() const;
+
+	void reverse();
 
 	//String reSize();
 	//int countWords() const;
@@ -160,16 +163,16 @@ String& String::operator*=(int times)
 	return *this;
 }
 
-char String::operator[](int index) const
-{
-	assert(index >= 0 && index < size);
-	return str[index];
-}
-//char& String::operator[](int index)
+//char String::operator[](int index) const
 //{
 //	assert(index >= 0 && index < size);
 //	return str[index];
 //}
+char& String::operator[](int index)
+{
+	assert(index >= 0 && index < size);
+	return str[index];
+}
 void String::operator()(const char* line)
 {
 	input(line);
@@ -322,6 +325,16 @@ void String::print() const
 	cout << str << endl;
 }
 
+void String::reverse()
+{
+	for (int i = 0; i < size / 2; i++)
+	{
+		char c = str[size - 1 - i];
+		str[size - 1 - i] = str[i];
+		str[i] = c;
+	}
+}
+
 //String String::reSize()
 //{
 //	size = 50;
@@ -341,3 +354,95 @@ void String::print() const
 //
 //	return count;
 //}
+
+
+//    Описати клас «Бітовий рядок» похідний від класу «Рядок» 
+//    (Рядки цього класу можуть містити тільки символи 0 і 1).
+//    Якщо в основі рядка, який ініціалізує зустрінуться будь-які символи,
+//    відмінні від допустимих, то «Бітовий рядок» стає порожнім.
+//    Вміст рядка розглядається як двійкове подання цілого числа зі знаковим розрядом.
+//    Методи:
+// 1) конструктор без параметрів;
+// 2) конструктор, що приймає як параметр C-рядок;
+// 7) складання бітових рядків (перевантажити оператори + і +=);
+// 8) перевірка на рівність (==) і на нерівність (!=).
+
+class BinString : public String
+{
+	bool isBinary(const char* line);
+
+	static int bin_to_int(const BinString& num);
+	static BinString int_to_bin(int number);
+
+public:
+	BinString();
+	BinString(const char* line);
+
+	BinString operator+(const BinString& obj) const;
+	BinString& operator+=(const BinString& obj);
+};
+
+bool BinString::isBinary(const char* line)
+{
+	size_t size = strlen(line);
+	for (size_t i = 0; i < size; i++)
+	{
+		if (line[i] != '1' && line[i] != '0')
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+int BinString::bin_to_int(const BinString& num)
+{
+	size_t size = strlen(num);
+	String number(num); number.reverse();
+	int res = 0;
+	for (size_t i = 0; i < size; i++)
+	{
+		if (number[i] == '1')
+		{
+			res += pow(2, i);
+		}
+	}
+	return res;
+}
+
+BinString BinString::int_to_bin(int number)
+{
+	String res(""); int digit;
+	while (number > 0)
+	{
+		digit = number % 2;
+		if (digit == 1)
+		{
+			res += "1";
+		}
+		else
+		{
+			res += "0";
+		}
+		number /= 2;
+	}
+	res.reverse();
+	return BinString(res);
+}
+
+BinString::BinString() : String("") {}
+
+BinString::BinString(const char* line) : String(isBinary(line) ? line : "") {}
+
+BinString BinString::operator+(const BinString& obj) const
+{
+	int res = bin_to_int(*this) + bin_to_int(obj);
+	BinString b = int_to_bin(res);
+	return b;
+}
+
+BinString& BinString::operator+=(const BinString& obj)
+{
+	*this = *this + obj;
+	return *this;
+}
