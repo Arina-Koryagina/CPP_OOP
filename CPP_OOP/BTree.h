@@ -28,10 +28,16 @@ struct BTreeNode
 		if (right != nullptr) right->key_print(k);
 	}
 
-	void formKeys(List<TKey>& list)
+	void formKeysLNR(List<TKey>& list)
 	{
 		if (left != nullptr) left->formKeys(list);
 		list.push_back(key);
+		if (right != nullptr) right->formKeys(list);
+	}
+	void formKeysNLR(List<TKey>& list)
+	{
+		list.push_back(key);
+		if (left != nullptr) left->formKeys(list);
 		if (right != nullptr) right->formKeys(list);
 	}
 
@@ -71,7 +77,8 @@ public:
 	~BTree();
 
 	void clear();
-	void formKeys(List<TKey>&);
+	void formKeysLNR(List<TKey>&);
+	void formKeysNLR(List<TKey>&);
 	void print();
 	void key_print(String k);
 	bool push(const TKey& key, const TVal& val);
@@ -118,11 +125,18 @@ void BTree<TKey, TVal>::clear()
 }
 
 template<class TKey, class TVal>
-void BTree<TKey, TVal>::formKeys(List<TKey>& list)
+void BTree<TKey, TVal>::formKeysLNR(List<TKey>& list)
 {
 	if (root)
 	{
 		root->formKeys(list);
+	}
+}template<class TKey, class TVal>
+void BTree<TKey, TVal>::formKeysNLR(List<TKey>& list)
+{
+	if (root)
+	{
+		root->formKeysNLR(list);
 	}
 }
 

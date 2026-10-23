@@ -159,7 +159,7 @@ void PoliceBase::print(String number)
 
 void PoliceBase::print(String number1, String number2)
 {
-	List<String> keys; base.formKeys(keys);
+	List<String> keys; base.formKeysLNR(keys);
 	int start = keys.firstIndex(number1), end = keys.firstIndex(number2);
 	while (start != end + 1)
 	{
@@ -171,7 +171,7 @@ void PoliceBase::print(String number1, String number2)
 
 void PoliceBase::save()
 {
-	List<String> keys; base.formKeys(keys);
+	List<String> keys; base.formKeysNLR(keys);
 	ofstream out("PoliceBase.txt");
 	int size = keys.getSize();
 	int s = 0, l = 0, n = 0;
@@ -209,7 +209,7 @@ void PoliceBase::load()
 
 void PoliceBase::pay()
 {
-	List<String> keys; base.formKeys(keys);
+	List<String> keys; base.formKeysLNR(keys);
 	size_t size = keys.getSize();
 	system("cls");
 	cout << "======  Pay a notice  ======\n";
