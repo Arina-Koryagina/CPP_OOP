@@ -2,22 +2,14 @@
 #include<iostream>
 
 #include"String.h"
-#include"FileHandler.h"
+#include"WarOfWorld.h"
 
 using namespace std;
 
 int main()
 {
-	String path = "The Little Prince.txt";
-	BinFile f(path);
-	f.display();
-
-	ASCIIFile ascii(path);
-	File& file = ascii;
-	file.display();
-
-	File TLP(path);
-	TLP.display();
+	WarOfWorld war(5);
+	war.game();
 
 	return 0;
 }

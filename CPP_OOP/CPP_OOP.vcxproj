@@ -148,8 +148,8 @@
     <ClInclude Include="BTree.h" />
     <ClInclude Include="Composition.h" />
     <ClInclude Include="Date.h" />
-    <ClInclude Include="FileHandler.h" />
     <ClInclude Include="ForwardList.h" />
+    <ClInclude Include="Func.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PriorityQueue.h" />
@@ -157,6 +157,7 @@
     <ClInclude Include="Stack.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="WarOfWorld.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

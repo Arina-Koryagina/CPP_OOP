@@ -24,11 +24,23 @@
 //#include"Inherit.h"
 //#include"Pet.h"
 //#include"Animal.h"
+//#include"FileHandler.h"
 
 //using namespace std;
 
 //int main()
 //{
+	//String path = "The Little Prince.txt";
+	//BinFile f(path);
+	//f.display();
+
+	//ASCIIFile ascii(path);
+	//File& file = ascii;
+	//file.display();
+
+	//File TLP(path);
+	//TLP.display();
+
 	//Animal* c = new Kitten("Gerard", 8);
 	//cout << c->getType() << endl;
 	//delete c;
