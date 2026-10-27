@@ -11,6 +11,23 @@ using namespace std;
 
 #define TYPES 3
 
+int d6()
+{
+	return rand() % 6 + 1;
+}
+int d8()
+{
+	return rand() % 8 + 1;
+}
+int d10()
+{
+	return rand() % 10 + 1;
+}
+int d12()
+{
+	return rand() % 12 + 1;
+}
+
 class Warrior;
 
 class Skill
@@ -27,8 +44,9 @@ public:
 
 class Warrior
 {
-	int hp;
-	int damage;
+	int HP;
+	int (*roll)();
+	int bonus;
 	String type;
 
 protected:
@@ -36,84 +54,102 @@ protected:
 	Skill* skill;
 
 public:
-	Warrior(int minHP, int maxHP, int minDMG, int maxDMG, Skill* skill = nullptr, String type = "")
+	Warrior(int HP, int (*roll)(), int bonus, String type = "")
 	{
-		hp = rand() % (maxHP - minHP + 1) + minHP;
-		damage = rand() % (maxDMG - minDMG + 1) + minDMG;
+		this->HP = HP;
+		this->roll = roll;
+		this->bonus = bonus;
+		this->skill = nullptr;
+		this->type = type;
+	}
+	Warrior(int lvl, int baseHP, int increase, int (*roll)(), int bonus, Skill* skill = nullptr, String type = "")
+	{
+		this->HP = baseHP + (increase * (lvl - 1));
+		this->roll = roll;
+		this->bonus = bonus;
 		this->skill = skill;
 		this->type = type;
 	}
 
-	int getHP() const { return hp; }
-	int getDamage() const { return damage; }
+	virtual ~Warrior()
+	{
+		if (skill)
+		{
+			delete skill;
+		}
+	}
+
+	int getHP() const { return HP; }
+	int getDamage() const { return roll() + bonus; }
 	String getType() const { return type; }
-	void setHP(int h) { hp = h; }
-	void setDamage(int d) { damage = d; }
+	void setHP(int h) { HP = h; }
 
 	virtual void attack(Warrior* w) = 0;
 
 	friend ostream& operator<<(ostream& out, const Warrior* w);
 	virtual ostream& print(ostream& out) const
 	{
-		out << " HP: " << hp << "; Damage: " << damage << endl;
+		out << " HP: " << setw(2) << right << setfill(' ') << HP << endl;
 		return out;
 	}
 };
 
 ostream& operator<<(ostream& out, const Warrior* w)
 {
-	out << setw(12) << left << setfill('.');
+	out << setw(10) << left << setfill('.');
 	return w->print(out);
 }
 
 
 void Fireball::execute(Warrior* w)
 {
-	cout << "Skill Fireball -> " << w->getType() << endl;
+	cout << "Cast Fireball -> " << w->getType() << endl;
 }
 
 
 class Light : public Warrior
 {
+protected:
+	int level = 1;
+
 public:
-	Light(int minHP, int maxHP, int minDMG, int maxDMG, Skill* skill, String type) : Warrior(minHP, maxHP, minDMG, maxDMG, skill, type) {}
+	Light(int lvl, int baseHP, int increase, int(*roll)(), int bonus, Skill* skill, String type) : Warrior(lvl, baseHP, increase, roll, bonus, skill, type) { level = lvl; }
+
+	virtual ostream& print(ostream& out) const override
+	{
+		out << "LVL " << level << ".";
+		return Warrior::print(out);
+	}
 };
 
 class Dark : public Warrior
 {
 public:
-	Dark(int minHP, int maxHP, int minDMG, int maxDMG, Skill* skill, String type) : Warrior(minHP, maxHP, minDMG, maxDMG, skill, type) {}
-};
-
-
-class Swordsman : public Light
-{
-public:
-	Swordsman(int minHP, int maxHP, int minDMG, int maxDMG, Skill* skill = nullptr, String type = "Swordsman") : Light(minHP, maxHP, minDMG, maxDMG, skill, type) {}
-
-	virtual void attack(Warrior* w) override
-	{
-
-	}
+	Dark(int HP, int(*roll)(), int bonus, String type) : Warrior(HP, roll, bonus, type) {}
 
 	virtual ostream& print(ostream& out) const override
 	{
-		out << "Swordsman";
+		out << "      ";
 		return Warrior::print(out);
 	}
 };
-class Archer : public Light
-{
 
+
+class Fighter : public Light
+{
+	const static int baseHP = 12;
+	const static int increase = 8;
+	const static int bonus = 3;
 
 public:
-	Archer(int minHP, int maxHP, int minDMG, int maxDMG, Skill* skill = nullptr, String type = "Archer") : Light(minHP, maxHP, minDMG, maxDMG, skill, type) {}
+	Fighter(int lvl, Skill* skill = nullptr, String type = "Fighter") : Light(lvl, baseHP, increase, d8, bonus, skill, type) {}
 
 	virtual void attack(Warrior* w) override
 	{
-		cout << "Archer is attacking!" << endl;
-		w->setHP(w->getHP() - getDamage());
-		cout << "-" << getDamage() << endl;
+		cout << "Fighter is attacking!" << endl;
+		int DMG = getDamage();
+		w->setHP(w->getHP() - DMG);
+		cout << "Damage rolled: -" << DMG << endl;
 		if (skill)
 		{
 			skill->execute(w);
@@ -122,74 +158,142 @@ public:
 
 	virtual ostream& print(ostream& out) const override
 	{
-		out << "Archer";
-		return Warrior::print(out);
+		out << "Fighter";
+		return Light::print(out);
 	}
 };
-class Rider : public Light
+class Ranger : public Light
 {
+	const static int baseHP = 12;
+	const static int increase = 8;
+	const static int bonus = 3;
+
 public:
-	Rider(int minHP, int maxHP, int minDMG, int maxDMG, Skill* skill = nullptr, String type = "Rider") : Light(minHP, maxHP, minDMG, maxDMG, skill, type) {}
+	Ranger(int lvl, Skill* skill = nullptr, String type = "Ranger") : Light(lvl, baseHP, increase, d8, bonus, skill, type) {}
 
 	virtual void attack(Warrior* w) override
 	{
-
+		cout << "Ranger is attacking!" << endl;
+		int DMG = getDamage();
+		w->setHP(w->getHP() - DMG);
+		cout << "Damage rolled: -" << DMG << endl;
+		if (skill)
+		{
+			skill->execute(w);
+		}
 	}
 
 	virtual ostream& print(ostream& out) const override
 	{
-		out << "Rider";
-		return Warrior::print(out);
+		out << "Ranger";
+		return Light::print(out);
+	}
+};
+class Wizard : public Light
+{
+	const static int baseHP = 8;
+	const static int increase = 6;
+	const static int bonus = 0;
+
+public:
+	Wizard(int lvl, Skill* skill = nullptr, String type = "Wizard") : Light(lvl, baseHP, increase, d10, bonus, skill, type) {}
+
+	virtual void attack(Warrior* w) override
+	{
+		cout << "Wizard is attacking!" << endl;
+		int DMG = getDamage();
+		w->setHP(w->getHP() - DMG);
+		cout << "Damage rolled: -" << DMG << endl;
+		if (skill)
+		{
+			skill->execute(w);
+		}
+	}
+
+	virtual ostream& print(ostream& out) const override
+	{
+		out << "Wizard";
+		return Light::print(out);
 	}
 };
 
 
 class Orc : public Dark
 {
+	const static int HP = 15;
+	const static int bonus = 3;
+
 public:
-	Orc(int minHP, int maxHP, int minDMG, int maxDMG, Skill* skill = nullptr, String type = "Orc") : Dark(minHP, maxHP, minDMG, maxDMG, skill, type) {}
+	Orc() : Dark(HP, d12, bonus, "Orc") {}
 
 	virtual void attack(Warrior* w) override
 	{
-
+		cout << "Orc is attacking!" << endl;
+		int DMG = getDamage();
+		w->setHP(w->getHP() - DMG);
+		cout << "Damage rolled: -" << DMG << endl;
+		if (skill)
+		{
+			skill->execute(w);
+		}
 	}
 
 	virtual ostream& print(ostream& out) const override
 	{
 		out << "Orc";
-		return Warrior::print(out);
+		return Dark::print(out);
 	}
 };
 class Skeleton : public Dark
 {
+	const static int HP = 13;
+	const static int bonus = 2;
+
 public:
-	Skeleton(int minHP, int maxHP, int minDMG, int maxDMG, Skill* skill = nullptr, String type = "Skeleton") : Dark(minHP, maxHP, minDMG, maxDMG, skill, type) {}
+	Skeleton() : Dark(HP, d6, bonus, "Skeleton") {}
 
 	virtual void attack(Warrior* w) override
 	{
-
+		cout << "Skeleton is attacking!" << endl;
+		int DMG = getDamage();
+		w->setHP(w->getHP() - DMG);
+		cout << "Damage rolled: -" << DMG << endl;
+		if (skill)
+		{
+			skill->execute(w);
+		}
 	}
 
 	virtual ostream& print(ostream& out) const override
 	{
 		out << "Skeleton";
-		return Warrior::print(out);
+		return Dark::print(out);
 	}
 };
 class Zombie : public Dark
 {
+	const static int HP = 22;
+	const static int bonus = 1;
+
 public:
-	Zombie(int minHP, int maxHP, int minDMG, int maxDMG, Skill* skill = nullptr, String type = "Zombie") : Dark(minHP, maxHP, minDMG, maxDMG, skill, type) {}
+	Zombie() : Dark(HP, d6, bonus, "Zombie") {}
 
 	virtual void attack(Warrior* w) override
 	{
-
+		cout << "Zombie is attacking!" << endl;
+		int DMG = getDamage();
+		w->setHP(w->getHP() - DMG);
+		cout << "Damage rolled: -" << DMG << endl;
+		if (skill)
+		{
+			skill->execute(w);
+		}
 	}
 
 	virtual ostream& print(ostream& out) const override
 	{
 		out << "Zombie";
-		return Warrior::print(out);
+		return Dark::print(out);
 	}
 };
 
@@ -202,15 +306,14 @@ public:
 	WarOfWorld(int size)
 	{
 		Light* l = nullptr;
-		Skill* fireball = new Fireball;
 		for (int i = 0; i < size; i++)
 		{
 			int rnd = rand() % TYPES;
 			switch (rnd)
 			{
-			case 0: l = new Swordsman(50, 70, 10, 20); break;
-			case 1: l = new Archer(50, 70, 10, 20, fireball); break;
-			case 2: l = new Rider(50, 80, 10, 20);
+			case 0: l = new Fighter(1); break;
+			case 1: l = new Ranger(1); break;
+			case 2: l = new Wizard(1, new Fireball);
 			}
 			lights.push_back(l);
 		}
@@ -221,27 +324,60 @@ public:
 			int rnd = rand() % TYPES;
 			switch (rnd)
 			{
-			case 0: d = new Orc(50, 80, 10, 20); break;
-			case 1: d = new Skeleton(50, 70, 10, 20); break;
-			case 2: d = new Zombie(50, 70, 10, 20);
+			case 0: d = new Orc; break;
+			case 1: d = new Skeleton; break;
+			case 2: d = new Zombie;
 			}
 			darks.push_back(d);
 		}
 	}
 
+	~WarOfWorld()
+	{
+		for (int i = 0; i < lights.getSize(); i++)
+		{
+			delete lights[i];
+		}
+
+		for (int i = 0; i < darks.getSize(); i++)
+		{
+			delete darks[i];
+		}
+	}
+
 	void print() const
 	{
-		cout << "----------   LIGHT   ----------" << "         " << "----------   DARKS   ----------" << endl;
+		SetColor(LightGreen, Black);
+		cout << "------   LIGHT   ------" << "          ";
+		SetColor(LightBlue, Black);
+		cout << "------   DARKS   ------" << endl;
+		SetColor(Green, Black);
 		lights.print();
 		cout << endl;
-		darks.print(40, 1);
+		SetColor(Blue, Black);
+		darks.print(33, 1);
+		SetColor(White, Black);
 	}
 
 	Warrior* fight(Warrior* w1, Warrior* w2)
 	{
-		// TODO
 		w1->attack(w2);
-		w2->attack(w1);
+		if (w2->getHP() > 0)
+		{
+			w2->attack(w1);
+		}
+		else
+		{
+			cout << w2->getType() << " defeated!" << endl;
+			w2->setHP(0);
+			return w2;
+		}
+		if (w1->getHP() <= 0)
+		{
+			cout << w1->getType() << " defeated!" << endl;
+			w1->setHP(0);
+			return w1;
+		}
 
 		return nullptr;
 	}
@@ -252,21 +388,23 @@ public:
 		{
 			system("cls");
 			print();
+			int L = lights.getSize(), D = darks.getSize();
 
-			int l_ind = rand() % lights.getSize();
-			int d_ind = rand() % darks.getSize();
+			int l_ind = rand() % L;
+			int d_ind = rand() % D;
 
-			cout << "\n        Battle  Started        " << endl;
-			cout << "-------------------------------" << endl;
+			cout << "\n\n    Battle  Started    " << endl;
+			cout << "-----------------------" << endl;
 			cout << lights[l_ind];
 			cout << darks[d_ind] << endl;
 
 			Warrior* lost = fight(lights[l_ind], darks[d_ind]);
 
-			cout << "\n        Battle    Ended        " << endl;
-			cout << "-------------------------------" << endl;
-			cout << lights[l_ind];
-			cout << darks[d_ind] << endl;
+			SetCursor(33, D + 4);
+			cout << "    Battle    Ended    " << endl; SetCursor(33, D + 5);
+			cout << "-----------------------" << endl; SetCursor(33, D + 6);
+			cout << lights[l_ind]; SetCursor(33, D + 7);
+			cout << darks[d_ind]; SetCursor(0, D + 9);
 
 			if (lost == lights[l_ind])
 			{
@@ -276,7 +414,22 @@ public:
 			{
 				darks.remove(d_ind);
 			}
-			system("pause");
+			delete lost;
+
+			//if (lights.getSize() > 0 && darks.getSize() > 0)
+			//{
+				SetCursor(0, 21);
+				system("pause");
+			//}
+		}
+		system("cls");
+		if (lights.getSize() == 0)
+		{
+			cout << "THE DARK SIDE WON" << endl;
+		}
+		else
+		{
+			cout << "THE LIGHT SIDE WON" << endl;
 		}
 	}
 };
