@@ -6,6 +6,7 @@
 
 #include"Func.h"
 #include"List.h"
+#include"Array.h"
 #include"String.h"
 
 using namespace std;
@@ -119,7 +120,6 @@ public:
 
 	virtual void attack(Warrior* w) = 0;
 	virtual int getLevel() const { return 0; }
-	//virtual String getSide() const = 0;
 
 	friend ostream& operator<<(ostream& out, const Warrior* w);
 	virtual ostream& print(ostream& out) const
@@ -168,8 +168,6 @@ public:
 
 	virtual int getLevel() const final override { return level; }
 
-	//virtual String getSide() const final override { return "LIGHT"; }
-
 	virtual ostream& print(ostream& out) const override
 	{
 		out << "LVL " << level << ".";
@@ -181,8 +179,6 @@ class Dark : public Warrior
 {
 public:
 	Dark(int HP, int(*roll)(), int bonus, Skill* skill, String type) : Warrior(HP, roll, bonus, skill, type) {}
-
-	//virtual String getSide() const final override { return "DARK"; }
 
 	virtual ostream& print(ostream& out) const override
 	{
@@ -205,7 +201,8 @@ public:
 	{
 		SetColor(Green, Black);
 		cout << "Fighter"; SetColor(White, Black);
-		cout << " is attacking!" << endl;
+		cout << " is attacking "; SetColor(LightBlue, Black);
+		cout << w->getType() << endl; SetColor(White, Black);
 
 		cout << "[A]ttack   [S]kill\n"; bool action = false;
 
@@ -255,7 +252,8 @@ public:
 	{
 		SetColor(Green, Black);
 		cout << "Ranger"; SetColor(White, Black);
-		cout << " is attacking!" << endl;
+		cout << " is attacking "; SetColor(LightBlue, Black);
+		cout << w->getType() << endl; SetColor(White, Black);
 
 		cout << "[A]ttack   [S]kill\n"; bool action = false;
 
@@ -305,7 +303,8 @@ public:
 	{
 		SetColor(Green, Black);
 		cout << "Wizard"; SetColor(White, Black);
-		cout << " is attacking!" << endl;
+		cout << " is attacking "; SetColor(LightBlue, Black);
+		cout << w->getType() << endl; SetColor(White, Black);
 
 		cout << "[A]ttack   [S]kill\n"; bool action = false;
 
@@ -356,7 +355,8 @@ public:
 	{
 		SetColor(LightBlue, Black);
 		cout << "Orc"; SetColor(White, Black);
-		cout << " is attacking!" << endl;
+		cout << " is attacking "; SetColor(Green, Black);
+		cout << w->getType() << endl; SetColor(White, Black);
 		int DMG = getDamage(), hit = w->getHP() - DMG;
 		(hit <= 0) ? w->setHP(0) : w->setHP(hit);
 		cout << "Damage rolled: "; SetColor(LightRed, Black);
@@ -381,7 +381,8 @@ public:
 	{
 		SetColor(LightBlue, Black);
 		cout << "Skeleton"; SetColor(White, Black);
-		cout << " is attacking!" << endl;
+		cout << " is attacking "; SetColor(Green, Black);
+		cout << w->getType() << endl; SetColor(White, Black);
 		int DMG = getDamage(), hit = w->getHP() - DMG;
 		(hit <= 0) ? w->setHP(0) : w->setHP(hit);
 		cout << "Damage rolled: "; SetColor(LightRed, Black);
@@ -406,7 +407,8 @@ public:
 	{
 		SetColor(LightBlue, Black);
 		cout << "Zombie"; SetColor(White, Black);
-		cout << " is attacking!" << endl;
+		cout << " is attacking "; SetColor(Green, Black);
+		cout << w->getType() << endl; SetColor(White, Black);
 		int DMG = getDamage(), hit = w->getHP() - DMG;
 		(hit <= 0) ? w->setHP(0) : w->setHP(hit);
 		cout << "Damage rolled: "; SetColor(LightRed, Black);
@@ -425,11 +427,13 @@ class WarOfWorld
 	List<Light*> lights;
 	List<Dark*>  darks;
 
+	int line = 0;
+
 public:
-	WarOfWorld(int size)
+	WarOfWorld(int party_size, int opponents)
 	{
 		Light* l = nullptr;
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < party_size; i++)
 		{
 			int rnd = rand() % TYPES;
 			switch (rnd)
@@ -442,7 +446,7 @@ public:
 		}
 
 		Dark* d = nullptr;
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < opponents; i++)
 		{
 			int rnd = rand() % TYPES;
 			switch (rnd)
@@ -453,6 +457,8 @@ public:
 			}
 			darks.push_back(d);
 		}
+
+		(party_size >= opponents) ? line = party_size : line = opponents;
 	}
 
 	~WarOfWorld()
@@ -480,41 +486,215 @@ public:
 		SetColor(LightBlue, Black);
 		darks.print(33, 1);
 		SetColor(White, Black);
+		SetCursor(0, line+2);
 	}
 
-	Warrior* fight(Warrior* w1, Warrior* w2)
+	Warrior* fight(List<Light*>* party, Warrior* enemy)
 	{
-		w1->resetSkill(); w2->resetSkill();
-		int turn = rand() % 2;
-		if (turn == 1)
+		int partySize = party->getSize();
+		Array<Light*> roster;
+		for (int i = 0; i < partySize; ++i)
 		{
-			Warrior* temp = w1;
-			w1 = w2;
-			w2 = temp;
+			Light* member = (*party)[i];
+			member->resetSkill();
+			roster.add(member);
 		}
-		while(true)
+		enemy->resetSkill();
+
+		Array<int> turns;
+		for (int count = 0; count <= partySize; )
 		{
-			w1->attack(w2);
-			if (w2->getHP() > 0)
+			int candidate = rand() % (partySize + 1);
+
+			if (!turns.contains(candidate))
 			{
-				w2->attack(w1);
+				turns.add(candidate);
+				count++;
 			}
-			else
-			{
-				SetColor(Red, Black);
-				cout << w2->getType() << " defeated!" << endl;
-				SetColor(White, Black);
-				return w2;
-			}
-			if (w1->getHP() <= 0)
-			{
-				SetColor(Red, Black);
-				cout << w1->getType() << " defeated!" << endl;
-				SetColor(White, Black);
-				return w1;
-			}
-			system("pause");
 		}
+
+		Array<Light*> fallen;
+		auto deleteFallen = [&fallen]()
+			{
+				for (int i = 0; i < fallen.getSize(); ++i)
+					delete fallen[i];
+			};
+
+		while (party->getSize() > 0)
+		{
+			for (int turn = 0; turn <= partySize; turn++)
+			{
+				int actor = turns[turn];
+
+				if (actor == partySize) // Enemy's one turn this round
+				{
+					int targetIndex = rand() % party->getSize();
+					Light* target = (*party)[targetIndex];
+
+					enemy->attack(target);
+
+					if (target->getHP() <= 0)
+					{
+						SetColor(Red, Black);
+						cout << target->getType() << " was taken down!" << endl;
+						SetColor(White, Black);
+						party->remove(targetIndex);
+						fallen.add(target);
+
+						if (party->getSize() == 0)
+						{
+							deleteFallen();
+							return nullptr;
+						}
+					}
+
+					SetColor(Green, Black);
+					cout << "HP: " << target->getHP() << endl;
+				}
+				else // This Light character's scheduled turn
+				{
+					Light* member = roster[actor];
+
+					// They might have been defeated earlier in this round.
+					if (member->getHP() > 0)
+					{
+						member->attack(enemy);
+
+						if (enemy->getHP() <= 0)
+						{
+							SetColor(Red, Black);
+							cout << enemy->getType() << " defeated!" << endl;
+							SetColor(White, Black);
+							deleteFallen();
+							return enemy;
+						}
+
+						SetColor(LightBlue, Black);
+						cout << "HP: " << enemy->getHP() << endl;
+					}
+					else
+					{
+						cout << "Skipping turn of a fallen warrior" << endl;
+					}
+				}
+
+				SetColor(DarkGray, Black);
+				system("pause");
+				SetColor(White, Black);
+			}
+		}
+
+		deleteFallen();
+		return nullptr;
+
+		//Warrior* w = nullptr;
+		//bool battle = true; int i = 0;
+		//while (battle)
+		//{
+		//	if (turns[i] == size)
+		//	{
+		//		int w_ind = rand() % size;
+		//		w = (*party)[w_ind];
+		//		enemy->attack(w);
+		//		if (w->getHP() == 0)
+		//		{
+		//			SetColor(Red, Black);
+		//			cout << w->getType() << " defeated!" << endl;
+		//			SetColor(White, Black);
+		//			party->remove(w_ind);
+		//			if (party->getSize() == 0)
+		//			{
+		//				battle = false;
+		//				return nullptr;
+		//			}
+		//		}
+		//	}
+		//	else
+		//	{
+		//		w = (*party)[turns[i]];
+		//		w->attack(enemy);
+		//		if (enemy->getHP() == 0)
+		//		{
+		//			SetColor(Red, Black);
+		//			cout << enemy->getType() << " defeated!" << endl;
+		//			SetColor(White, Black);
+		//			battle = false;
+		//			return enemy;
+		//		}
+		//	}
+		//	i++;
+		//	SetColor(DarkGray, Black);
+		//	system("pause");
+		//	SetColor(White, Black);
+		//}
+		
+		//int w_ind = rand() % size;
+		//Warrior* w = (*party)[w_ind];
+		//cout << "Warrior selected: " << w << endl;
+		//Warrior* w1 = nullptr;
+		//Warrior* w2 = nullptr;
+		//
+		//int turn = rand() % 2;
+		//if (turn == 1)
+		//{
+		//	SetColor(LightBlue, Black);
+		//	cout << "Enemy"; SetColor(White, Black);
+		//	cout << " is first to attack!" << endl;
+		//	w1 = enemy;
+		//	w2 = w;
+		//}
+		//else
+		//{
+		//	SetColor(Green, Black);
+		//	cout << "Party member"; SetColor(White, Black);
+		//	cout << " is first to attack!" << endl;
+		//	w1 = w;
+		//	w2 = enemy;
+		//}
+
+		//while(true)
+		//{
+		//	w1->attack(w2);
+		//	if (w2->getHP() > 0)
+		//	{
+		//		w2->attack(w1);
+		//	}
+		//	else
+		//	{
+		//		SetColor(Red, Black);
+		//		cout << w2->getType() << " defeated!" << endl;
+		//		SetColor(White, Black);
+		//		if (turn == 1)
+		//		{
+		//			party->remove(w_ind);
+		//		}
+		//		else
+		//		{
+		//			return w2;
+		//		}
+		//	}
+		//	if (w1->getHP() <= 0)
+		//	{
+		//		SetColor(Red, Black);
+		//		cout << w1->getType() << " defeated!" << endl;
+		//		SetColor(White, Black);
+		//		if (turn == 1)
+		//		{
+		//			return w1;
+		//		}
+		//		else
+		//		{
+		//			party->remove(w_ind);
+		//		}
+		//	}
+
+		//	if (party->getSize() == 0)
+		//	{
+		//		return nullptr;
+		//	}
+
+		//	w_ind = rand() % party->getSize();
+		//	(turn == 1) ? w2 = (*party)[w_ind] : w1 = (*party)[w_ind];
 	}
 
 	void game()
@@ -523,44 +703,39 @@ public:
 		{
 			system("cls");
 			print();
-			int D = darks.getSize();
 
-			int l_ind = rand() % lights.getSize();
-			int d_ind = rand() % D;
+			int d_ind = rand() % darks.getSize();
 
 			cout << "\n\n    Battle  Started    " << endl;
 			cout << "-----------------------" << endl;
-			cout << lights[l_ind];
-			cout << darks[d_ind] << endl;
+			cout << "Enemy selected: "; SetColor(LightBlue, Black);
+			cout << darks[d_ind]->getType() << endl;
+			cout << "HP: " << darks[d_ind]->getHP() << "\n\n"; SetColor(White, Black);
 
-			Warrior* lost = fight(lights[l_ind], darks[d_ind]);
+			Warrior* lost = fight(&lights, darks[d_ind]);
 
-			SetCursor(33, D + 4);
-			cout << "    Battle    Ended    " << endl; SetCursor(33, D + 5);
-			cout << "-----------------------" << endl; SetCursor(33, D + 6);
-			cout << lights[l_ind]; SetCursor(33, D + 7);
-			cout << darks[d_ind]; SetCursor(0, D + 9);
+			SetCursor(33, line + 4);
+			cout << "    Battle    Ended    "; SetCursor(33, line + 5);
+			cout << "-----------------------"; SetCursor(33, line + 6);
+			cout << darks[d_ind]; SetCursor(0, line + 8);
 			if (lost == darks[d_ind])
 			{
 				darks.remove(d_ind);
+				delete lost;
 			}
-			else
-			{
-				lights.remove(l_ind);
-			}
-			delete lost;
 
-			SetCursor(0, D+8);
+			SetCursor(0, line+7);
+			SetColor(DarkGray, Black);
 			system("pause");
+			SetColor(White, Black);
 		}
 		system("cls");
 		if (lights.getSize() == 0)
 		{
 			SetColor(Red, Black);
-			SetCursor(23, 5);
+			SetCursor(24, 5);
 			cout << "YOU DIED";
-			SetColor(White, Black);
-			SetCursor(0, 10);
+			SetColor(Black, Black);
 		}
 		else
 		{
@@ -569,8 +744,7 @@ public:
 			SetColor(Yellow, Black);
 			SetCursor(24, 6);
 			cout << "respect+";
-			SetColor(White, Black);
-			SetCursor(0, 11);
+			SetColor(Black, Black);
 		}
 	}
 };

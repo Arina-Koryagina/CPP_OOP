@@ -6,7 +6,7 @@
 
 using namespace std;
 
-bool RemoveConsoleScrollback()
+bool RemoveConsoleScrollback() // source: ChatGPT
 {
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -34,8 +34,8 @@ bool RemoveConsoleScrollback()
 int main()
 {
 	// Source - https://stackoverflow.com/a/36983796
-// Posted by RED SOFT ADAIR, modified by community. See post 'Timeline' for change history
-// Retrieved 2026-10-28, License - CC BY-SA 4.0
+    // Posted by RED SOFT ADAIR, modified by community. See post 'Timeline' for change history
+    // Retrieved 2026-10-28, License - CC BY-SA 4.0
 
 	HWND hwnd = GetConsoleWindow();
 	RECT rect = { 100, 50, 600, 1000 };
@@ -46,7 +46,7 @@ int main()
 	SetConsoleTitleA("DnD Style Combat");
 	srand(time(0));
 
-	WarOfWorld battle(6);
+	WarOfWorld battle(3, 6);
 	battle.game();
 
 	return 0;
