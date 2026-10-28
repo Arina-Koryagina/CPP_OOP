@@ -2,6 +2,7 @@
 
 #include<iostream>
 #include<iomanip>
+#include <conio.h>
 
 #include"Func.h"
 #include"List.h"
@@ -33,18 +34,45 @@ class Warrior;
 class Skill
 {
 public:
-	virtual void execute(Warrior* w) = 0;
+	virtual ~Skill() = default;
+	virtual void execute(Warrior* me, Warrior* w) = 0;
 };
 
+class SecondWind : public Skill
+{
+public:
+	virtual void execute(Warrior* me, Warrior* w) override;
+};
+class CureWounds : public Skill
+{
+public:
+	virtual void execute(Warrior* me, Warrior* w) override;
+};
 class Fireball : public Skill
 {
 public:
-	virtual void execute(Warrior* w) override;
+	virtual void execute(Warrior* me, Warrior* w) override;
+};
+class AgressiveCharge : public Skill
+{
+public:
+	virtual void execute(Warrior* me, Warrior* w) override;
+};
+class BoneVolley : public Skill
+{
+public:
+	virtual void execute(Warrior* me, Warrior* w) override;
+};
+class UndeadFortitude : public Skill
+{
+public:
+	virtual void execute(Warrior* me, Warrior* w) override;
 };
 
 class Warrior
 {
 	int HP;
+	int maxHP;
 	int (*roll)();
 	int bonus;
 	String type;
@@ -52,19 +80,20 @@ class Warrior
 protected:
 	//List<Skill*> skills;
 	Skill* skill;
+	bool skillUsed = false;
 
 public:
-	Warrior(int HP, int (*roll)(), int bonus, String type = "")
+	Warrior(int HP, int (*roll)(), int bonus, Skill* skill = nullptr, String type = "")
 	{
-		this->HP = HP;
+		this->HP = maxHP = HP;
 		this->roll = roll;
 		this->bonus = bonus;
-		this->skill = nullptr;
+		this->skill = skill;
 		this->type = type;
 	}
 	Warrior(int lvl, int baseHP, int increase, int (*roll)(), int bonus, Skill* skill = nullptr, String type = "")
 	{
-		this->HP = baseHP + (increase * (lvl - 1));
+		this->HP = maxHP = baseHP + (increase * (lvl - 1));
 		this->roll = roll;
 		this->bonus = bonus;
 		this->skill = skill;
@@ -80,11 +109,17 @@ public:
 	}
 
 	int getHP() const { return HP; }
+	int getMaxHP() const { return maxHP; }
 	int getDamage() const { return roll() + bonus; }
 	String getType() const { return type; }
 	void setHP(int h) { HP = h; }
 
+	void useSkill() { skillUsed = true; }
+	void resetSkill() { skillUsed = false; }
+
 	virtual void attack(Warrior* w) = 0;
+	virtual int getLevel() const { return 0; }
+	//virtual String getSide() const = 0;
 
 	friend ostream& operator<<(ostream& out, const Warrior* w);
 	virtual ostream& print(ostream& out) const
@@ -101,9 +136,25 @@ ostream& operator<<(ostream& out, const Warrior* w)
 }
 
 
-void Fireball::execute(Warrior* w)
+void SecondWind::execute(Warrior* me, Warrior* w)
 {
-	cout << "Cast Fireball -> " << w->getType() << endl;
+	cout << "Cast Second Wind -> "; SetColor(Green, Black);
+	cout << me->getType() << endl; SetColor(White, Black);
+	int oldHP = me->getHP();
+	int newHP = oldHP + d10() + me->getLevel();
+	if (newHP > me->getMaxHP()) { newHP = me->getMaxHP(); };
+	me->setHP(newHP);
+	cout << "Health restored: "; SetColor(LightGreen, Black);
+	cout << "+" << newHP - oldHP << endl; SetColor(White, Black);
+}
+void Fireball::execute(Warrior* me, Warrior* w)
+{
+	cout << "Cast Fireball -> "; SetColor(LightBlue, Black);
+	cout << w->getType() << endl; SetColor(White, Black);
+	int DMG = d6() + d6(), hit = w->getHP() - DMG;
+	(hit <= 0) ? w->setHP(0) : w->setHP(hit);
+	cout << "Damage rolled: "; SetColor(LightRed, Black);
+	cout << "-" << DMG << endl; SetColor(White, Black);
 }
 
 
@@ -115,6 +166,10 @@ protected:
 public:
 	Light(int lvl, int baseHP, int increase, int(*roll)(), int bonus, Skill* skill, String type) : Warrior(lvl, baseHP, increase, roll, bonus, skill, type) { level = lvl; }
 
+	virtual int getLevel() const final override { return level; }
+
+	//virtual String getSide() const final override { return "LIGHT"; }
+
 	virtual ostream& print(ostream& out) const override
 	{
 		out << "LVL " << level << ".";
@@ -125,7 +180,9 @@ public:
 class Dark : public Warrior
 {
 public:
-	Dark(int HP, int(*roll)(), int bonus, String type) : Warrior(HP, roll, bonus, type) {}
+	Dark(int HP, int(*roll)(), int bonus, Skill* skill, String type) : Warrior(HP, roll, bonus, skill, type) {}
+
+	//virtual String getSide() const final override { return "DARK"; }
 
 	virtual ostream& print(ostream& out) const override
 	{
@@ -146,13 +203,36 @@ public:
 
 	virtual void attack(Warrior* w) override
 	{
-		cout << "Fighter is attacking!" << endl;
-		int DMG = getDamage();
-		w->setHP(w->getHP() - DMG);
-		cout << "Damage rolled: -" << DMG << endl;
-		if (skill)
+		SetColor(Green, Black);
+		cout << "Fighter"; SetColor(White, Black);
+		cout << " is attacking!" << endl;
+
+		cout << "[A]ttack   [S]kill\n"; bool action = false;
+
+		while (!action)
 		{
-			skill->execute(w);
+			int key = _getch();
+			if (key == 'a' || key == 'A')
+			{
+				int DMG = getDamage(), hit = w->getHP() - DMG;
+				(hit <= 0) ? w->setHP(0) : w->setHP(hit);
+				cout << "Damage rolled: "; SetColor(LightRed, Black);
+				cout << "-" << DMG << endl; SetColor(White, Black);
+				action = true;
+			}
+			else if (key == 's' || key == 'S')
+			{
+				if (skill && skillUsed == false)
+				{
+					skill->execute(this, w);
+					action = true;
+					useSkill();
+				}
+				else
+				{
+					cout << "No skill availiable" << endl;
+				}
+			}
 		}
 	}
 
@@ -173,13 +253,36 @@ public:
 
 	virtual void attack(Warrior* w) override
 	{
-		cout << "Ranger is attacking!" << endl;
-		int DMG = getDamage();
-		w->setHP(w->getHP() - DMG);
-		cout << "Damage rolled: -" << DMG << endl;
-		if (skill)
+		SetColor(Green, Black);
+		cout << "Ranger"; SetColor(White, Black);
+		cout << " is attacking!" << endl;
+
+		cout << "[A]ttack   [S]kill\n"; bool action = false;
+
+		while (!action)
 		{
-			skill->execute(w);
+			int key = _getch();
+			if (key == 'a' || key == 'A')
+			{
+				int DMG = getDamage(), hit = w->getHP() - DMG;
+				(hit <= 0) ? w->setHP(0) : w->setHP(hit);
+				cout << "Damage rolled: "; SetColor(LightRed, Black);
+				cout << "-" << DMG << endl; SetColor(White, Black);
+				action = true;
+			}
+			else if (key == 's' || key == 'S')
+			{
+				if (skill && skillUsed == false)
+				{
+					skill->execute(this, w);
+					action = true;
+					useSkill();
+				}
+				else
+				{
+					cout << "No skill availiable" << endl;
+				}
+			}
 		}
 	}
 
@@ -200,13 +303,36 @@ public:
 
 	virtual void attack(Warrior* w) override
 	{
-		cout << "Wizard is attacking!" << endl;
-		int DMG = getDamage();
-		w->setHP(w->getHP() - DMG);
-		cout << "Damage rolled: -" << DMG << endl;
-		if (skill)
+		SetColor(Green, Black);
+		cout << "Wizard"; SetColor(White, Black);
+		cout << " is attacking!" << endl;
+
+		cout << "[A]ttack   [S]kill\n"; bool action = false;
+
+		while (!action)
 		{
-			skill->execute(w);
+			int key = _getch();
+			if (key == 'a' || key == 'A')
+			{
+				int DMG = getDamage(), hit = w->getHP() - DMG;
+				(hit <= 0) ? w->setHP(0) : w->setHP(hit);
+				cout << "Damage rolled: "; SetColor(LightRed, Black);
+				cout << "-" << DMG << endl; SetColor(White, Black);
+				action = true;
+			}
+			else if (key == 's' || key == 'S')
+			{
+				if (skill && skillUsed == false)
+				{
+					skill->execute(this, w);
+					action = true;
+					useSkill();
+				}
+				else
+				{
+					cout << "No skill availiable" << endl;
+				}
+			}
 		}
 	}
 
@@ -224,18 +350,17 @@ class Orc : public Dark
 	const static int bonus = 3;
 
 public:
-	Orc() : Dark(HP, d12, bonus, "Orc") {}
+	Orc(Skill* skill = nullptr) : Dark(HP, d12, bonus, skill, "Orc") {}
 
 	virtual void attack(Warrior* w) override
 	{
-		cout << "Orc is attacking!" << endl;
-		int DMG = getDamage();
-		w->setHP(w->getHP() - DMG);
-		cout << "Damage rolled: -" << DMG << endl;
-		if (skill)
-		{
-			skill->execute(w);
-		}
+		SetColor(LightBlue, Black);
+		cout << "Orc"; SetColor(White, Black);
+		cout << " is attacking!" << endl;
+		int DMG = getDamage(), hit = w->getHP() - DMG;
+		(hit <= 0) ? w->setHP(0) : w->setHP(hit);
+		cout << "Damage rolled: "; SetColor(LightRed, Black);
+		cout << "-" << DMG << endl; SetColor(White, Black);
 	}
 
 	virtual ostream& print(ostream& out) const override
@@ -250,18 +375,17 @@ class Skeleton : public Dark
 	const static int bonus = 2;
 
 public:
-	Skeleton() : Dark(HP, d6, bonus, "Skeleton") {}
+	Skeleton(Skill* skill = nullptr) : Dark(HP, d6, bonus, skill, "Skeleton") {}
 
 	virtual void attack(Warrior* w) override
 	{
-		cout << "Skeleton is attacking!" << endl;
-		int DMG = getDamage();
-		w->setHP(w->getHP() - DMG);
-		cout << "Damage rolled: -" << DMG << endl;
-		if (skill)
-		{
-			skill->execute(w);
-		}
+		SetColor(LightBlue, Black);
+		cout << "Skeleton"; SetColor(White, Black);
+		cout << " is attacking!" << endl;
+		int DMG = getDamage(), hit = w->getHP() - DMG;
+		(hit <= 0) ? w->setHP(0) : w->setHP(hit);
+		cout << "Damage rolled: "; SetColor(LightRed, Black);
+		cout << "-" << DMG << endl; SetColor(White, Black);
 	}
 
 	virtual ostream& print(ostream& out) const override
@@ -276,18 +400,17 @@ class Zombie : public Dark
 	const static int bonus = 1;
 
 public:
-	Zombie() : Dark(HP, d6, bonus, "Zombie") {}
+	Zombie(Skill* skill = nullptr) : Dark(HP, d6, bonus, skill, "Zombie") {}
 
 	virtual void attack(Warrior* w) override
 	{
-		cout << "Zombie is attacking!" << endl;
-		int DMG = getDamage();
-		w->setHP(w->getHP() - DMG);
-		cout << "Damage rolled: -" << DMG << endl;
-		if (skill)
-		{
-			skill->execute(w);
-		}
+		SetColor(LightBlue, Black);
+		cout << "Zombie"; SetColor(White, Black);
+		cout << " is attacking!" << endl;
+		int DMG = getDamage(), hit = w->getHP() - DMG;
+		(hit <= 0) ? w->setHP(0) : w->setHP(hit);
+		cout << "Damage rolled: "; SetColor(LightRed, Black);
+		cout << "-" << DMG << endl; SetColor(White, Black);
 	}
 
 	virtual ostream& print(ostream& out) const override
@@ -311,7 +434,7 @@ public:
 			int rnd = rand() % TYPES;
 			switch (rnd)
 			{
-			case 0: l = new Fighter(1); break;
+			case 0: l = new Fighter(1, new SecondWind); break;
 			case 1: l = new Ranger(1); break;
 			case 2: l = new Wizard(1, new Fireball);
 			}
@@ -349,37 +472,49 @@ public:
 	{
 		SetColor(LightGreen, Black);
 		cout << "------   LIGHT   ------" << "          ";
-		SetColor(LightBlue, Black);
+		SetColor(Blue, Black);
 		cout << "------   DARKS   ------" << endl;
 		SetColor(Green, Black);
 		lights.print();
 		cout << endl;
-		SetColor(Blue, Black);
+		SetColor(LightBlue, Black);
 		darks.print(33, 1);
 		SetColor(White, Black);
 	}
 
 	Warrior* fight(Warrior* w1, Warrior* w2)
 	{
-		w1->attack(w2);
-		if (w2->getHP() > 0)
+		w1->resetSkill(); w2->resetSkill();
+		int turn = rand() % 2;
+		if (turn == 1)
 		{
-			w2->attack(w1);
+			Warrior* temp = w1;
+			w1 = w2;
+			w2 = temp;
 		}
-		else
+		while(true)
 		{
-			cout << w2->getType() << " defeated!" << endl;
-			w2->setHP(0);
-			return w2;
+			w1->attack(w2);
+			if (w2->getHP() > 0)
+			{
+				w2->attack(w1);
+			}
+			else
+			{
+				SetColor(Red, Black);
+				cout << w2->getType() << " defeated!" << endl;
+				SetColor(White, Black);
+				return w2;
+			}
+			if (w1->getHP() <= 0)
+			{
+				SetColor(Red, Black);
+				cout << w1->getType() << " defeated!" << endl;
+				SetColor(White, Black);
+				return w1;
+			}
+			system("pause");
 		}
-		if (w1->getHP() <= 0)
-		{
-			cout << w1->getType() << " defeated!" << endl;
-			w1->setHP(0);
-			return w1;
-		}
-
-		return nullptr;
 	}
 
 	void game()
@@ -388,9 +523,9 @@ public:
 		{
 			system("cls");
 			print();
-			int L = lights.getSize(), D = darks.getSize();
+			int D = darks.getSize();
 
-			int l_ind = rand() % L;
+			int l_ind = rand() % lights.getSize();
 			int d_ind = rand() % D;
 
 			cout << "\n\n    Battle  Started    " << endl;
@@ -405,31 +540,37 @@ public:
 			cout << "-----------------------" << endl; SetCursor(33, D + 6);
 			cout << lights[l_ind]; SetCursor(33, D + 7);
 			cout << darks[d_ind]; SetCursor(0, D + 9);
-
-			if (lost == lights[l_ind])
-			{
-				lights.remove(l_ind);
-			}
-			else if (lost == darks[d_ind])
+			if (lost == darks[d_ind])
 			{
 				darks.remove(d_ind);
 			}
+			else
+			{
+				lights.remove(l_ind);
+			}
 			delete lost;
 
-			//if (lights.getSize() > 0 && darks.getSize() > 0)
-			//{
-				SetCursor(0, 21);
-				system("pause");
-			//}
+			SetCursor(0, D+8);
+			system("pause");
 		}
 		system("cls");
 		if (lights.getSize() == 0)
 		{
-			cout << "THE DARK SIDE WON" << endl;
+			SetColor(Red, Black);
+			SetCursor(23, 5);
+			cout << "YOU DIED";
+			SetColor(White, Black);
+			SetCursor(0, 10);
 		}
 		else
 		{
-			cout << "THE LIGHT SIDE WON" << endl;
+			SetCursor(20, 5);
+			cout << "MISSION COMPLETE";
+			SetColor(Yellow, Black);
+			SetCursor(24, 6);
+			cout << "respect+";
+			SetColor(White, Black);
+			SetCursor(0, 11);
 		}
 	}
 };
