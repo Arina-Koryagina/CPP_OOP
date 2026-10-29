@@ -38,7 +38,7 @@ int main()
     // Retrieved 2026-10-28, License - CC BY-SA 4.0
 
 	HWND hwnd = GetConsoleWindow();
-	RECT rect = { 100, 50, 600, 1000 };
+	RECT rect = { 50, 20, 700, 1000 };
 	MoveWindow(hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, TRUE);
     if (!RemoveConsoleScrollback())
         std::cout << "Could not resize console buffer: " << GetLastError() << '\n';
@@ -46,7 +46,7 @@ int main()
 	SetConsoleTitleA("DnD Style Combat");
 	srand(time(0));
 
-	WarOfWorld battle(3, 6);
+	WarOfWorld battle(3, 5);
 	battle.game();
 
 	return 0;
