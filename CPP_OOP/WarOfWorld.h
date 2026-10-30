@@ -142,7 +142,7 @@ public:
 	void useSkill()   { skillUsed = true; }
 	void resetSkill() { skillUsed = false; }
 
-	virtual void attack(Warrior* w, Array<Light*>* party = nullptr) = 0;
+	virtual void attack(Warrior* w, Array<Warrior*>* party = nullptr) = 0;
 	virtual int getLevel() const { return 0; }
 
 	friend ostream& operator<<(ostream& out, const Warrior* w);
@@ -275,7 +275,7 @@ class Fighter : public Light
 public:
 	Fighter(int lvl, Skill* skill = nullptr, String type = "Fighter") : Light(lvl, baseHP, increase, d8, bonus, skill, type) {}
 
-	virtual void attack(Warrior* w, Array<Light*>* party) override
+	virtual void attack(Warrior* w, Array<Warrior*>* party) override
 	{
 		SetColor(Green, Black); cout << "Fighter (HP: " << this->getHP() << ")"; SetColor(White, Black);
 		cout << " is attacking "; SetColor(LightBlue, Black);
@@ -300,9 +300,16 @@ public:
 			{
 				if (skill && skillUsed == false)
 				{
-					skill->execute(this, w);
-					action = true;
-					useSkill();
+					if (getHP() < getMaxHP())
+					{
+						skill->execute(this, w);
+						action = true;
+						useSkill();
+					}
+					else
+					{
+						cout << "Fighter is at full health.\n";
+					}
 				}
 				else
 				{
@@ -327,7 +334,7 @@ class Ranger : public Light
 public:
 	Ranger(int lvl, Skill* skill = nullptr, String type = "Ranger") : Light(lvl, baseHP, increase, d8, bonus, skill, type) {}
 
-	virtual void attack(Warrior* w, Array<Light*>* party) override
+	virtual void attack(Warrior* w, Array<Warrior*>* party) override
 	{
 		SetColor(Green, Black); cout << "Ranger (HP: " << this->getHP() << ")"; SetColor(White, Black);
 		cout << " is attacking "; SetColor(LightBlue, Black);
@@ -356,7 +363,7 @@ public:
 
 					for (int i = 0; i < party->getSize(); ++i)
 					{
-						Light* member = (*party)[i];
+						Light* member = dynamic_cast<Light*>((*party)[i]);
 
 						if (member->getHP() > 0 && member->getHP() < member->getMaxHP())
 						{
@@ -399,7 +406,7 @@ class Wizard : public Light
 public:
 	Wizard(int lvl, Skill* skill = nullptr, String type = "Wizard") : Light(lvl, baseHP, increase, d10, bonus, skill, type) {}
 
-	virtual void attack(Warrior* w, Array<Light*>* party) override
+	virtual void attack(Warrior* w, Array<Warrior*>* party) override
 	{
 		SetColor(Green, Black); cout << "Wizard (HP: " << this->getHP() << ")"; SetColor(White, Black);
 		cout << " is attacking "; SetColor(LightBlue, Black);
@@ -452,7 +459,7 @@ class Orc : public Dark
 public:
 	Orc(Skill* skill = nullptr) : Dark(HP, d12, bonus, skill, "Orc") {}
 
-	virtual void attack(Warrior* w, Array<Light*>* party) override
+	virtual void attack(Warrior* w, Array<Warrior*>* party) override
 	{
 		SetColor(LightBlue, Black); cout << "Orc (HP: " << this->getHP() << ")"; SetColor(White, Black);
 		cout << " is attacking "; SetColor(Green, Black);
@@ -485,7 +492,7 @@ class Skeleton : public Dark
 public:
 	Skeleton(Skill* skill = nullptr) : Dark(HP, d6, bonus, skill, "Skeleton") {}
 
-	virtual void attack(Warrior* w, Array<Light*>* party) override
+	virtual void attack(Warrior* w, Array<Warrior*>* party) override
 	{
 		SetColor(LightBlue, Black); cout << "Skeleton (HP: " << this->getHP() << ")"; SetColor(White, Black);
 		cout << " is attacking "; SetColor(Green, Black);
@@ -518,7 +525,7 @@ class Zombie : public Dark
 public:
 	Zombie(Skill* skill = nullptr) : Dark(HP, d6, bonus, skill, "Zombie") {}
 
-	virtual void attack(Warrior* w, Array<Light*>* party) override
+	virtual void attack(Warrior* w, Array<Warrior*>* party) override
 	{
 		SetColor(LightBlue, Black); cout << "Zombie (HP: " << this->getHP() << ")"; SetColor(White, Black);
 		cout << " is attacking "; SetColor(Green, Black);
@@ -605,13 +612,13 @@ public:
 		SetCursor(0, line+2);
 	}
 
-	Warrior* fight(List<Light*>* party, Warrior* enemy)
+	Warrior* fight(List<Warrior*>* party, Warrior* enemy)
 	{
 		int partySize = party->getSize();
-		Array<Light*> fighters;
+		Array<Warrior*> fighters;
 		for (int i = 0; i < partySize; ++i)
 		{
-			Light* member = (*party)[i];
+			Warrior* member = (*party)[i];
 			member->resetSkill();
 			fighters.add(member);
 		}
@@ -640,7 +647,7 @@ public:
 		if (turns[partySize] == partySize) { SetColor(LightBlue, Black); cout << enemy->getType() << "\n\n"; SetColor(White, Black); }
 		else { SetColor(Green, Black); cout << fighters[turns[partySize]]->getType() << "\n\n"; SetColor(White, Black); }
 
-		Array<Light*> fallen; 
+		Array<Warrior*> fallen;
 		auto deleteFallen = [&fallen]() // source: ChatGPT
 			{
 				for (int i = 0; i < fallen.getSize(); ++i)
@@ -656,7 +663,7 @@ public:
 				if (warrior_ind == partySize) // Enemy's one turn this round
 				{
 					int target_ind = rand() % party->getSize();
-					Light* target = (*party)[target_ind];
+					Light* target = dynamic_cast<Light*>((*party)[target_ind]);
 
 					enemy->attack(target);
 
@@ -681,7 +688,7 @@ public:
 				}
 				else // This Light character's scheduled turn
 				{
-					Light* member = fighters[warrior_ind];
+					Light* member = dynamic_cast<Light*>(fighters[warrior_ind]);
 
 					// They might have been defeated earlier in this round.
 					if (member->getHP() > 0)
@@ -709,15 +716,14 @@ public:
 									}
 								}
 							}
+							SetColor(Red, Black);
 							if (revive)
 							{
-								SetColor(Red, Black);
 								cout << enemy->getType() << " is revived!\n";
 								SetColor(White, Black);
 							}
 							else
 							{
-								SetColor(Red, Black);
 								cout << enemy->getType() << " defeated!\n";
 								SetColor(White, Black);
 
@@ -759,7 +765,17 @@ public:
 			cout << darks[d_ind]->getType() << endl;
 			cout << "HP: " << darks[d_ind]->getHP() << "\n\n"; SetColor(White, Black);
 
-			Warrior* lost = fight(&lights, darks[d_ind]);
+			List<Warrior*> party;
+			for (int i = 0; i < lights.getSize(); i++)
+			{
+				party.push_back(lights[i]);
+			}
+			Warrior* lost = fight(&party, darks[d_ind]);
+			lights.clear();
+			for (int i = 0; i < party.getSize(); i++)
+			{
+				lights.push_back(dynamic_cast<Light*>(party[i]));
+			}
 
 			SetCursor(33, line + 4);
 			cout << "    Battle    Ended    "; SetCursor(33, line + 5);

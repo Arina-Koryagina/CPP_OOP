@@ -151,6 +151,7 @@
     <ClInclude Include="ForwardList.h" />
     <ClInclude Include="Func.h" />
     <ClInclude Include="List.h" />
+    <ClInclude Include="MyException.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="Queue.h" />

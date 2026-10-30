@@ -1,0 +1,1 @@
+Oct 30 2026;20:10:04;C:\Users\ma16\source\repos\CPP_OOP\CPP_OOP\Source.cpp;27;Div by one

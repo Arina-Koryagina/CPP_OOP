@@ -1,53 +1,84 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
-#include<Windows.h>
 
+//#include"Time.h"
 #include"WarOfWorld.h"
+#include"MyException.h"
 
 using namespace std;
 
-bool RemoveConsoleScrollback() // source: ChatGPT
+float division(int a, int b)
 {
-    HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
-
-    CONSOLE_SCREEN_BUFFER_INFO info{};
-    if (!GetConsoleScreenBufferInfo(output, &info))
-        return false;
-
-    SHORT rows = info.srWindow.Bottom - info.srWindow.Top + 1;
-    SHORT columns = info.srWindow.Right - info.srWindow.Left + 1;
-
-    // Put the visible window at the top of the buffer.
-    SMALL_RECT window{ 0, 0, columns - 1, rows - 1 };
-    if (!SetConsoleWindowInfo(output, TRUE, &window))
-        return false;
-
-    // Keep the cursor inside the smaller buffer.
-    COORD cursor{ 0, 0 };
-    SetConsoleCursorPosition(output, cursor);
-
-    // Keep the buffer's width, but make its height match the visible rows.
-    COORD buffer{ info.dwSize.X, rows };
-    return SetConsoleScreenBufferSize(output, buffer) != 0;
+	if (b == 0)
+		throw new invalid_argument("b = 0");
+	return a / b;
 }
 
 int main()
 {
-	// Source - https://stackoverflow.com/a/36983796
-    // Posted by RED SOFT ADAIR, modified by community. See post 'Timeline' for change history
-    // Retrieved 2026-10-28, License - CC BY-SA 4.0
+	//WarOfWorld war(3, 5);
+	//war.game();
 
-	HWND hwnd = GetConsoleWindow();
-	RECT rect = { 50, 20, 700, 1000 };
-	MoveWindow(hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, TRUE);
-    if (!RemoveConsoleScrollback())
-        std::cout << "Could not resize console buffer: " << GetLastError() << '\n';
+	/*throw 1;
+	throw "Error";
+	throw Time();*/
 
-	SetConsoleTitleA("DnD Style Combat");
-	srand(time(0));
+	try
+	{
+		//cout << division(10, 0) << endl;
+		int a, b;
+		cin >> a >> b;
+		if (b == 0)
+			throw "Div by zero"; //exception; //new invalid_argument("b = 0");
 
-	WarOfWorld battle(3, 5);
-	battle.game();
+		////if (b == 1)
+		////	throw MyException(__DATE__, __TIME__, __FILE__, __LINE__, "Div by one");
+		//
+		cout << a / b << endl;
+	}
+	catch (exception* ex)
+	{
+		cout << ex->what() << endl;
+	}
+	catch (MyException& ex)
+	{
+		ex.getConsoleError();
+		ex.saveToFile();
+	}
+	catch (const char* err)
+	{
+		cout << err << endl;
+	}
+	catch (int a)
+	{
+		cout << "Int " << a << endl;
+	}
+	catch (...)
+	{
+		cout << "Fatal error" << endl;
+	}
+
+	//PriorityQueue<int, int> p;
+	//p.enqueue(10, 10);
+	//p.enqueue(20, 20);
+	//p.enqueue(50, 50);
+	//p.dequeue();
+	//p.print();
+
+	//Animal* cat = new Kitten("Gerard", 8);
+
+	//Kitten* c = dynamic_cast<Kitten*>(cat);
+	//if(c)
+	//{
+	//	c->catchMouse();
+	//	c->catchMouse();
+	//	c->catchMouse();
+	//	cout << c->getMouse() << endl;
+	//}
+	//else
+	//{
+	//	cout << "Not Cat\n";
+	//}
 
 	return 0;
 }

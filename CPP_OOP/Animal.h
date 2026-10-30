@@ -27,6 +27,8 @@ string Animal::getVoice()
 
 class Kitten /*final*/ : public Animal
 {
+	int mouse = 0;
+
 public:
 	Kitten(string n, int a) : Animal(n, a) {}
 
@@ -35,6 +37,10 @@ public:
 	virtual string getType() override { return "Kitten"; }
 
 	virtual string getVoice() /*final*/ override { return "Me-ow~"; }
+
+	void catchMouse() { mouse++; }
+
+	int getMouse() { return mouse; }
 };
 
 class BritishKitten : public Kitten
