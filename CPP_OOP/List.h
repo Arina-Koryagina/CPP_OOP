@@ -1,6 +1,7 @@
 #pragma once
 #include<initializer_list>
-#include<cassert>
+#include<exception>
+//#include<cassert>
 
 #include"Func.h"
 #include"Node.h"
@@ -17,40 +18,40 @@ class List
 	Node<T>* getNode(size_t index) const;
 
 public:
-	List();
+	List()                                 noexcept;
 	List(initializer_list<T> list);
 	List(const List<T>& obj);
 	List<T>& operator=(const List<T>& obj);
 	~List();
 
-	void push_front(const T& value);
-	void push_back(const T& value);
-	void insert(const T& value, size_t index);
+	void    push_front(const T& value);
+	void    push_back(const T& value);
+	void    insert(const T& value, size_t index);
 
-	void pop_front();
-	void pop_back();
-	void remove(size_t index);
-	void erase(const T& value);
-	void erase_if(bool(*predicate)(const T&));
+	void    pop_front();
+	void    pop_back();
+	void    remove(size_t index);
+	void    erase(const T& value);
+	void    erase_if(bool(*predicate)(const T&));
 
-	T& front() const;
-	T& back() const;
-	T& operator[](int index) const;
-	T at(size_t index) const;
+	T&      front()                        const;
+	T&      back()                         const;
+	T&      operator[](int index)          const;
+	T       at(size_t index)               const;
 
-	size_t getSize() const;
-	void print() const;
-	void print(int x, int y) const;
-	void print_reverse() const;
-	void clear();
+	size_t  getSize()                      const noexcept;
+	void    print()                        const;
+	void    print(int x, int y)            const;
+	void    print_reverse()                const;
+	void    clear()                        noexcept;
 
-	size_t firstIndex(const T& value);
-	size_t lastIndex(const T& value);
+	size_t  firstIndex(const T& value);
+	size_t  lastIndex(const T& value);
 
-	List splice(size_t index1, size_t index2);
+	List    splice(size_t index1, size_t index2);
 
 	List<T> operator+(const List<T>& list) const;
-	void operator+=(const List<T>& list);
+	void    operator+=(const List<T>& list);
 
 	template<class U>
 	friend ostream& operator<<(ostream& out, const List<U>& l);
@@ -59,7 +60,8 @@ public:
 template<class T>
 Node<T>* List<T>::getNode(size_t index) const
 {
-	assert(index < size);
+	if (index >= size)
+		throw out_of_range("Given index is out of range");
 
 	Node<T>* pos = nullptr;
 	if (index < size/2)
@@ -83,7 +85,7 @@ Node<T>* List<T>::getNode(size_t index) const
 }
 
 template<class T>
-List<T>::List() {}
+List<T>::List() noexcept {}
 
 template<class T>
 List<T>::List(initializer_list<T> list)
@@ -98,9 +100,7 @@ template<class T>
 List<T>::List(const List<T>& obj)
 {
 	if (obj.first == nullptr)
-	{
 		return;
-	}
 
 	Node<T>* lower = obj.first;
 	for (size_t i = 0; i < obj.size; i++)
@@ -173,9 +173,7 @@ template<class T>
 void List<T>::insert(const T& value, size_t index)
 {
 	if (index > size)
-	{
-		return;
-	}
+		throw out_of_range("Given index is out of range");
 
 	if (index == 0)
 	{
@@ -202,9 +200,7 @@ template<class T>
 void List<T>::pop_front()
 {
 	if (size == 0)
-	{
-		return;
-	}
+		throw out_of_range("Cannot pop from an empty list");
 	
 	Node<T>* temp = first;
 	first = first->next;
@@ -220,9 +216,7 @@ template<class T>
 void List<T>::pop_back()
 {
 	if (size == 0)
-	{
-		return;
-	}
+		throw out_of_range("Cannot pop from an empty list");
 
 	if (size == 1)
 	{
@@ -242,9 +236,7 @@ template<class T>
 void List<T>::remove(size_t index)
 {
 	if (index >= size)
-	{
-		return;
-	}
+		throw out_of_range("Given index is out of range");
 
 	if (index == 0)
 	{
@@ -288,6 +280,9 @@ void List<T>::erase(const T& value)
 template<class T>
 void List<T>::erase_if(bool(*predicate)(const T&))
 {
+	if (predicate == nullptr)
+		throw invalid_argument("No function was passed");
+
 	size_t i = 0;
 	Node<T>* temp = first;
 	while (temp)
@@ -309,19 +304,24 @@ void List<T>::erase_if(bool(*predicate)(const T&))
 template<class T>
 T& List<T>::front() const
 {
+	if (first == nullptr)
+		throw out_of_range("List is empty");
+
 	return first->value;
 }
 
 template<class T>
 T& List<T>::back() const
 {
+	if (last == nullptr)
+		throw out_of_range("List is empty");
+
 	return last->value;
 }
 
 template<class T>
 T& List<T>::operator[](int index) const
 {
-	assert(abs(index) < size);
 	if (index < 0)
 	{
 		return getNode(size - (-index))->value;
@@ -333,13 +333,15 @@ T& List<T>::operator[](int index) const
 template<class T>
 T List<T>::at(size_t index) const
 {
-	assert(index < size);
+	if (index >= size)
+		throw out_of_range("Given index is out of range");
+
 	return getNode(index)->value;
 }
 
 
 template<class T>
-size_t List<T>::getSize() const
+size_t List<T>::getSize() const noexcept
 {
 	return size;
 }
@@ -381,7 +383,7 @@ void List<T>::print_reverse() const
 }
 
 template<class T>
-void List<T>::clear()
+void List<T>::clear() noexcept
 {
 	Node<T>* temp = first;
 	while (temp)
@@ -396,7 +398,7 @@ void List<T>::clear()
 
 
 template<class T>
-size_t List<T>::firstIndex(const T& value)
+size_t List<T>::firstIndex(const T& value) noexcept
 {
 	size_t i = 0;
 	Node<T>* temp = first;
@@ -410,11 +412,12 @@ size_t List<T>::firstIndex(const T& value)
 		i++;
 	}
 
-	return size; //error
+	return size;
+	//throw logic_error("Item is not in the list");
 }
 
 template<class T>
-size_t List<T>::lastIndex(const T& value)
+size_t List<T>::lastIndex(const T& value) noexcept
 {
 	size_t i = 0, find = size;
 	Node<T>* temp = last;
@@ -429,19 +432,38 @@ size_t List<T>::lastIndex(const T& value)
 	}
 
 	return size;
+	//throw logic_error("Item is not in the list");
 }
 
 template<class T>
 List<T> List<T>::splice(size_t index1, size_t index2)
 {
-	List<T> list;
-	Node<T>* start = getNode(index1);
-	Node<T>* end = getNode(index2 + 1);
-	while (start != end)
+	if (index1 > index2)
 	{
-		list.push_back(start->value);
-		start = start->next;
+		size_t temp = index1;
+		index1 = index2;
+		index2 = temp;
 	}
+	if (index2 >= size)
+		throw out_of_range("Splice range is out of range");
+
+	List<T> list;
+	for (size_t i = index1; i <= index2; i++)
+	{
+		list.push_back(at(i));
+	}
+	for (size_t i = index2 + 1; i > index1; )
+	{
+		remove(--i);
+	}
+
+	//Node<T>* start = getNode(index1);
+	//Node<T>* end = getNode(index2 + 1);
+	//while (start != end)
+	//{
+	//	list.push_back(start->value);
+	//	start = start->next;
+	//}
 
 	return list;
 }
