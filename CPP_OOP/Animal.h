@@ -3,6 +3,14 @@
 
 using namespace std;
 
+
+class IPrintable
+{
+public:
+	virtual void print() = 0;
+};
+
+
 class Animal
 {
 	string name;
@@ -25,42 +33,46 @@ string Animal::getVoice()
 	return "no sound";
 }
 
-class Kitten /*final*/ : public Animal
+class Cat /*final*/ : public Animal, public IPrintable
 {
 	int mouse = 0;
 
 public:
-	Kitten(string n, int a) : Animal(n, a) {}
+	Cat(string n, int a) : Animal(n, a) {}
 
-	~Kitten() { cout << "Destr Kitten" << endl; }
+	~Cat() { cout << "Destr Cat\n"; }
 
-	virtual string getType() override { return "Kitten"; }
+	virtual string getType() override { return "Cat"; }
 
 	virtual string getVoice() /*final*/ override { return "Me-ow~"; }
+
+	virtual void print() { cout << "Cat " << getName() << endl; }
 
 	void catchMouse() { mouse++; }
 
 	int getMouse() { return mouse; }
 };
 
-class BritishKitten : public Kitten
+class BritishKitten : public Cat
 {
 public:
-	BritishKitten(string n, int a) : Kitten(n, a) {}
+	BritishKitten(string n, int a) : Cat(n, a) {}
 
 	virtual string getType() override { return "BritishKitten"; }
 
 	virtual string getVoice() override { return "Mmmrrrr meow~"; }
 };
 
-class Puppy : public Animal
+class Dog : public Animal, public IPrintable
 {
 public:
-	Puppy(string n, int a) : Animal(n, a) {}
+	Dog(string n, int a) : Animal(n, a) {}
 
-	virtual string getType() override { return "Puppy"; }
+	virtual string getType() override { return "Dog"; }
 
 	virtual string getVoice() override { return "Bark!"; }
+
+	virtual void print() { cout << "Dog\n"; }
 };
 
 class Snail : public Animal

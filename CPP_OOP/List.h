@@ -18,7 +18,7 @@ class List
 	Node<T>* getNode(size_t index) const;
 
 public:
-	List()                                 noexcept;
+	List();
 	List(initializer_list<T> list);
 	List(const List<T>& obj);
 	List<T>& operator=(const List<T>& obj);
@@ -26,6 +26,7 @@ public:
 
 	void    push_front(const T& value);
 	void    push_back(const T& value);
+	//void    push_back(const T&& value);
 	void    insert(const T& value, size_t index);
 
 	void    pop_front();
@@ -85,7 +86,7 @@ Node<T>* List<T>::getNode(size_t index) const
 }
 
 template<class T>
-List<T>::List() noexcept {}
+List<T>::List() {}
 
 template<class T>
 List<T>::List(initializer_list<T> list)
@@ -141,11 +142,22 @@ void List<T>::push_front(const T& value)
 {
 	if (size == 0)
 	{
-		first = last = new Node<T>(value);
+		try
+		{
+			first = last = new Node<T>(value);
+		}
+		catch (bad_alloc& ex)
+		{
+			throw;
+		}
 	}
 	else
 	{
-		Node<T>* newNode = new Node<T>(value);
+		Node<T>* newNode = nullptr;
+		newNode = new Node<T>(value);
+		if (newNode == nullptr)
+			throw bad_alloc("Cannot allocate memory");
+		
 		newNode->next = first;
 		first->prev = newNode;
 		first = newNode;
@@ -158,11 +170,26 @@ void List<T>::push_back(const T& value)
 {
 	if (size == 0)
 	{
-		first = last = new Node<T>(value);
+		try
+		{
+			first = last = new Node<T>(value);
+		}
+		catch (bad_alloc& ex)
+		{
+			throw;
+		}
+		
 	}
 	else
 	{
-		last->next = new Node<T>(value);
+		try
+		{
+			last->next = new Node<T>(value);
+		}
+		catch (bad_alloc& ex)
+		{
+			throw;
+		}
 		last->next->prev = last;
 		last = last->next;
 	}
@@ -186,7 +213,11 @@ void List<T>::insert(const T& value, size_t index)
 	else
 	{
 		Node<T>* pos = getNode(index - 1);
-		Node<T>* newNode = new Node<T>(value);
+		Node<T>* newNode = nullptr;
+		newNode = new Node<T>(value);
+		if (newNode == nullptr)
+			throw bad_alloc("Cannot allocate memory");
+
 		newNode->next = pos->next;
 		pos->next->prev = newNode;
 		pos->next = newNode;
@@ -398,7 +429,7 @@ void List<T>::clear() noexcept
 
 
 template<class T>
-size_t List<T>::firstIndex(const T& value) noexcept
+size_t List<T>::firstIndex(const T& value)
 {
 	size_t i = 0;
 	Node<T>* temp = first;
@@ -417,7 +448,7 @@ size_t List<T>::firstIndex(const T& value) noexcept
 }
 
 template<class T>
-size_t List<T>::lastIndex(const T& value) noexcept
+size_t List<T>::lastIndex(const T& value)
 {
 	size_t i = 0, find = size;
 	Node<T>* temp = last;
