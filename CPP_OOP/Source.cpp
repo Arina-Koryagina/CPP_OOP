@@ -1,66 +1,86 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include<iostream>
+#include <iostream>
+#include <vector>
 
 //#include"WarOfWorld.h"
 #include"Animal.h"
 #include"SmartPointer.h"
-#include"List.h"
 
 using namespace std;
 
-//void PrintAnimal(IPrintable* a)
-//{
-//	a->print();
-//}
+template<class Cont>
+void print(Cont& cont)
+{
+	for (auto elem : cont)
+	{
+		cout << elem << " ";
+	}
+	cout << endl;
+}
 
-//void superFunc()
+//bool isEven(int a)
 //{
-//	//Cat* c = new Cat("Gerard", 8);
-//	SmartPointer<Cat> c(new Cat("Gerard", 8));
-//	SmartPointer<Cat> c1 = move(c);
-//
-//	int a;
-//	cin >> a;
-//	if (a == 0)
-//		throw new invalid_argument("a = 0");
-//
-//	//delete c;
+//	return a % 2 == 0;
 //}
 
 int main()
 {
-	SharedPointer<Cat> c(new Cat("William", 4));
-	//cout << c << endl;
-	SharedPointer<Cat> c1(c);
+	vector<int> v = { 1,2,3,4,5,6 };
+	//vector<int> v1 = { 12, 23, 34, 45, 56, 67 };
+	print(v);
 
 
-	//SmartPointer<Cat> c(new Cat("William", 4));
+
+
+	//v.insert(v.begin() + 3, 99);
+	//v.insert(v.begin() + 3, v1.begin() + 2, v1.begin() + 5);
+	//v.insert(v.begin() + 3, {6,7,8,9});
+	//print(v);
+
+	/*vector<Cat> vc = { Cat("William", 4), Cat("Gerard", 8) };
+	vc.insert(vc.begin() + 1, Cat("Tom", 3));
+	vc.emplace(vc.begin() + 1, "Barsik", 4);
+	for (Cat cat : vc)
+	{
+		cat.print();
+	}*/
+
+	//erase_if(v, isEven);
+	//erase_if(v, [](int a) { return a % 2 == 0; });
+	//print(v);
+
+	auto f = [](const char* msg) {cout << msg << endl; };
+	f("mama");
+
+
+	auto ff = [](int a)->int {
+		if (a == 0)
+			return 10;
+		return 5.0; };
+	cout << ff(0) << endl;
+
+	int c = 10, m = 12;
+	auto fff = [=, &c]() { cout << ++c << m << endl; }; // & - link, = - copy
+	fff();
+
+	//v.push_back(10);
+	//cout << v.size() << endl;
+	//cout << v.capacity() << endl;
+
+	//auto it = v.begin() + 2; // auto = vector<int>::iterator
+	//cout << *(++it) << endl;
+
+	//v.shrink_to_fit();
+	//cout << v.size() << endl;
+	//cout << v.capacity() << endl;
+	//cout << v.max_size() << endl; // 4 611 686 018 427 387 903
+
+	//SharedPointer<Cat> c(new Cat("William", 4));
 	//c->print();
-
-	//SmartPointer<Cat>c1 = move(c);
+	//SharedPointer<Cat> c1(c);
 	//c1->print();
-
-	//unique_ptr<Cat> c = make_unique<Cat>("William", 4);
-	//unique_ptr<Cat> c1;
-	//cout << c << endl;
-	//cout << c1 << endl;
-
-	//c1 = move(c);
-	//cout << c << endl;
-	//cout << c1 << endl;
-
-
-	//shared_ptr<Cat> k1 = make_shared<Cat>("William", 4);
-
-	//int a = 10;
-	//int&& b = 10;
-
-	//List<Cat> l;// = { Cat("Tom", 3), Cat("William", 5), Cat("Gerard", 8) };
-	//l.push_back(Cat("Tom", 3));
-	//l.push_back(Cat("William", 5));
-
-	//IPrintable* a = new BritishKitten("William", 3);
-	//PrintAnimal(a);
+	//SharedPointer<Cat> c2 = c1;
+	//c2->print();
 
 
 	//WarOfWorld war(3, 5);

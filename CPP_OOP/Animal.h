@@ -19,7 +19,7 @@ class Animal
 public:
 	Animal(string n, int a) : name(n), age(a) {}
 
-	virtual ~Animal() { cout << "Destr Animal\n"; }
+	virtual ~Animal() {} // { cout << "Destr Animal\n"; }
 
 	string getName() { return name; }
 
@@ -40,7 +40,7 @@ class Cat /*final*/ : public Animal, public IPrintable
 public:
 	Cat(string n, int a) : Animal(n, a) {}
 
-	~Cat() { cout << "Destr Cat\n"; }
+	~Cat() {} // { cout << "Destr Cat\n"; }
 
 	virtual string getType() override { return "Cat"; }
 

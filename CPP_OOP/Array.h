@@ -22,36 +22,37 @@ public:
 	Array(const Array& obj);
 	~Array();
 
-	Array& operator=(const Array& obj);
-	Array<T> operator+(const Array& obj) const;
+	Array&    operator=(const Array& obj);
+	Array<T>  operator+(const Array& obj) const;
 	Array<T>& operator+=(const Array& obj);
-	T& operator[](int index);
-	void create(int s);
+	T&        operator[](int index);
+	void      create(int s);
 
-	int getSize() const;
+	int  getSize()                        const;
 	void setSize(int s, int grow = 1);
-	int getUpperBound() const;
-	bool IsEmpty() const;
+	int  getUpperBound()                  const;
+	bool IsEmpty()                        const;
 	void freeExtra();
 	void clear(); // RemoveAll
-	T get(int index) const;
+
+	T    get(int index)                   const;
 	void set(int index, const T& value);
 	void append(const Array& obj);
-	T* getData() const;
+	T*   getData()                        const;
 	void add(T value);
 	void insert(const T& value, int index);
 	void remove(int index);
 
-	void show() const;
+	void show()                           const;
 	void sort();
 	void reverse();
 	//void resize(int newSize);
-	bool contains(const T& value) const;
+	bool contains(const T& value)         const;
 
-	void fill(const T& value) const;
+	void fill(const T& value)             const;
 	void setRand();
-	int countValue(const T& value) const;
-	int findValue(const T& value) const;
+	int  countValue(const T& value)       const;
+	int  findValue(const T& value)        const;
 };
 
 template<class T>
