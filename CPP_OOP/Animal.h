@@ -21,9 +21,10 @@ public:
 
 	virtual ~Animal() {} // { cout << "Destr Animal\n"; }
 
-	string getName() { return name; }
+	string getName() const { return name; }
 
 	int getAge() { return age; }
+	void setAge(int a) { age = a; }
 
 	virtual string getType() { return "Animal"; }
 
