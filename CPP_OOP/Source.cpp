@@ -1,10 +1,14 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
+#include <stack>
+#include <list>
+#include <set>
 
 //#include"WarOfWorld.h"
 #include"Animal.h"
 #include"SmartPointer.h"
+//#include"md5.h"
 
 using namespace std;
 
@@ -13,74 +17,48 @@ void print(Cont& cont)
 {
 	for (auto elem : cont)
 	{
-		cout << elem << " ";
+		cout << elem << endl;
 	}
 	cout << endl;
 }
 
-//bool isEven(int a)
-//{
-//	return a % 2 == 0;
-//}
+class MyStack : public stack<int>
+{
+public:
+	void show()
+	{
+		//auto it = this->c.begin();
+		//while (it != )
+		//{
+
+		//}
+	}
+};
 
 int main()
 {
-	vector<int> v = { 1,2,3,4,5,6 };
-	//vector<int> v1 = { 12, 23, 34, 45, 56, 67 };
-	print(v);
+	set<int> s = { 1, 2, 3, 4, 3, 6, 5, 6, 7 };
+	auto p = s.insert(16);
+	cout << *p.first << " " << p.second << endl;
+	print(s);
 
 
+	//list<Cat> cats = { Cat("Tom", 3), Cat("Gerard", 8), Cat("William", 5) };
+	//print(cats);
+	////cats.sort([](Cat& c1, Cat& c2) {return c1.getAge() < c2.getAge();});
+	//cats.sort([](Cat& c1, Cat& c2) {return c1.getName() < c2.getName();});
+	//print(cats);
 
+	//string password = "123456";
+	//string phash = md5(password);
+	//cout << "Password: " << password << endl;
+	//cout << "Hash: " << phash << endl;
 
-	//v.insert(v.begin() + 3, 99);
-	//v.insert(v.begin() + 3, v1.begin() + 2, v1.begin() + 5);
-	//v.insert(v.begin() + 3, {6,7,8,9});
-	//print(v);
+	//hash<string> h;
+	//auto hash2 = h(password);
+	//cout << "Hash2: " << hash2 << endl;
 
-	/*vector<Cat> vc = { Cat("William", 4), Cat("Gerard", 8) };
-	vc.insert(vc.begin() + 1, Cat("Tom", 3));
-	vc.emplace(vc.begin() + 1, "Barsik", 4);
-	for (Cat cat : vc)
-	{
-		cat.print();
-	}*/
-
-	//erase_if(v, isEven);
-	//erase_if(v, [](int a) { return a % 2 == 0; });
-	//print(v);
-
-	auto f = [](const char* msg) {cout << msg << endl; };
-	f("mama");
-
-
-	auto ff = [](int a)->int {
-		if (a == 0)
-			return 10;
-		return 5.0; };
-	cout << ff(0) << endl;
-
-	int c = 10, m = 12;
-	auto fff = [=, &c]() { cout << ++c << m << endl; }; // & - link, = - copy
-	fff();
-
-	//v.push_back(10);
-	//cout << v.size() << endl;
-	//cout << v.capacity() << endl;
-
-	//auto it = v.begin() + 2; // auto = vector<int>::iterator
-	//cout << *(++it) << endl;
-
-	//v.shrink_to_fit();
-	//cout << v.size() << endl;
-	//cout << v.capacity() << endl;
-	//cout << v.max_size() << endl; // 4 611 686 018 427 387 903
-
-	//SharedPointer<Cat> c(new Cat("William", 4));
-	//c->print();
-	//SharedPointer<Cat> c1(c);
-	//c1->print();
-	//SharedPointer<Cat> c2 = c1;
-	//c2->print();
+	
 
 
 	//WarOfWorld war(3, 5);

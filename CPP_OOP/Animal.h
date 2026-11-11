@@ -23,6 +23,8 @@ public:
 
 	string getName() { return name; }
 
+	int getAge() { return age; }
+
 	virtual string getType() { return "Animal"; }
 
 	virtual string getVoice() = 0;
@@ -51,6 +53,12 @@ public:
 	void catchMouse() { mouse++; }
 
 	int getMouse() { return mouse; }
+
+	friend ostream& operator<<(ostream& out, Cat& c)
+	{
+		out << "Name: " << c.getName() << ", Age: " << c.getAge();
+		return out;
+	}
 };
 
 class BritishKitten : public Cat
