@@ -16,8 +16,11 @@ public:
 	Time(int m, double s);
 	Time(int h, int m, double s);
 	Time(String s);
+	Time(string s);
 
 	String formTime() const;
+
+	bool operator==(const Time& obj) const;
 
 	friend ostream& operator<<(ostream& out, const Time& obj);
 
@@ -47,7 +50,13 @@ Time::Time(String s) //s = "hh:mm:ss"
 {
 	hour   = int(s[0] - '0') * 10 + int(s[1] - '0');
 	minute = int(s[3] - '0') * 10 + int(s[4] - '0');
-	second = int(s[6] - '0') * 10 + int(s[7] - '0');
+	second = (strlen(s) > 5) ? int(s[6] - '0') * 10 + int(s[7] - '0') : 0;
+}
+Time::Time(string s) //s = "hh:mm"
+{
+	hour   = int(s[0] - '0') * 10 + int(s[1] - '0');
+	minute = int(s[3] - '0') * 10 + int(s[4] - '0');
+	second = 0;
 }
 
 String Time::formTime() const
@@ -61,6 +70,21 @@ String Time::formTime() const
 	time += int(second);
 
 	return time;
+}
+
+bool Time::operator==(const Time& obj) const
+{
+	if (hour == obj.hour)
+	{
+		if (minute == obj.minute)
+		{
+			if (second == obj.second)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 ostream& operator<<(ostream& out, const Time& obj)

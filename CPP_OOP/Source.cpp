@@ -3,7 +3,7 @@
 
 //#include"WarOfWorld.h"
 #include"Animal.h"
-#include"Dictionary.h"
+#include"RailwayStation.h"
 
 using namespace std;
 
@@ -19,19 +19,8 @@ void print(Cont& cont)
 
 int main()
 {
-	Dictionary d;
-	try
-	{
-		d.readFile("GoodOmens.txt");
-	}
-	catch (const exception& ex)
-	{
-		cout << ex.what() << endl;
-	}
-	d.showStats();
-	cout << endl;
-	d.showStats(5);
-	d.saveStats();
+	RailwayStation s;
+	s.menu();
 
 
 	

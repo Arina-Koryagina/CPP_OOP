@@ -35,6 +35,7 @@
 //#include"MyException.h"
 //#include"SmartPointer.h"
 //#include"md5.h"
+//#include"Dictionary.h"
 
 //using namespace std;
 
@@ -147,6 +148,21 @@
 
 //int main()
 //{
+	//Dictionary d;
+	//try
+	//{
+	//	d.readFile("GoodOmens.txt");
+	//}
+	//catch (const exception& ex)
+	//{
+	//	cout << ex.what() << endl;
+	//}
+	//d.showStats();
+	//cout << endl;
+	//d.showStats(5);
+	//d.saveStats();
+	// 
+	// 
 	//cout.setf(ios::boolalpha);
 
 	//list<Cat> cats = { Cat("Tom", 3), Cat("William", 5), Cat("Gerard", 8) };

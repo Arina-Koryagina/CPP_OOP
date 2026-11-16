@@ -156,6 +156,7 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="Queue.h" />
+    <ClInclude Include="RailwayStation.h" />
     <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="String.h" />
