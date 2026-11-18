@@ -21,6 +21,9 @@
     <ClCompile Include="Archive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Island.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SmartPointer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Island.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

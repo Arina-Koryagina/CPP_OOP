@@ -1,33 +1,33 @@
-#define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
-#include <vector>
+//#define _CRT_SECURE_NO_WARNINGS
+//#include <iostream>
+//#include <vector>
 
 //#include"WarOfWorld.h"
-#include"Animal.h"
-#include"SmartPointer.h"
+//#include"Animal.h"
+//#include"SmartPointer.h"
 
-using namespace std;
+//using namespace std;
 
-template<class Cont>
-void print(Cont& cont)
-{
-	for (auto elem : cont)
-	{
-		cout << elem << " ";
-	}
-	cout << endl;
-}
+//template<class Cont>
+//void print(Cont& cont)
+//{
+	//for (auto elem : cont)
+	//{
+		//cout << elem << " ";
+	//}
+	//cout << endl;
+//}
 
 //bool isEven(int a)
 //{
 //	return a % 2 == 0;
 //}
 
-int main()
-{
-	vector<int> v = { 1,2,3,4,5,6 };
+//int main()
+//{
+	//vector<int> v = { 1,2,3,4,5,6 };
 	//vector<int> v1 = { 12, 23, 34, 45, 56, 67 };
-	print(v);
+	//print(v);
 
 
 
@@ -49,19 +49,19 @@ int main()
 	//erase_if(v, [](int a) { return a % 2 == 0; });
 	//print(v);
 
-	auto f = [](const char* msg) {cout << msg << endl; };
-	f("mama");
+	//auto f = [](const char* msg) {cout << msg << endl; };
+	//f("mama");
 
 
-	auto ff = [](int a)->int {
-		if (a == 0)
-			return 10;
-		return 5.0; };
-	cout << ff(0) << endl;
+	//auto ff = [](int a)->int {
+		//if (a == 0)
+			//return 10;
+		//return 5.0; };
+	//cout << ff(0) << endl;
 
-	int c = 10, m = 12;
-	auto fff = [=, &c]() { cout << ++c << m << endl; }; // & - link, = - copy
-	fff();
+	//int c = 10, m = 12;
+	//auto fff = [=, &c]() { cout << ++c << m << endl; }; // & - link, = - copy
+	//fff();
 
 	//v.push_back(10);
 	//cout << v.size() << endl;
@@ -86,5 +86,5 @@ int main()
 	//WarOfWorld war(3, 5);
 	//war.game();
 
-	return 0;
-}
+	//return 0;
+//}
