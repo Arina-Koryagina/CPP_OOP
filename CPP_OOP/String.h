@@ -59,7 +59,7 @@ public:
 	String operator+(int value) const;
 	String& operator+=(int value);
 
-	friend String operator+(int value, const String& s);
+	//friend String operator+(int value, const String& s);
 
 	friend ostream& operator<<(ostream& out, const String& s);
 	friend istream& operator>>(istream& in, String& s);
@@ -239,10 +239,10 @@ String& String::operator+=(int value)
 	return *this;
 }
 
-String operator+(int value, const String& s)
-{
-	return ' ';
-}
+//String operator+(int value, const String& s)
+//{
+//	return ' ';
+//}
 
 ostream& operator<<(ostream& out, const String& s)
 {
